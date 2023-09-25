@@ -22,7 +22,7 @@ export class FooterComponent implements OnInit {
   }
 
   getFooterText() {
-    return `Digimon TCG Price Calculator © ${this.actualYear} - VERSION: ${this.appVersion} - AMBIENTE: ${this.environmentName}`
+    return `Digimon TCG Price Calculator © ${this.actualYear} - VERSION: ${this.appVersion}`
   }
 
 }
