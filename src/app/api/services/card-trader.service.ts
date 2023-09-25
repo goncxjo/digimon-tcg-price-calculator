@@ -1,8 +1,8 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, concatAll, concatMap, forkJoin, map, mergeAll, mergeMap, switchMap, take, toArray } from 'rxjs';
+import { BehaviorSubject, Observable, concatMap, forkJoin, map, take } from 'rxjs';
 import { AppConfigService } from 'src/app/core';
-import { BlueprintCardTrader, ExpansionCardTrader } from '../models/card-trader';
+import { BlueprintCardTrader, Card, ExpansionCardTrader } from '../models';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +11,7 @@ export class CardTraderService {
     private baseRoute: string;
     private token: string;
 
-	private dataSubject = new BehaviorSubject<any>(null);
+	private dataSubject = new BehaviorSubject<any>([]);
     data$ = this.dataSubject.asObservable();
 
     constructor(
@@ -20,11 +20,8 @@ export class CardTraderService {
     ) {
         this.baseRoute = this.appConfigService.config.CARD_TRADER_API.BASE_URL;
         this.token = this.appConfigService.config.CARD_TRADER_API.JWT_TOKEN;
+
     }
-  
-	sendData(data: any) {
-	  this.dataSubject.next(data);
-	}
   
     getExpansions(): Observable<ExpansionCardTrader[]> {
         const url = `${this.baseRoute}/expansions`;
@@ -36,7 +33,7 @@ export class CardTraderService {
         return this.httpClient.get<ExpansionCardTrader>(url, { headers: headers }).pipe(
             map((response: any) => {
                 const filteredData = response.filter((item: ExpansionCardTrader) => {
-                    return item.game_id === this.appConfigService.config.CARD_TRADER_API.GAME_ID && (item.code.includes('bt') || item.code.includes('st') || item.code.includes('ex'));
+                    return item.game_id === this.appConfigService.config.CARD_TRADER_API.GAME_ID;
                 });
                 return filteredData;            
             })
@@ -55,27 +52,29 @@ export class CardTraderService {
         return this.httpClient.get<BlueprintCardTrader[]>(url, { params: params, headers: headers });
     }
 
-    getAllBlueprints(): Observable<BlueprintCardTrader[]> {
+    getAllBlueprints(): Observable<Card[]> {
         return this.getExpansions().pipe(
             take(1),
             concatMap(expansions => 
                 forkJoin(
-                    expansions.map((e: ExpansionCardTrader) => this.getBlueprints(e.id))
+                    expansions.map((e: ExpansionCardTrader) => this.getBlueprints(e.id).pipe(
+                        map((blueprints: BlueprintCardTrader[]) => {
+                            const filteredData = blueprints.filter((item: BlueprintCardTrader) => {
+                                return item.category_id === this.appConfigService.config.CARD_TRADER_API.CATEGORY_ID;
+                            });
+                            return filteredData;
+                        })
+                    ))
                 ).pipe(
-                    map(allBlueprints => allBlueprints.reduce((acc, curr) => acc.concat(curr), []))
+                    map(allBlueprints => allBlueprints.reduce((acc, curr) => acc.concat(curr), []).map((blueprint: BlueprintCardTrader) => {
+                        return new Card(blueprint)
+                    }))
                 )
             )
         );
     }
 
-  
-    getData(): Observable<any> {
-        const url = `${this.baseRoute}/blueprints/export?expansion_id=3398`;
-
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.token}`
-        })
-        return this.httpClient.get(url, { headers: headers })
+	sendData(data: any) {
+        this.dataSubject.next(data);
     }
 }
