@@ -11,6 +11,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { CardComponent } from './cards/card/card.component';
 import { ToastrModule } from 'ngx-toastr';
 import { CardSearcherComponent } from './cards/card-searcher/card-searcher.component';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
 
 @NgModule({
   declarations: [
@@ -26,9 +29,14 @@ import { CardSearcherComponent } from './cards/card-searcher/card-searcher.compo
     AppConfigModule,
     LayoutModule,
     SharedModule,
+    FontAwesomeModule,
     ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(library: FaIconLibrary) {
+    library.addIconPacks(fas, far);
+  }
+}

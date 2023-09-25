@@ -30,7 +30,7 @@ export class CardSearcherComponent implements OnInit {
       ),
     );
 
-    formatter = (card: Card) => card.name;
+    formatter = (card: Card) => card.fullName;
 
   ngOnInit(): void {
     this.appConfig.getExampleData().subscribe(result => {
