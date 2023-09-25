@@ -15,7 +15,16 @@ app-root {
 	flex-direction: column;
 	min-height: 100vh;
 }
-  
+
+@font-face {
+	font-family: pixel-digivolve;
+	src: url('assets/fonts/Pixel\ Digivolve.otf') format("truetype");
+}
+
+@font-face {
+	font-family: pixel-digivolve-italic;
+	src: url('assets/fonts/Pixel\ Digivolve\ Italic.otf') format("truetype");
+}
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
