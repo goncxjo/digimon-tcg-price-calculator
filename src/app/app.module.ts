@@ -8,14 +8,16 @@ import { SharedModule } from './shared/shared.module';
 import { LayoutModule } from './layout/layout.module';
 import { AppConfigModule } from './core';
 import { HttpClientModule } from '@angular/common/http';
-import { CardComponent } from './card/card.component';
+import { CardComponent } from './cards/card/card.component';
 import { ToastrModule } from 'ngx-toastr';
+import { CardSearcherComponent } from './cards/card-searcher/card-searcher.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    CardComponent
+    CardComponent,
+    CardSearcherComponent
   ],
   imports: [
     BrowserModule,
