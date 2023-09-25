@@ -14,6 +14,7 @@ export interface BlueprintCardTrader {
 	expansion_id: number;		
 	image_url: string;
 	editable_properties: any;
+	fixed_properties: any;
 	scryfall_id: string;
 	card_market_id: string;
 	tcg_player_id: string;
