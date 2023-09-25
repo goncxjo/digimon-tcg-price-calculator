@@ -6,17 +6,25 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from './shared/shared.module';
 import { LayoutModule } from './layout/layout.module';
+import { AppConfigModule } from './core';
+import { HttpClientModule } from '@angular/common/http';
+import { CardComponent } from './card/card.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
+    AppConfigModule,
     LayoutModule,
     SharedModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

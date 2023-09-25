@@ -7,11 +7,22 @@ import { Component, Inject, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
   actualYear: number = (new Date()).getFullYear();
-  appVersion: string = '0.0.0';
+  environmentName: string = '';
+  appVersion: string = '';
+  
+  constructor(
+    @Inject('ENVIRONMENT_NAME') environmentName: string,
+    @Inject('APP_VERSION') appVersion: string
+  ) {
+    this.environmentName = environmentName;
+    this.appVersion = appVersion;
+  }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+  }
 
   getFooterText() {
-    return `Digimon TCG Price Calculator © ${this.actualYear} - v${this.appVersion}`
+    return `Digimon TCG Price Calculator © ${this.actualYear} - VERSION: ${this.appVersion} - AMBIENTE: ${this.environmentName}`
   }
+
 }

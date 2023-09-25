@@ -1,0 +1,20 @@
+<div class="card">
+<div class="card-body">
+	<div class="row">
+		<div class="col-3">
+			<img [src]="data.image_url" />
+		</div>
+		<div class="col">
+			<h3>{{ data.name }}</h3>
+			<p>{{ data.fixed_properties.digimon_rarity }}</p>
+			<p>{{ data.fixed_properties.collector_number }}</p>
+		</div>
+	</div>
+
+	<!-- <div class="btn-group-form d-flex justify-content-start ms-2 mt-3">
+	<button type="button" class="btn btn-primary" (click)="export()">
+		<i class="fas fa-file-export"></i> Exportar
+	</button>
+	</div> -->
+</div>
+</div>
