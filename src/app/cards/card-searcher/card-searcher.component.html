@@ -1,0 +1,19 @@
+<ng-template #rt let-r="result" let-t="term">
+	<img [src]="r['image_url']" class="me-1" style="width: 25px" />
+	<ngb-highlight [result]="r.fullName" [term]="t"></ngb-highlight>
+</ng-template>
+
+<div class="mb-3 row">
+	<div class="col">
+		<input
+			id="typeahead-template"
+			type="text"
+			class="form-control col"
+			[(ngModel)]="model"
+			[ngbTypeahead]="search"
+			[resultTemplate]="rt"
+			[inputFormatter]="formatter"
+			placeholder="Buscar por una carta..."
+		/>
+	</div>
+</div>
