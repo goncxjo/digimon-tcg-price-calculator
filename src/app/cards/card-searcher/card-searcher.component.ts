@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable, OperatorFunction } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { Card } from 'src/app/api';
 import { AppConfigService } from 'src/app/core';
 
 @Component({
   selector: 'app-card-searcher',
   templateUrl: './card-searcher.component.html',
-  styleUrls: ['./card-searcher.component.scss']
+  styleUrls: ['./card-searcher.component.scss'],
 })
 export class CardSearcherComponent implements OnInit {
-  public model: Card | null = null;
+  public model!: Card;
   data: Card[] = [];
+  @Output() card = new EventEmitter<Card>();
 
   constructor(
     private appConfig: AppConfigService,
@@ -20,6 +21,8 @@ export class CardSearcherComponent implements OnInit {
   search: OperatorFunction <string, readonly Card[]> = (text$: Observable <string> ) =>
     text$.pipe(
       debounceTime(200),
+      distinctUntilChanged(),
+			filter((term) => term.length >= 2),
       map((term) =>
         term === '' ?
         [] :
@@ -27,7 +30,7 @@ export class CardSearcherComponent implements OnInit {
       ),
     );
 
-  formatter = (x: { fullName: string }) => x.fullName;
+    formatter = (card: Card) => card.name;
 
   ngOnInit(): void {
     this.appConfig.getExampleData().subscribe(result => {
@@ -39,4 +42,9 @@ export class CardSearcherComponent implements OnInit {
     // this.cardTraderService.getAllBlueprints().subscribe(data => {
     //   console.log(data);
     // });
-  }  }
+  }  
+
+  agregarCarta() {
+    this.card.emit(this.model);
+  }
+}

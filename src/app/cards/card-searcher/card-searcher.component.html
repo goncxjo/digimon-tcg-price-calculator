@@ -5,15 +5,21 @@
 
 <div class="mb-3 row">
 	<div class="col">
-		<input
-			id="typeahead-template"
-			type="text"
-			class="form-control col"
-			[(ngModel)]="model"
-			[ngbTypeahead]="search"
-			[resultTemplate]="rt"
-			[inputFormatter]="formatter"
-			placeholder="Buscar por una carta..."
-		/>
-	</div>
+
+		<div class="input-group mb-3">
+			<input
+				id="typeahead-template"
+				type="text"
+				class="form-control"
+				[(ngModel)]="model"
+				[ngbTypeahead]="search"
+				[resultTemplate]="rt"
+				[inputFormatter]="formatter"
+				[resultFormatter]="formatter"
+				[editable]="false"
+				placeholder="Buscar una carta..."
+			/>
+			<button class="btn btn-primary" type="button" id="button-agregar" (click)="agregarCarta()">Agregar</button>
+		</div>	
+	</div>	
 </div>

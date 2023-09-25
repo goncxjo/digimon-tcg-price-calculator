@@ -1,6 +1,6 @@
 <div class="row">
-	<app-card-searcher></app-card-searcher>
-	<div class="col-12 mb-2" *ngFor="let item of data">
-		<app-card [data]="item"></app-card>
-	</div>	
+	<app-card-searcher (card)="onCardAdded($event)"></app-card-searcher>
+	<span *ngIf="selectedCard">
+		<app-card [data]="selectedCard"></app-card>
+	</span>
 </div>	

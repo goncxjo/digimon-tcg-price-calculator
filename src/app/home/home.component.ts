@@ -9,6 +9,7 @@ import { CardTraderService } from '../api/services/card-trader.service';
 })
 export class HomeComponent implements OnInit {
   data: any[] = [];
+  selectedCard: any;
 
   constructor(
     private appConfig: AppConfigService,
@@ -25,5 +26,9 @@ export class HomeComponent implements OnInit {
     // this.cardTraderService.getAllBlueprints().subscribe(data => {
     //   console.log(data);
     // });
-  }  
+  }
+  
+  onCardAdded($event: any) {
+    this.selectedCard = $event;
+  }
 }
