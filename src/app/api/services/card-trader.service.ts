@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, concatMap, forkJoin, map, take } from 'rxjs';
 import { AppConfigService } from 'src/app/core';
-import { BlueprintCardTrader, Card, ExpansionCardTrader } from '../models';
+import { BlueprintCardTrader, Card, ExpansionCardTrader, ProductCardTrader } from '../models';
+import * as _ from 'lodash';
 
 @Injectable({
     providedIn: 'root'
@@ -62,17 +63,50 @@ export class CardTraderService {
                             const filteredData = blueprints.filter((item: BlueprintCardTrader) => {
                                 return item.category_id === this.appConfigService.config.CARD_TRADER_API.CATEGORY_ID;
                             });
-                            return filteredData;
+                            return filteredData.map(b => {
+                                return { ...b, expansion_name: e.name };
+                            })
                         })
                     ))
                 ).pipe(
-                    map(allBlueprints => allBlueprints.reduce((acc, curr) => acc.concat(curr), []).map((blueprint: BlueprintCardTrader) => {
+                    map(allBlueprints => allBlueprints.reduce((acc, curr) => acc.concat(curr), []).map((blueprint: any) => {
                         return new Card(blueprint)
                     }))
                 )
             )
         );
     }
+
+    getCardPrice(blueprint_id: number): Observable<number> {
+        const url = `${this.baseRoute}/marketplace/products`;
+
+        const params = { blueprint_id };
+
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.token}`
+        })
+        return this.httpClient.get<any>(url, { params: params, headers: headers }).pipe(
+            map((response: any) => {
+                let price = 0.0;
+                // let total = 0;
+                _.forEach(response, (res: any) => {
+                    _.forEach(res, (p: ProductCardTrader) => {
+                        // total++;
+                        let price_tmp = parseFloat(p.price.formatted.replace(p.price.currency_symbol, ""));
+                        // price += price_tmp;
+
+                        if (price == 0 || price_tmp < price) {
+                            price = price_tmp;
+                        }
+                    });
+                })
+                // return price / total;
+                return price;
+            })
+        );
+    }
+
 
 	sendData(data: any) {
         this.dataSubject.next(data);

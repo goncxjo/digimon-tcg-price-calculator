@@ -19,4 +19,25 @@ export interface BlueprintCardTrader {
 	card_market_id: string;
 	tcg_player_id: string;
 }
- 
+
+export interface ProductCardTrader {
+	id: number;
+	blueprint_id: number;
+	name_en: string;
+	quantity: number;
+	price: ProductPriceCardTrader;
+	description: string;
+	properties_hash: object;
+	expansion: any;
+	user: any;
+	graded: boolean;
+	on_vacation: boolean;
+	bundle_size: number;
+};
+
+export interface ProductPriceCardTrader {
+	cents: number;
+	currency: string;
+	currency_symbol: string;
+	formatted: string;
+}

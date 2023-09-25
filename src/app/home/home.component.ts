@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppConfigService } from '../core';
 import { CardTraderService } from '../api/services/card-trader.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,13 @@ export class HomeComponent implements OnInit {
   }
   
   onCardAdded($event: any) {
-    this.selectedCard = $event;
+    let card = $event;
+    this.cardTraderService.getCardPrice(card.card_trader_id)
+    .pipe(take(1))
+    .subscribe(res => {
+      console.log(res);
+      card.price_ = res;
+      this.selectedCard = card;
+    });
   }
 }
