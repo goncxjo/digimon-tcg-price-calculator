@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class AppConfigService {
 
     private httpClient!: HttpClient;
-    private jsonFile = `./assets/config/${environment.name}.json`;
+    private jsonFile = `./assets/config/environment.json`;
     private exampleDataFile = `./assets/config/example_data.json`;
 
     config!: AppConfig;
@@ -56,7 +56,9 @@ export class AppConfigService {
             CARD_TRADER_API_JWT_TOKEN: env.CARD_TRADER_API_JWT_TOKEN,
             CARD_TRADER_API_GAME_ID: env.CARD_TRADER_API_GAME_ID,
             CARD_TRADER_API_CATEGORY_ID: env.CARD_TRADER_API_CATEGORY_ID,
-            DOLAR_API_BASE_URL: env.DOLAR_API_BASE_URL
+            DOLAR_API_BASE_URL: env.DOLAR_API_BASE_URL,
+            appVersion: env.appVersion,
+            production: env.production,
         }
     }
 }
