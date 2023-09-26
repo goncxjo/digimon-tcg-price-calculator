@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AppConfigService } from '../core';
-import { CardTraderService } from '../api/services/card-trader.service';
+import { CardTraderService } from '../backend/services/card-trader.service';
 import { take } from 'rxjs';
-import { DolarService } from '../api/services/dolar.service';
-import { Dolar } from '../api/models';
+import { DolarService } from '../backend/services/dolar.service';
+import { Dolar } from '../backend/models';
 
 @Component({
   selector: 'app-home',

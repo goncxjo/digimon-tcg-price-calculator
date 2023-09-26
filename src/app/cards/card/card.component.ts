@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Card, Dolar } from 'src/app/api/models';
+import { Card, Dolar } from 'src/app/backend/models';
 
 @Component({
   selector: 'app-card',

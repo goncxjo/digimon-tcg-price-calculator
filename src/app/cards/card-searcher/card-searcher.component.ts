@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { Card } from 'src/app/api';
-import { CardTraderService } from 'src/app/api/services/card-trader.service';
+import { Card } from 'src/app/backend';
+import { CardTraderService } from 'src/app/backend/services/card-trader.service';
 import { AppConfigService } from 'src/app/core';
 
 @Component({
