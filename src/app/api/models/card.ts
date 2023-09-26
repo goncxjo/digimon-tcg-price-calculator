@@ -14,7 +14,7 @@ import { BlueprintCardTrader } from "./card-trader";
 	rarity_name: string;
 	collector_number: string;
 	expansion_name: string;
-	price: string = "0";
+	price: number = 0;
 	format: string = "USD";
 
 	constructor(blueprint: any) {
