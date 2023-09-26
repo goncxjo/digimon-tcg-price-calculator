@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AppConfigService } from '../core';
 import { CardTraderService } from '../api/services/card-trader.service';
 import { take } from 'rxjs';
+import { DolarService } from '../api/services/dolar.service';
+import { Dolar } from '../api/models';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +13,12 @@ import { take } from 'rxjs';
 export class HomeComponent implements OnInit {
   data: any[] = [];
   selectedCard: any;
+  dolar!: Dolar;
 
   constructor(
     private appConfig: AppConfigService,
     private cardTraderService: CardTraderService,
+    private dolarService: DolarService,
   ) { }
 
   ngOnInit(): void {
@@ -27,6 +31,12 @@ export class HomeComponent implements OnInit {
     // this.cardTraderService.getAllBlueprints().subscribe(data => {
     //   console.log(data);
     // });
+
+    this.dolarService.getDolarBlue()
+    .pipe(take(1))
+    .subscribe(data => {
+      this.dolar = data;
+    });
   }
   
   onCardAdded($event: any) {
@@ -34,8 +44,7 @@ export class HomeComponent implements OnInit {
     this.cardTraderService.getCardPrice(card.card_trader_id)
     .pipe(take(1))
     .subscribe(res => {
-      console.log(res);
-      card.price_ = res;
+      card.price = res;
       this.selectedCard = card;
     });
   }
