@@ -24,13 +24,14 @@ export class AppConfigService {
                 this.config = this.InitAppConfig(process.env);
                 resolve();
             }
-            
-            this.httpClient.get(this.jsonFile).toPromise().then(response => {
-                this.config = <AppConfig>response;
-                resolve();
-            }).catch((response: any) => {
-               reject(`Could not load file '${this.jsonFile}': ${JSON.stringify(response)}`);
-            });
+            else {
+                this.httpClient.get(this.jsonFile).toPromise().then(response => {
+                    this.config = <AppConfig>response;
+                    resolve();
+                }).catch((response: any) => {
+                   reject(`Could not load file '${this.jsonFile}': ${JSON.stringify(response)}`);
+                });    
+            }            
         });
     }
 
