@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { Card } from 'src/app/api';
+import { CardTraderService } from 'src/app/api/services/card-trader.service';
 import { AppConfigService } from 'src/app/core';
 
 @Component({
@@ -16,6 +17,7 @@ export class CardSearcherComponent implements OnInit {
 
   constructor(
     private appConfig: AppConfigService,
+    private cardTraderService: CardTraderService,
   ) { }
 
   search: OperatorFunction <string, readonly Card[]> = (text$: Observable <string> ) =>
@@ -33,15 +35,11 @@ export class CardSearcherComponent implements OnInit {
     formatter = (card: Card) => card.fullName;
 
   ngOnInit(): void {
-    this.appConfig.getExampleData().subscribe(result => {
+    this.cardTraderService.getAllBlueprints().subscribe(result => {
       if (result) {
         this.data = result as Card[];
       }
     });
-
-    // this.cardTraderService.getAllBlueprints().subscribe(data => {
-    //   console.log(data);
-    // });
   }  
 
   agregarCarta() {

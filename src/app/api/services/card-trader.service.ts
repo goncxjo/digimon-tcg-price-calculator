@@ -21,7 +21,6 @@ export class CardTraderService {
     ) {
         this.baseRoute = this.appConfigService.config.CARD_TRADER_API.BASE_URL;
         this.token = this.appConfigService.config.CARD_TRADER_API.JWT_TOKEN;
-
     }
   
     getExpansions(): Observable<ExpansionCardTrader[]> {
