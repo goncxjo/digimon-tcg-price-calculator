@@ -26,7 +26,7 @@ export class CardSearcherComponent implements OnInit {
       map((term) =>
         term === '' ?
         [] :
-        this.data.filter((c) => c.fullName.toLowerCase().indexOf(term.toLowerCase()) > -1),
+        this.data.filter((c) => c.fullName.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 50),
       ),
     );
 
