@@ -22,16 +22,6 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.appConfig.getExampleData().subscribe(result => {
-    //   if (result) {
-    //     this.data = result as any[];
-    //   }
-    // });
-
-    // this.cardTraderService.getAllBlueprints().subscribe(data => {
-    //   console.log(data);
-    // });
-
     this.dolarService.getDolarBlue()
     .pipe(take(1))
     .subscribe(data => {
