@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Card } from '../../api';
+import { Card, Dolar } from 'src/app/api/models';
 
 @Component({
   selector: 'app-card',
@@ -7,9 +7,22 @@ import { Card } from '../../api';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent implements OnInit, OnDestroy {
-  @Input() data: any;
+  @Input() data!: Card;
+  @Input() dolar!: Dolar;
     
   ngOnInit(): void {
+  }
+
+  cartaTienePrecio() {
+    return this.getPrecioCarta() !== 0;
+  }
+
+  getPrecioCarta() {
+    return (this.data.price * this.dolar.venta);
+  }
+
+  getPrecioCartaFixed() {
+    return this.getPrecioCarta().toFixed(2);
   }
 
   ngOnDestroy(): void {

@@ -1,22 +1,48 @@
-<div class="card">
-<div class="card-body">
-	<div class="row"></div>
-	<div class="row">
-		<div class="col-md-3 card-container">
-			<img [src]="data.image_url" class="card-img"/>
-		</div>
-		<div class="col-md">
-			<h3>{{ data.name }}</h3>
-			<p>{{ data.expansion_name }}</p>
-			<p>{{ data.rarity_name }}</p>
-			<p>{{ data.collector_number }}</p>
+<div class="row mb-3">
+	<div class="col">
+		<div class="card">
+			<div class="card-body">
+				<div class="col-md-3 card-container">
+					<img [src]="data.image_url" class="card-img"/>
+				</div>
+			</div>
 		</div>
 	</div>
-
-	<!-- <div class="btn-group-form d-flex justify-content-start ms-2 mt-3">
-	<button type="button" class="btn btn-primary" (click)="export()">
-		<i class="fas fa-file-export"></i> Exportar
-	</button>
-	</div> -->
 </div>
+<div class="row">
+	<div class="col">
+		<div class="card">
+			<h3 class="card-header">{{ data.name }}</h3>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-md d-flex flex-column">
+						<small class="text-secondary-emphasis">{{ data.collector_number }}</small>
+						<small class="text-secondary-emphasis">{{ data.expansion_name }}</small>
+						<hr>
+						<span>
+							Card Trader: <strong>USD </strong><strong>{{ data.price }}</strong>
+						</span>
+						<span>
+							Dólar (blue): <strong>ARS </strong><strong>{{ dolar.venta.toFixed(2) }}</strong>
+						</span>
+						<span class="card-price text-end" *ngIf="cartaTienePrecio()">
+							<span class="card-format">ARS</span>
+							{{ getPrecioCartaFixed() }}
+						</span>
+						<span class="card-price" *ngIf="!cartaTienePrecio()">
+							Precio no disponible
+						</span>
+						
+		
+					</div>
+				</div>
+		
+				<!-- <div class="btn-group-form d-flex justify-content-start ms-2 mt-3">
+				<button type="button" class="btn btn-primary" (click)="export()">
+					<i class="fas fa-file-export"></i> Exportar
+				</button>
+				</div> -->
+			</div>
+		</div>
+	</div>
 </div>
