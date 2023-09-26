@@ -1,7 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppConfigService } from './app-config.service';
-import { environment } from 'src/environments/environment';
 
 
 function AppConfigFactory(config: AppConfigService) {
@@ -9,6 +8,9 @@ function AppConfigFactory(config: AppConfigService) {
 }
 function EnvironmentNameFactory(config: AppConfigService) {
   return config.get().ENVIRONMENT_NAME;
+}
+function AppVersionFactory(config: AppConfigService) {
+  return config.get().appVersion;
 }
 
 
@@ -30,7 +32,10 @@ function EnvironmentNameFactory(config: AppConfigService) {
       useFactory: EnvironmentNameFactory,
       deps: [AppConfigService],
     },
-    { provide: "APP_VERSION", useValue: environment.version }
+    { provide: "APP_VERSION",
+      useFactory: AppVersionFactory,
+      deps: [AppConfigService],
+    }
   ]
 })
 export class AppConfigModule { }
