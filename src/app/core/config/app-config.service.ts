@@ -20,10 +20,8 @@ export class AppConfigService {
     
     public load() {
         return new Promise<void>((resolve, reject) => {
-            if (environment.production) {
-                this.config = this.InitAppConfig();
-                resolve();
-            }
+            this.config = this.InitAppConfig();
+            resolve();
         });
     }
 
