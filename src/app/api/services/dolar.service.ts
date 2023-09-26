@@ -14,7 +14,7 @@ export class DolarService {
         private httpClient: HttpClient,
         private appConfigService: AppConfigService,
     ) {
-        this.baseRoute = this.appConfigService.config.DOLAR_API.BASE_URL;
+        this.baseRoute = this.appConfigService.config.DOLAR_API_BASE_URL;
     }
   
     getDolarBlue(): Observable<Dolar> {

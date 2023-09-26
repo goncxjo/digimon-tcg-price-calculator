@@ -1,16 +1,8 @@
 export interface AppConfig {
 	ENVIRONMENT_NAME: string;
-	CARD_TRADER_API: CardTraderConfig;
-	DOLAR_API: DolarApiConfig;
-};
-
-export interface CardTraderConfig {
-	BASE_URL: string;
-	JWT_TOKEN: string;
-	GAME_ID: number;
-	CATEGORY_ID: number;
-}
-
-export interface DolarApiConfig {
-	BASE_URL: string;
+	CARD_TRADER_API_BASE_URL: string;
+	CARD_TRADER_API_JWT_TOKEN: string;
+	CARD_TRADER_API_GAME_ID: number;
+	CARD_TRADER_API_CATEGORY_ID: number;
+	DOLAR_API_BASE_URL: string;
 }

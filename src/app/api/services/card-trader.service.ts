@@ -19,8 +19,8 @@ export class CardTraderService {
         private httpClient: HttpClient,
         private appConfigService: AppConfigService,
     ) {
-        this.baseRoute = this.appConfigService.config.CARD_TRADER_API.BASE_URL;
-        this.token = this.appConfigService.config.CARD_TRADER_API.JWT_TOKEN;
+        this.baseRoute = this.appConfigService.config.CARD_TRADER_API_BASE_URL;
+        this.token = this.appConfigService.config.CARD_TRADER_API_JWT_TOKEN;
     }
   
     getExpansions(): Observable<ExpansionCardTrader[]> {
@@ -33,7 +33,7 @@ export class CardTraderService {
         return this.httpClient.get<ExpansionCardTrader>(url, { headers: headers }).pipe(
             map((response: any) => {
                 const filteredData = response.filter((item: ExpansionCardTrader) => {
-                    return item.game_id === this.appConfigService.config.CARD_TRADER_API.GAME_ID;
+                    return item.game_id === this.appConfigService.config.CARD_TRADER_API_GAME_ID;
                 });
                 return filteredData;            
             })
@@ -60,7 +60,7 @@ export class CardTraderService {
                     expansions.map((e: ExpansionCardTrader) => this.getBlueprints(e.id).pipe(
                         map((blueprints: BlueprintCardTrader[]) => {
                             const filteredData = blueprints.filter((item: BlueprintCardTrader) => {
-                                return item.category_id === this.appConfigService.config.CARD_TRADER_API.CATEGORY_ID;
+                                return item.category_id === this.appConfigService.config.CARD_TRADER_API_CATEGORY_ID;
                             });
                             return filteredData.map(b => {
                                 return { ...b, expansion_name: e.name };

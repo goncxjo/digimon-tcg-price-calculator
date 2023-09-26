@@ -51,8 +51,11 @@ export class AppConfigService {
     InitAppConfig(env: any): AppConfig {
         return {
             ENVIRONMENT_NAME: env.ENVIRONMENT_NAME,
-            CARD_TRADER_API: env.CARD_TRADER_API,
-            DOLAR_API: env.DOLAR_API,
+            CARD_TRADER_API_BASE_URL: env.CARD_TRADER_API_BASE_URL,
+            CARD_TRADER_API_JWT_TOKEN: env.CARD_TRADER_API_JWT_TOKEN,
+            CARD_TRADER_API_GAME_ID: env.CARD_TRADER_API_GAME_ID,
+            CARD_TRADER_API_CATEGORY_ID: env.CARD_TRADER_API_CATEGORY_ID,
+            DOLAR_API_BASE_URL: env.DOLAR_API_BASE_URL
         }
     }
 }
