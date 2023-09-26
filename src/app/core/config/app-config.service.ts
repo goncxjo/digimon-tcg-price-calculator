@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpBackend, HttpClient } from "@angular/common/http";
+import { environment } from "src/environments/environment";
 import { AppConfig } from "./app-config.model";
 import { Observable } from 'rxjs';
 
@@ -19,12 +20,10 @@ export class AppConfigService {
     
     public load() {
         return new Promise<void>((resolve, reject) => {
-            this.httpClient.get(this.jsonFile).toPromise().then(response => {
-                this.config = <AppConfig>response;
+            if (environment.production) {
+                this.config = this.InitAppConfig();
                 resolve();
-            }).catch((response: any) => {
-                reject(`Could not load file '${this.jsonFile}': ${JSON.stringify(response)}`);
-            });    
+            }
         });
     }
 
@@ -40,5 +39,18 @@ export class AppConfigService {
 
     get() {
         return this.config;
+    }
+
+    InitAppConfig(): AppConfig {
+        return {
+            ENVIRONMENT_NAME: environment.ENVIRONMENT_NAME,
+            CARD_TRADER_API_BASE_URL: environment.CARD_TRADER_API_BASE_URL,
+            CARD_TRADER_API_JWT_TOKEN: environment.CARD_TRADER_API_JWT_TOKEN,
+            CARD_TRADER_API_GAME_ID: environment.CARD_TRADER_API_GAME_ID,
+            CARD_TRADER_API_CATEGORY_ID: environment.CARD_TRADER_API_CATEGORY_ID,
+            DOLAR_API_BASE_URL: environment.DOLAR_API_BASE_URL,
+            appVersion: environment.appVersion,
+            production: environment.production,
+        }
     }
 }
