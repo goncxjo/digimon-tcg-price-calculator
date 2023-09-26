@@ -1,6 +1,5 @@
 export interface AppConfig {
 	ENVIRONMENT_NAME: string;
-	BASE_URL: string;
 	CARD_TRADER_API: CardTraderConfig;
 	DOLAR_API: DolarApiConfig;
 };

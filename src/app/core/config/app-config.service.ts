@@ -51,7 +51,6 @@ export class AppConfigService {
     InitAppConfig(env: any): AppConfig {
         return {
             ENVIRONMENT_NAME: env.ENVIRONMENT_NAME,
-            BASE_URL: env.BASE_URL || '',
             CARD_TRADER_API: env.CARD_TRADER_API,
             DOLAR_API: env.DOLAR_API,
         }

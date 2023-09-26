@@ -7,11 +7,6 @@ import { environment } from 'src/environments/environment';
 function AppConfigFactory(config: AppConfigService) {
   return () => config.load();
 }
-
-function BaseUrlFactory(config: AppConfigService) {
-  return config.get().BASE_URL;
-}
-
 function EnvironmentNameFactory(config: AppConfigService) {
   return config.get().ENVIRONMENT_NAME;
 }
@@ -29,11 +24,6 @@ function EnvironmentNameFactory(config: AppConfigService) {
       useFactory: AppConfigFactory,
       deps: [AppConfigService],
       multi: true
-    },
-    {
-      provide: "BASE_URL",
-      useFactory: BaseUrlFactory,
-      deps: [AppConfigService],
     },
     {
       provide: "ENVIRONMENT_NAME",
