@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, concatMap, forkJoin, map, take } from 'rxjs';
+import * as rxjs from 'rxjs';
 import { AppConfigService } from 'src/app/core';
-import { BlueprintCardTrader, Card, Dolar, ExpansionCardTrader } from '../models';
+import { DivisasBluelytics, Dolar } from '../models';
 
 @Injectable({
     providedIn: 'root'
@@ -17,12 +17,21 @@ export class DolarService {
         this.baseRoute = this.appConfigService.config.DOLAR_API_BASE_URL;
     }
   
-    getDolarBlue(): Observable<Dolar> {
-        const url = `${this.baseRoute}/blue`;
+    getDolarBlue(): rxjs.Observable<Dolar> {
+        const url = `${this.baseRoute}`;
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
         })
-        return this.httpClient.get<Dolar>(url, { headers: headers });
+        return this.httpClient.get<DivisasBluelytics>(url, { headers: headers }).pipe(
+            rxjs.map((d: DivisasBluelytics) => {
+                return {
+                    compra: d.blue.value_buy,
+                    venta: d.blue.value_sell,
+                    nombre: 'blue',
+                    fechaActualizacion: d.last_update
+                } as Dolar;
+            })
+        );
     }
 
 }
