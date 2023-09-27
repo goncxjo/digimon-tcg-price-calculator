@@ -50,6 +50,7 @@ export class AppConfigService {
             TCG_PLAYER_API_PRODUCT_ENDPOINT: environment.TCG_PLAYER_API_PRODUCT_ENDPOINT,
             TCG_PLAYER_API_PRICE_ENDPOINT: environment.TCG_PLAYER_API_PRICE_ENDPOINT,
             TCG_PLAYER_API_IMAGE_ENDPOINT: environment.TCG_PLAYER_API_IMAGE_ENDPOINT,
+            TCG_PLAYER_PRODUCT_URL: environment.TCG_PLAYER_PRODUCT_URL,
             DOLAR_API_BASE_URL: environment.DOLAR_API_BASE_URL,
             appVersion: environment.appVersion,
             production: environment.production,

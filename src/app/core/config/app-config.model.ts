@@ -8,6 +8,7 @@ export interface AppConfig {
 	TCG_PLAYER_API_PRODUCT_ENDPOINT: string;
 	TCG_PLAYER_API_PRICE_ENDPOINT: string;
 	TCG_PLAYER_API_IMAGE_ENDPOINT: string;
+	TCG_PLAYER_PRODUCT_URL: string;
 	DOLAR_API_BASE_URL: string;
 	appVersion: string;
 	production: boolean;
