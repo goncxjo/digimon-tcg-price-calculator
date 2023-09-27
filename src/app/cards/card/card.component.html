@@ -34,14 +34,14 @@
 							<hr>
 
 							<span>
-								<strong>Dólar (blue):</strong> ARS {{ dolar.venta.toFixed(2) }}
+								<strong>Dólar (blue):</strong> ARS {{ dolar.venta | currency }}
 							</span>
 							<span>
-								<strong>TCG Player (median):</strong> USD {{ data.price.toFixed(2) }}
+								<strong>TCG Player (median):</strong> USD {{ data.price | currency  }}
 							</span>
 							<span class="card-price text-end" *ngIf="cartaTienePrecio()">
 								<span class="card-format">= ARS</span>
-								{{ getPrecioCartaFixed() }}
+								{{ getPrecioCartaFixed() | currency  }}
 							</span>
 							<span class="card-price text-end" *ngIf="!cartaTienePrecio()">
 								Precio no disponible
