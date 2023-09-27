@@ -20,6 +20,7 @@ const setEnv = () => {
   TCG_PLAYER_API_PRODUCT_ENDPOINT: '${process.env['TCG_PLAYER_API_PRODUCT_ENDPOINT']}',
   TCG_PLAYER_API_PRICE_ENDPOINT: '${process.env['TCG_PLAYER_API_PRICE_ENDPOINT']}',
   TCG_PLAYER_API_IMAGE_ENDPOINT: '${process.env['TCG_PLAYER_API_IMAGE_ENDPOINT']}',
+  TCG_PLAYER_PRODUCT_URL: '${process.env['TCG_PLAYER_PRODUCT_URL']}',
 	DOLAR_API_BASE_URL: '${process.env['DOLAR_API_BASE_URL']}',
 	appVersion: '${appVersion}',
 	production: true,
