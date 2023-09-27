@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, concatMap, forkJoin, map, take } from 'rxj
 import { AppConfigService } from 'src/app/core';
 import { BlueprintCardTrader, Card, ExpansionCardTrader, ProductCardTrader } from '../models';
 import * as _ from 'lodash';
+import * as uuid from 'uuid';
 
 @Injectable({
     providedIn: 'root'
@@ -52,7 +53,7 @@ export class CardTraderService {
         return this.httpClient.get<BlueprintCardTrader[]>(url, { params: params, headers: headers });
     }
 
-    getAllBlueprints(): Observable<Card[]> {
+    getAllDigimonCards(): Observable<Card[]> {
         return this.getExpansions().pipe(
             take(1),
             concatMap(expansions => 
@@ -69,7 +70,20 @@ export class CardTraderService {
                     ))
                 ).pipe(
                     map(allBlueprints => allBlueprints.reduce((acc, curr) => acc.concat(curr), []).map((blueprint: any) => {
-                        return new Card(blueprint)
+                        return {
+                            id: uuid.v4(),
+                            name: blueprint.name,
+                            expansion_id: blueprint.expansion_id,
+                            rarity_code: blueprint.fixed_properties.digimon_rarity,
+                            collector_number: blueprint.fixed_properties.collector_number,
+                            image_url: blueprint.image_url,
+                            card_trader_id: blueprint.id,
+                            card_market_id: (blueprint.card_market_id || null) as number | null,
+                            tcg_player_id: (blueprint.tcg_player_id || null) as number | null,
+                            expansion_name: blueprint.expansion_name,
+                            rarity_name: blueprint.fixed_properties.digimon_rarity,
+                            fullName: `${blueprint.name} (${blueprint.collector_number})`,
+                        } as Card;
                     }))
                 )
             )
