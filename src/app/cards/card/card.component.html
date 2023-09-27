@@ -1,56 +1,54 @@
-<div class="row mb-3">
-	<div class="col">
-		<div class="card">
-			<div class="card-body">
-				<div class="col-md-3 card-container">
-					<img [src]="data.image_url" class="card-img"/>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 <div class="row">
-	<div class="col">
-		<div class="card">
-			<h3 class="card-header">{{ data.name }}</h3>
-			<div class="card-body">
-				<div class="row">
-					<div class="col-md d-flex flex-column">
-						<small class="text-secondary-emphasis">
-							<strong>Código: </strong> {{ data.collector_number }}
-						</small>
-						<small class="text-secondary-emphasis">
-							<strong>Rareza: </strong> {{ data.rarity_name }}
-						</small>
-						<small class="text-secondary-emphasis">
-							<strong>Expansión: </strong> {{ data.expansion_name }}
-						</small>
-
-						<small>
-							<a [attr.href]="data.tcg_player_url">
-								Link del producto en TCG Player
-								<fa-icon icon="share-from-square"></fa-icon>
-							</a>
-						</small>
-
-						<hr>
-
-						<span>
-							<strong>Dólar (blue):</strong> ARS {{ dolar.venta.toFixed(2) }}
-						</span>
-						<span>
-							<strong>TCG Player (median):</strong> USD {{ data.price.toFixed(2) }}
-						</span>
-						<span class="card-price text-end" *ngIf="cartaTienePrecio()">
-							<span class="card-format">= ARS</span>
-							{{ getPrecioCartaFixed() }}
-						</span>
-						<span class="card-price text-end" *ngIf="!cartaTienePrecio()">
-							Precio no disponible
-						</span>
+		<div class="mb-3 col-sm-12 col-md-2">
+			<div class="card">
+				<div class="card-body align-self-center">
+					<div class="col-md-3 card-container">
+						<img [src]="data.image_url" class="card-img"/>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+		<div class="col-sm-12 col-md">
+			<div class="card">
+				<h3 class="card-header">{{ data.name }}</h3>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md d-flex flex-column">
+							<small class="text-secondary-emphasis">
+								<strong>Código: </strong> {{ data.collector_number }}
+							</small>
+							<small class="text-secondary-emphasis">
+								<strong>Rareza: </strong> {{ data.rarity_name }}
+							</small>
+							<small class="text-secondary-emphasis">
+								<strong>Expansión: </strong> {{ data.expansion_name }}
+							</small>
+
+							<small>
+								<a [attr.href]="data.tcg_player_url">
+									Link del producto en TCG Player
+									<fa-icon icon="share-from-square"></fa-icon>
+								</a>
+							</small>
+
+							<hr>
+
+							<span>
+								<strong>Dólar (blue):</strong> ARS {{ dolar.venta.toFixed(2) }}
+							</span>
+							<span>
+								<strong>TCG Player (median):</strong> USD {{ data.price.toFixed(2) }}
+							</span>
+							<span class="card-price text-end" *ngIf="cartaTienePrecio()">
+								<span class="card-format">= ARS</span>
+								{{ getPrecioCartaFixed() }}
+							</span>
+							<span class="card-price text-end" *ngIf="!cartaTienePrecio()">
+								Precio no disponible
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 </div>
