@@ -14,13 +14,13 @@
 	  {
 		"source": "/tcgplayer-search/(.*)",
 		"headers": [
-		  { "key": "Access-Control-Allow-Origin", "value": "*" },
+		  { "key": "Access-Control-Allow-Origin", "value": "*" }
 		]
 	  },
 	  {
 		"source": "/tcgplayer-mpapi/(.*)",
 		"headers": [
-		  { "key": "Access-Control-Allow-Origin", "value": "*" },
+		  { "key": "Access-Control-Allow-Origin", "value": "*" }
 		]
 	  }
 	]
