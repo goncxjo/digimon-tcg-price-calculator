@@ -29,6 +29,11 @@ app-root {
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 
+body {
+	background-color: $gray-200;
+}
+
+
 #ngb-typeahead-0 {
 	width: 100%;
     overflow-y: scroll;
