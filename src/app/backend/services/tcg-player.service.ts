@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { AppConfigService } from 'src/app/core';
-import { Card, ProductCardTrader } from '../models';
+import { Card } from '../models';
 import { TcgPlayerSearchQuery } from './tcg-player-search-query';
 import { ProductPriceTcgPlayer, SearchProductResultTcgPlayer, SearchTcgPlayer } from '../models/tcg-player';
 import * as _ from 'lodash';
