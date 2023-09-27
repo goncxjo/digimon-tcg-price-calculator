@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AppConfigService } from '../core';
-import { CardTraderService } from '../backend/services/card-trader.service';
 import { take } from 'rxjs';
 import { DolarService } from '../backend/services/dolar.service';
 import { Dolar } from '../backend/models';
+import { TcgPlayerService } from '../backend/services/tcg-player.service';
 
 @Component({
   selector: 'app-home',
@@ -16,8 +15,7 @@ export class HomeComponent implements OnInit {
   dolar!: Dolar;
 
   constructor(
-    private appConfig: AppConfigService,
-    private cardTraderService: CardTraderService,
+    private tcgPlayerService: TcgPlayerService,
     private dolarService: DolarService,
   ) { }
 
@@ -31,7 +29,7 @@ export class HomeComponent implements OnInit {
   
   onCardAdded($event: any) {
     let card = $event;
-    this.cardTraderService.getCardPrice(card.card_trader_id)
+    this.tcgPlayerService.getCardPrice(card.tcg_player_id)
     .pipe(take(1))
     .subscribe(res => {
       card.price = res;

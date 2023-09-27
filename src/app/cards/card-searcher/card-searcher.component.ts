@@ -1,9 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Observable, OperatorFunction } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { Observable, OperatorFunction, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 import { Card } from 'src/app/backend';
-import { CardTraderService } from 'src/app/backend/services/card-trader.service';
-import { AppConfigService } from 'src/app/core';
+import { TcgPlayerService } from 'src/app/backend/services/tcg-player.service';
 
 @Component({
   selector: 'app-card-searcher',
@@ -14,32 +13,34 @@ export class CardSearcherComponent implements OnInit {
   public model!: Card;
   data: Card[] = [];
   @Output() card = new EventEmitter<Card>();
+	
+  searching = false;
+	searchFailed = false;
 
   constructor(
-    private appConfig: AppConfigService,
-    private cardTraderService: CardTraderService,
+    private tcgPlayerService: TcgPlayerService,
   ) { }
 
   search: OperatorFunction <string, readonly Card[]> = (text$: Observable <string> ) =>
     text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-			filter((term) => term.length >= 2),
-      map((term) =>
-        term === '' ?
-        [] :
-        this.data.filter((c) => c.fullName.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 50),
-      ),
+			debounceTime(300),
+			distinctUntilChanged(),
+			tap(() => (this.searching = true)),
+			switchMap((term) =>
+				this.tcgPlayerService.getDigimonCards(term).pipe(
+					tap(() => (this.searchFailed = false)),
+					catchError(() => {
+						this.searchFailed = true;
+						return of([]);
+					}),
+				),
+			),
+			tap(() => (this.searching = false)),
     );
 
     formatter = (card: Card) => card.fullName;
 
   ngOnInit(): void {
-    this.cardTraderService.getAllBlueprints().subscribe(result => {
-      if (result) {
-        this.data = result as Card[];
-      }
-    });
   }  
 
   agregarCarta() {
