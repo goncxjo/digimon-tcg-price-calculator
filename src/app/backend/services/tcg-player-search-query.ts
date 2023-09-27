@@ -3,7 +3,7 @@ export const TcgPlayerSearchQuery: any = {
 	"from": 0,
 	"size": 9999,
 	"filters": {
-		"term": { "productLineUrlName": ["digimon-card-game"], "rarityName": ["Common", "Uncommon", "Rare", "Super Rare", "Secret Rare"] },
+		"term": { "productLineUrlName": ["digimon-card-game"], "rarityName": ["Common", "Uncommon", "Rare", "Super Rare", "Secret Rare", "Promo"] },
 		"range": {},
 	  "match": {}
 	},
