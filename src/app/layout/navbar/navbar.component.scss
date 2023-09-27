@@ -10,7 +10,7 @@ nav {
   }
 
   & #brand-logo {
-    height: 1.5em;
+    height: 1.2em;
     padding-right: $nav-brand-padding;
     border-right: 1px solid white;
   }
@@ -18,7 +18,7 @@ nav {
   & #app-title {
     padding-left: $nav-brand-padding;
     font-family: pixel-digivolve-italic;
-    font-size: medium;
+    font-size:small;
   }
 
   & #navbarNav.navbar-collapse {
