@@ -15,23 +15,25 @@
 			<h3 class="card-header">{{ data.name }}</h3>
 			<div class="card-body">
 				<div class="row">
-					<div class="col d-flex flex-column">
-						<small class="text-secondary-emphasis">{{ data.collector_number }}</small>
-						<small class="text-secondary-emphasis">{{ data.rarity_name }}</small>
-						<small class="text-secondary-emphasis">{{ data.expansion_name }}</small>
-					</div>
-					<div class="col d-flex flex-column">
-						<small>
-							TCG Player: <strong>USD </strong><strong>{{ data.price }}</strong>
+					<div class="col-md d-flex flex-column">
+						<small class="text-secondary-emphasis">
+							<strong>Código: </strong> {{ data.collector_number }}
 						</small>
-						<small>
-							Dólar (blue): <strong>ARS </strong><strong>{{ dolar.venta.toFixed(2) }}</strong>
+						<small class="text-secondary-emphasis">
+							<strong>Rareza: </strong> {{ data.rarity_name }}
 						</small>
-					</div>
-					<div class="col-md-6 d-flex flex-column">
+						<small class="text-secondary-emphasis">
+							<strong>Expansión: </strong> {{ data.expansion_name }}
+						</small>
 						<hr>
+						<span>
+							<strong>TCG Player:</strong> USD {{ data.price.toFixed(2) }}
+						</span>
+						<span>
+							<strong>Dólar (blue):</strong> ARS {{ dolar.venta.toFixed(2) }}
+						</span>
 						<span class="card-price text-end" *ngIf="cartaTienePrecio()">
-							<span class="card-format">ARS</span>
+							<span class="card-format">= ARS</span>
 							{{ getPrecioCartaFixed() }}
 						</span>
 						<span class="card-price" *ngIf="!cartaTienePrecio()">
