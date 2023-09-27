@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -7,8 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
   public isMenuCollapsed = true;
+  appVersion: string = '';
+  
+  constructor(
+    @Inject('APP_VERSION') appVersion: string
+  ) {
+    this.appVersion = appVersion;
+  }
 
-  constructor() {}
+  ngOnInit(): void {
+  }
 
-  ngOnInit(): void {}
+  getVersionText() {
+    return `v${this.appVersion}`
+  }
 }

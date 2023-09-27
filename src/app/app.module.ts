@@ -14,13 +14,15 @@ import { CardSearcherComponent } from './cards/card-searcher/card-searcher.compo
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
+import { ComoFuncionaComponent } from './como-funciona/como-funciona.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     CardComponent,
-    CardSearcherComponent
+    CardSearcherComponent,
+    ComoFuncionaComponent
   ],
   imports: [
     BrowserModule,
