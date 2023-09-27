@@ -12,6 +12,7 @@ export interface Card {
 	rarity_name: string;
 	collector_number: string;
 	expansion_name: string;
+	tcg_player_url: string;
 	price: number;
 	format: string;
 }

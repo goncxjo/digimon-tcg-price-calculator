@@ -13,18 +13,18 @@ import * as uuid from 'uuid';
 })
 export class TcgPlayerService {
     private searchEndpoint: string;
-    private productEndpoint: string;
     private priceEndpoint: string;
     private imageEndpoint: string;
+    private productUrl: string;
 
     constructor(
         private httpClient: HttpClient,
         private appConfigService: AppConfigService,
     ) {
         this.searchEndpoint = this.appConfigService.config.TCG_PLAYER_API_SEARCH_ENDPOINT;
-        this.productEndpoint = this.appConfigService.config.TCG_PLAYER_API_PRODUCT_ENDPOINT;
         this.priceEndpoint = this.appConfigService.config.TCG_PLAYER_API_PRICE_ENDPOINT;
         this.imageEndpoint = this.appConfigService.config.TCG_PLAYER_API_IMAGE_ENDPOINT;
+        this.productUrl = this.appConfigService.config.TCG_PLAYER_PRODUCT_URL;
     }
   
     getDigimonCards(value: string): Observable<Card[]> {
@@ -57,6 +57,7 @@ export class TcgPlayerService {
                         tcg_player_id: parseInt(cardId),
                         rarity_code: rarity_code,
                         rarity_name: res.rarityName,
+                        tcg_player_url: `${this.productUrl}`.replace('{id}', cardId),
                         collector_number: collector_number,
                         expansion_name: res.setName,
                     } as Card);

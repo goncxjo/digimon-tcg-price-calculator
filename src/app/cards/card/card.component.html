@@ -25,30 +25,31 @@
 						<small class="text-secondary-emphasis">
 							<strong>Expansión: </strong> {{ data.expansion_name }}
 						</small>
+
+						<small>
+							<a [attr.href]="data.tcg_player_url">
+								Link del producto en TCG Player
+								<fa-icon icon="share-from-square"></fa-icon>
+							</a>
+						</small>
+
 						<hr>
-						<span>
-							<strong>TCG Player:</strong> USD {{ data.price.toFixed(2) }}
-						</span>
+
 						<span>
 							<strong>Dólar (blue):</strong> ARS {{ dolar.venta.toFixed(2) }}
+						</span>
+						<span>
+							<strong>TCG Player (median):</strong> USD {{ data.price.toFixed(2) }}
 						</span>
 						<span class="card-price text-end" *ngIf="cartaTienePrecio()">
 							<span class="card-format">= ARS</span>
 							{{ getPrecioCartaFixed() }}
 						</span>
-						<span class="card-price" *ngIf="!cartaTienePrecio()">
+						<span class="card-price text-end" *ngIf="!cartaTienePrecio()">
 							Precio no disponible
 						</span>
-						
-		
 					</div>
 				</div>
-		
-				<!-- <div class="btn-group-form d-flex justify-content-start ms-2 mt-3">
-				<button type="button" class="btn btn-primary" (click)="export()">
-					<i class="fas fa-file-export"></i> Exportar
-				</button>
-				</div> -->
 			</div>
 		</div>
 	</div>
