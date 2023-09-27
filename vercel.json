@@ -2,11 +2,11 @@
 	"name": "digimon-tcg-price-calculator",
 	"rewrites": [
 		{
-		  "source": "/tcgplayer-search:path*",
+		  "source": "/tcgplayer-search/:path*",
 		  "destination": "https://mp-search-api.tcgplayer.com/v1/:path*"
 		},
 		{
-		  "source": "/tcgplayer-mpapi:path*",
+		  "source": "/tcgplayer-mpapi/:path*",
 		  "destination": "https://mpapi.tcgplayer.com/v2/:path*"
 		}
 	],
@@ -14,19 +14,13 @@
 	  {
 		"source": "/tcgplayer-search/(.*)",
 		"headers": [
-		  { "key": "Access-Control-Allow-Credentials", "value": "true" },
 		  { "key": "Access-Control-Allow-Origin", "value": "*" },
-		  { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
-		  { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" }
 		]
 	  },
 	  {
 		"source": "/tcgplayer-mpapi/(.*)",
 		"headers": [
-		  { "key": "Access-Control-Allow-Credentials", "value": "true" },
 		  { "key": "Access-Control-Allow-Origin", "value": "*" },
-		  { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
-		  { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" }
 		]
 	  }
 	]
