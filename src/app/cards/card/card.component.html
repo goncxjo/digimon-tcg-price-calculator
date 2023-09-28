@@ -1,5 +1,5 @@
 <div class="row">
-		<div class="card-mb-3 col-sm-12 col-md-2">
+		<div class="card-mb-3 col-sm-12 col-md-4 col-lg-3 col-xl-2">
 			<div class="card img-container">
 				<div class="card-body d-inline-flex align-self-center">
 					<div class="card-container">
@@ -10,10 +10,15 @@
 		</div>
 		<div class="col-sm-12 col-md">
 			<div class="card">
-				<h3 class="card-header">{{ data.name }}</h3>
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md d-flex flex-column">
+							<h6 class="card-title text-uppercase">
+								<strong>
+									{{ data.name }}
+								</strong>
+							</h6>
+			
 							<small class="text-secondary-emphasis">
 								<strong>Código: </strong> {{ data.collector_number }}
 							</small>
@@ -32,18 +37,26 @@
 							</small>
 
 							<hr>
+							
+							<span>
+								<strong>Cotización dólar (blue): </strong>
+								<abbr [attr.title]="'Última cotización: ' + getFechaActualizacionDolar()">ARS {{ dolar.venta | currency }}</abbr>
+							</span>
+							<span>
+								<strong>Precio TCG Player (median):</strong> USD {{ data.price | currency  }}
+							</span>
 
-							<span>
-								<strong>Dólar (blue):</strong> ARS {{ dolar.venta | currency }}
-							</span>
-							<span>
-								<strong>TCG Player (median):</strong> USD {{ data.price | currency  }}
-							</span>
-							<span class="card-price text-end" *ngIf="cartaTienePrecio()">
+						</div>
+					</div>
+				</div>
+				<div class="card-footer bg-primary text-white">
+					<div class="row">
+						<div class="col text-end">
+							<span class="card-price" *ngIf="cartaTienePrecio()">
 								<span class="card-format">= ARS</span>
 								{{ getPrecioCartaFixed() | currency  }}
 							</span>
-							<span class="card-price text-end" *ngIf="!cartaTienePrecio()">
+							<span class="card-price" *ngIf="!cartaTienePrecio()">
 								Precio no disponible
 							</span>
 						</div>

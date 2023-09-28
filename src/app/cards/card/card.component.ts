@@ -25,6 +25,10 @@ export class CardComponent implements OnInit, OnDestroy {
     return this.getPrecioCarta().toFixed(2);
   }
 
+  getFechaActualizacionDolar() {
+    return (new Date(this.dolar.fechaActualizacion)).toLocaleString('es-AR')
+  }
+
   ngOnDestroy(): void {
   }
 }
