@@ -6,10 +6,23 @@ import { ComoFuncionaComponent } from './como-funciona/como-funciona.component';
 const routes: Routes = [
   {
     path: '',
+    data: {
+      title: 'Inicio',
+    },
+    component: HomeComponent,
+  },
+  {
+    path: ':id',
+    data: {
+      title: 'Producto',
+    },
     component: HomeComponent,
   },
   {
     path: 'como-funciona',
+    data: {
+      title: 'Cómo funciona',
+    },
     component: ComoFuncionaComponent,
   },
 ];
