@@ -2,11 +2,11 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Card, Dolar } from 'src/app/backend/models';
 
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+  selector: 'app-card-info',
+  templateUrl: './card-info.component.html',
+  styleUrls: ['./card-info.component.scss']
 })
-export class CardComponent implements OnInit, OnDestroy {
+export class CardInfoComponent implements OnInit, OnDestroy {
   @Input() data!: Card;
   @Input() dolar!: Dolar;
     

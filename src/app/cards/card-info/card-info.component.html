@@ -19,20 +19,13 @@
 								</strong>
 							</h6>
 			
-							<small class="text-secondary-emphasis">
-								<strong>Código: </strong> {{ data.collector_number }}
-							</small>
-							<small class="text-secondary-emphasis">
-								<strong>Rareza: </strong> {{ data.rarity_name }}
-							</small>
-							<small class="text-secondary-emphasis">
-								<strong>Expansión: </strong> {{ data.expansion_name }}
-							</small>
+							<small class="text-secondary-emphasis"><strong>Código: </strong> {{ data.collector_number }}</small>
+							<small class="text-secondary-emphasis"><strong>Rareza: </strong> {{ data.rarity_name }}</small>
+							<small class="text-secondary-emphasis"><strong>Expansión: </strong> {{ data.expansion_name }}</small>
 
 							<small>
 								<a [attr.href]="data.tcg_player_url">
-									Link del producto en TCG Player
-									<fa-icon icon="share-from-square"></fa-icon>
+									Link al producto en TCG Player <fa-icon icon="share-from-square"></fa-icon>
 								</a>
 							</small>
 
@@ -40,7 +33,7 @@
 							
 							<span>
 								<strong>Cotización dólar (blue): </strong>
-								<abbr [attr.title]="'Última cotización: ' + getFechaActualizacionDolar()">ARS {{ dolar.venta | currency }}</abbr>
+								<span placement="top" [ngbTooltip]="'Última cotización: ' + getFechaActualizacionDolar()">ARS {{ dolar.venta | currency }}</span>
 							</span>
 							<span>
 								<strong>Precio TCG Player (median):</strong> USD {{ data.price | currency  }}

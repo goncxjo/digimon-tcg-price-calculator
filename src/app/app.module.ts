@@ -12,7 +12,7 @@ import { SharedModule } from './shared/shared.module';
 import { LayoutModule } from './layout/layout.module';
 import { AppConfigModule } from './core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { CardComponent } from './cards/card/card.component';
+import { CardInfoComponent } from './cards/card-info/card-info.component';
 import { ToastrModule } from 'ngx-toastr';
 import { CardSearcherComponent } from './cards/card-searcher/card-searcher.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -29,7 +29,7 @@ registerLocaleData(localeEsAr, 'es-Ar');
   declarations: [
     AppComponent,
     HomeComponent,
-    CardComponent,
+    CardInfoComponent,
     CardSearcherComponent,
     ComoFuncionaComponent
   ],
