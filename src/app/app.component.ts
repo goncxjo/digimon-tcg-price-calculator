@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
+import { LoaderService } from './backend/services/loader.service';
 
 @Component({
   selector: 'app-root',
@@ -10,12 +11,28 @@ import { filter, map } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   title: string = 'Cargando...';
+  @ViewChild('httpLoader') httpLoader!: ElementRef;
 
   constructor(
     private titleService: Title,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-  ) { }
+    private loaderService: LoaderService, private renderer: Renderer2) {
+  }
+
+  ngAfterViewInit() {
+    const httpLoader = this.httpLoader.nativeElement;
+
+    this.loaderService.httpProgress().subscribe((status: boolean) => {
+      if (status) {
+        this.renderer.removeClass(httpLoader, 'd-none');
+        this.renderer.addClass(document.body, 'cursor-loader');
+      } else {
+        this.renderer.addClass(httpLoader, 'd-none');
+        this.renderer.removeClass(document.body, 'cursor-loader');
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.router.events.pipe(

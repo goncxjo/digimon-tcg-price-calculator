@@ -11,7 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { SharedModule } from './shared/shared.module';
 import { LayoutModule } from './layout/layout.module';
 import { AppConfigModule } from './core';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CardComponent } from './cards/card/card.component';
 import { ToastrModule } from 'ngx-toastr';
 import { CardSearcherComponent } from './cards/card-searcher/card-searcher.component';
@@ -19,6 +19,7 @@ import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontaweso
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { ComoFuncionaComponent } from './como-funciona/como-funciona.component';
+import { HttpErrorInterceptor, LoaderInterceptor } from './backend/interceptors';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en')
@@ -43,6 +44,8 @@ registerLocaleData(localeEsAr, 'es-Ar');
     ToastrModule.forRoot(),
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
     { provide: DEFAULT_CURRENCY_CODE, useValue: '' },
     { provide: LOCALE_ID, useValue: 'Es-Ar' },
   ],
