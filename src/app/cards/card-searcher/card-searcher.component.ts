@@ -10,7 +10,7 @@ import { TcgPlayerService } from 'src/app/backend/services/tcg-player.service';
   styleUrls: ['./card-searcher.component.scss'],
 })
 export class CardSearcherComponent implements OnInit {
-  public model!: Card;
+  public model?: Card;
   data: Card[] = [];
   @Output() card = new EventEmitter<Card>();
 	
@@ -45,5 +45,6 @@ export class CardSearcherComponent implements OnInit {
 
   agregarCarta() {
     this.card.emit(this.model);
+    delete this.model;
   }
 }
