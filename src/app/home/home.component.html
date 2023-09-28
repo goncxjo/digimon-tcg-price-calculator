@@ -1,6 +1,6 @@
 <div class="row">
-	<app-card-searcher (card)="onCardAdded($event)"></app-card-searcher>
-	<span *ngIf="selectedCard">
+	<app-card-searcher *ngIf="!id" (card)="onCardAdded($event)"></app-card-searcher>
+	<span *ngIf="selectedCard && dolar">
 		<app-card [data]="selectedCard" [dolar]="dolar"></app-card>
 	</span>
 </div>	

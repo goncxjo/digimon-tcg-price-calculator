@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, map, take } from 'rxjs';
+import { map, take } from 'rxjs';
 import { DolarService } from '../backend/services/dolar.service';
 import { Dolar } from '../backend/models';
 import { TcgPlayerService } from '../backend/services/tcg-player.service';
@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  id?: string;
+  id: string = '0';
   data: any[] = [];
   selectedCard: any;
   dolar!: Dolar;

@@ -12,7 +12,7 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: ':id',
+    path: 'carta/:id',
     data: {
       title: 'Producto',
     },
