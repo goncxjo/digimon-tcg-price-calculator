@@ -26,6 +26,9 @@ app-root {
 	src: url('assets/fonts/Pixel\ Digivolve\ Italic.otf') format("truetype");
 }
 
+$border-radius: 0;
+$font-family-base: "Montserrat",-apple-system,sans-serif !important;
+
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 
