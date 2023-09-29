@@ -19,6 +19,7 @@ export interface Card {
 	tcg_player_price: ProductPriceTcgPlayer[];
 	card_trader_price: ProductPriceCardTrader[];
 	price: CardPrice;
+	multiplier: number
 }
 
 export interface CardPrice {
