@@ -95,3 +95,7 @@ body {
 .list-group-item.list-group-item-action.card-price-active .bg-list-item {
     background-color: $primary;
 }
+
+.no-radius {
+	border-radius: 0;
+}
