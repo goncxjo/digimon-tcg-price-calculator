@@ -1,30 +1,43 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Card, Dolar } from 'src/app/backend/models';
-import { ProductPriceTcgPlayer } from 'src/app/backend/models/tcg-player';
 
 @Component({
   selector: 'app-card-info',
   templateUrl: './card-info.component.html',
   styleUrls: ['./card-info.component.scss']
 })
-export class CardInfoComponent implements OnInit, OnDestroy {
+export class CardInfoComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() data!: Card;
   @Input() dolar!: Dolar;
   priceSelected: string = "tcg_player_normal";
     
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      let price = this.getTcgPlayerPrice('Normal');
+      if (price == 0) {
+        this.priceSelected = "tcg_player_foil"
+        price = this.getTcgPlayerPrice('Foil');
+      }
+      this.data.price.currency_value = Math.round(price * this.dolar.venta * 100) / 100;
+    }, 0);
   }
   
   getPrecioCarta() {
+    let precio = 0.0;
     switch (this.priceSelected) {
       case 'tcg_player_normal':
       case 'tcg_player_foil':
         const printingType = this.priceSelected === 'tcg_player_normal' ? 'Normal' : 'Foil';
         const price = this.getTcgPlayerPrice(printingType);
-        return this.data.price.currency_value = price * this.dolar.venta;
+        precio = price * this.dolar.venta;
+        break;
       default:
-        return this.data.price.currency_value;
+          precio = this.data.price.currency_value;
+        break;
     }
+    return precio;
   }
 
   getTcgPlayerPrice(printingType: string) {
