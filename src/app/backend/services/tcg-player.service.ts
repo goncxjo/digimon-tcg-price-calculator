@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable, forkJoin, map, mergeAll, of } from 'rxjs';
 import { AppConfigService } from 'src/app/core';
 import { Card } from '../models';
-import { TcgPlayerGetProduct, TcgPlayerSearchQuery } from './tcg-player-search-query';
 import { ProductPriceTcgPlayer, SearchProductResultTcgPlayer, SearchTcgPlayer } from '../models/tcg-player';
 import * as _ from 'lodash';
 import * as uuid from 'uuid';
+import { createTcgPlayerQuery } from './tcg-player-search-query';
 
 @Injectable({
     providedIn: 'root'
@@ -40,7 +40,7 @@ export class TcgPlayerService {
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
         })
-        return this.httpClient.post<SearchTcgPlayer>(url, JSON.stringify(TcgPlayerSearchQuery), { params: params, headers: headers }).pipe(
+        return this.httpClient.post<SearchTcgPlayer>(url, JSON.stringify(createTcgPlayerQuery()), { params: params, headers: headers }).pipe(
             map((response: SearchTcgPlayer) => {
                 return this.getCardsFromResults(response);
             })
@@ -54,11 +54,10 @@ export class TcgPlayerService {
 
         const url = `${this.searchEndpoint}/search/request`;
         const params = {
-            q: 'digimon',
             isList: true
         };
 
-        const body = JSON.stringify(TcgPlayerGetProduct).replace('{0}', `${tcg_player_id}`)
+        const body = JSON.stringify(createTcgPlayerQuery(tcg_player_id))
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
         })
@@ -70,7 +69,7 @@ export class TcgPlayerService {
                 if (response.results[0].totalResults) {
                     let cards = this.getCardsFromResults(response);
                     let card = cards[0];
-                    card.price = price;
+                    card.tcg_player_price = price;
                     return card;                        
                 }
                 return {} as Card;
@@ -101,27 +100,20 @@ export class TcgPlayerService {
                 tcg_player_url: `${this.productUrl}`.replace('{id}', cardId),
                 collector_number: collector_number,
                 expansion_name: res.setName,
+                price: {
+                    currency_symbol: "ARS",
+                    currency_value: 0.0
+                }
             } as Card);
         });
         return cards;
     }
 
-    getCardPrice(tcg_player_id: number): Observable<number> {
+    getCardPrice(tcg_player_id: number): Observable<ProductPriceTcgPlayer[]> {
         const url = `${this.priceEndpoint}/product/${tcg_player_id}/pricepoints?mpfev=1821`;
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
         })
-        return this.httpClient.get<ProductPriceTcgPlayer[]>(url, { headers: headers }).pipe(
-            map((response: ProductPriceTcgPlayer[]) => {
-                let price = Infinity;
-                response.forEach((p: ProductPriceTcgPlayer) => {
-                    if (p.listedMedianPrice) {
-                        price = Math.min(price, p.listedMedianPrice);
-                    }
-                })
-                return price === Infinity ? 0 : price;
-            })
-        );
+        return this.httpClient.get<ProductPriceTcgPlayer[]>(url, { headers: headers });
     }
-
 }
