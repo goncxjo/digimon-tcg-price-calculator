@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit {
   
   onCardAdded($event: any) {
     let card = $event;
-    this.getPrice(card);
+    this.getById(card.tcg_player_id);
   }
   
   getById(tcg_player_id: any) {
@@ -63,15 +63,5 @@ export class HomeComponent implements OnInit {
     .subscribe(res => {
       this.selectedCard = res;
     });
-  }
-
-  getPrice(card: any) {
-    this.tcgPlayerService.getCardPrice(card.tcg_player_id)
-    .pipe(take(1))
-    .subscribe(res => {
-      card.price = res;
-      this.selectedCard = card;
-    });
-  }
-  
+  }  
 }
