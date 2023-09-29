@@ -1,6 +1,53 @@
 <div class="row">
-	<app-card-searcher *ngIf="!id" (card)="onCardAdded($event)"></app-card-searcher>
-	<span *ngIf="selectedCard && dolar">
+	<div class="alert alert-info" *ngIf="dolar">
+		<fa-icon icon="money-bill-trend-up"></fa-icon> Dolar hoy: ARS {{ dolar.venta | currency}}
+	</div>
+
+	<app-card-searcher *ngIf="!id && dolar" (card)="onCardAdded($event)"></app-card-searcher>
+
+	<div class="row" *ngIf="selectedCard && dolar">
 		<app-card-info [data]="selectedCard" [dolar]="dolar"></app-card-info>
-	</span>
+	</div>
+
+	<div ngbAccordion #accordion="ngbAccordion" *ngFor="let item of cards">
+		<div ngbAccordionItem="item.tcg_player_id" #accElem="ngbAccordionItem" [destroyOnHide]="false">
+			<div ngbAccordionHeader class="accordion-button custom-header py-1">
+				<div class="w-100 d-flex flex-column justify-content-start flex-md-row justify-content-md-between align-items-md-center">
+					<p class="m-0 col-6 w-auto text-truncate">{{ getCardMiniInfo(item) }}</p>
+					<p class="m-0 col text-start text-md-end">
+						Precio: {{ item.price.currency_value | currency }}
+						<span class="badge rounded-pill bg-danger ms-2">
+							x{{ item.multiplier }}
+						</span>
+					</p>
+					<div class="col text-end">
+						<button ngbAccordionToggle class="btn btn-sm btn-primary no-radius" (click)="calcularPrecioTotal()">
+							<fa-icon icon="eye" *ngIf="accElem.collapsed"></fa-icon>
+							<fa-icon icon="eye-slash" *ngIf="!accElem.collapsed"></fa-icon>
+						</button>
+						<button type="button" class="btn btn-sm btn-danger no-radius" (click)="removeCard(item)">
+							<fa-icon icon="trash"></fa-icon>
+						</button>
+						<button type="button" class="btn btn-sm btn-success ms-2 no-radius" (click)="changeMultiplier(item, -1)">
+							<fa-icon icon="caret-down"></fa-icon>
+						</button>
+						<button type="button" class="btn btn-sm btn-success no-radius" (click)="changeMultiplier(item, 1)">
+							<fa-icon icon="caret-up"></fa-icon>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div ngbAccordionCollapse>
+				<div ngbAccordionBody>
+				<ng-template>
+					<app-card-info [data]="item" [dolar]="dolar"></app-card-info>
+				</ng-template>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="alert alert-light mt-3" *ngIf="precioTotal !== 0">
+		<h3>Precio total: ARS {{ precioTotal | currency}}</h3>
+	</div>
 </div>	
