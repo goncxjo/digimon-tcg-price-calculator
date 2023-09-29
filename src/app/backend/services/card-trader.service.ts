@@ -53,6 +53,13 @@ export class CardTraderService {
         return this.httpClient.get<BlueprintCardTrader[]>(url, { params: params, headers: headers });
     }
 
+    /*
+        TODO:
+        No se encontró en la documentación de la API de CardTrader
+        una manera de obtener todas las cartas en base a un `game_id`.
+        Este endpoint itera sobre todas las expansiones de un `game_id` por parámetro
+        y obteniendo todos sus `blueprints`. Esto exige realizar muchísimos request.
+    */
     getAllDigimonCards(): Observable<Card[]> {
         return this.getExpansions().pipe(
             take(1),
