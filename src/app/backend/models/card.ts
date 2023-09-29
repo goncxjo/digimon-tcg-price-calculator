@@ -1,3 +1,6 @@
+import { ProductPriceCardTrader } from "./card-trader";
+import { ProductPriceTcgPlayer } from "./tcg-player";
+
 export interface Card {
 	id: string;		
 	name: string;
@@ -13,6 +16,12 @@ export interface Card {
 	collector_number: string;
 	expansion_name: string;
 	tcg_player_url: string;
-	price: number;
-	format: string;
+	tcg_player_price: ProductPriceTcgPlayer[];
+	card_trader_price: ProductPriceCardTrader[];
+	price: CardPrice;
+}
+
+export interface CardPrice {
+	currency_value: number;
+	currency_symbol: string;
 }
