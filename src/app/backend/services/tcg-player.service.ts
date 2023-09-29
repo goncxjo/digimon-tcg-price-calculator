@@ -102,8 +102,9 @@ export class TcgPlayerService {
                 expansion_name: res.setName,
                 price: {
                     currency_symbol: "ARS",
-                    currency_value: 0.0
-                }
+                    currency_value: 100.0
+                },
+                multiplier: 1
             } as Card);
         });
         return cards;
