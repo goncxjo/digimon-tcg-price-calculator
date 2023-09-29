@@ -13,32 +13,43 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md d-flex flex-column">
-							<h6 class="card-title text-uppercase">
-								<strong>
-									{{ data.name }}
-								</strong>
-							</h6>
-			
+							<h6 class="card-title text-uppercase fw-bold">
+								{{ data.name }}
+							</h6>							  
 							<small class="text-secondary-emphasis"><strong>Código: </strong> {{ data.collector_number }}</small>
 							<small class="text-secondary-emphasis"><strong>Rareza: </strong> {{ data.rarity_name }}</small>
 							<small class="text-secondary-emphasis"><strong>Expansión: </strong> {{ data.expansion_name }}</small>
-
-							<small>
-								<a [attr.href]="data.tcg_player_url">
-									Link al producto en TCG Player <fa-icon icon="share-from-square"></fa-icon>
-								</a>
-							</small>
-
+							
 							<hr>
 							
-							<span>
-								<strong>Cotización dólar (blue): </strong>
-								<span placement="top" [ngbTooltip]="'Última cotización: ' + getFechaActualizacionDolar()">ARS {{ dolar.venta | currency }}</span>
-							</span>
-							<span>
-								<strong>Precio TCG Player (median):</strong> USD {{ data.price | currency  }}
-							</span>
+							<small class="fw-bold">Seleccionar un precio:</small>
+							<div class="list-group">
+								<li class="list-group-item list-group-item-action card-price-active d-flex flex-column justify-content-between align-items-start">
+									<div class="bg-list-item"></div>
+									<small for="price">TCG Player (median):</small>
+									<div class="input-group">
+										<span class="input-group-text">USD</span>
+										<input type="text" class="form-control" id="customPrice" [value]="data.price" disabled>
+									</div>
 
+								</li>
+								<li class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start">
+									<div class="bg-list-item"></div>
+									<small for="customPrice">Precio personalizado: </small>
+									<div class="input-group">
+										<span class="input-group-text">ARS</span>
+										<input type="text" class="form-control" id="customPrice" [value]="getPrecioCarta()">
+									</div>
+								</li>
+							  </div>
+
+							  <hr>
+
+							  <small class="fw-bold" for="multiplier">Multiplicador: </small>
+							  <div class="input-group">
+								  <span class="input-group-text">x</span>
+								  <input type="number" min="1" class="form-control" id="multiplier" value="1">
+							  </div>
 						</div>
 					</div>
 				</div>

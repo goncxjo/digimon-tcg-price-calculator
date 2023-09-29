@@ -82,3 +82,16 @@ body {
 	100% { transform: rotate(360deg); }
   }
   
+  /* card-info */
+  .list-group-item.list-group-item-action .bg-list-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px; 
+    height: 100%;
+    background-color: $gray-200;
+}
+
+.list-group-item.list-group-item-action.card-price-active .bg-list-item {
+    background-color: $primary;
+}
