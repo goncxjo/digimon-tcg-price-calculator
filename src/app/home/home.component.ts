@@ -1,11 +1,12 @@
 import {Location} from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { take } from 'rxjs';
 import * as _ from 'lodash';
 import { Card, Dolar } from '../backend/models';
 import { CryptoService, DolarService, TcgPlayerService } from '../backend/services';
+import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ export class HomeComponent implements OnInit {
   cards: Card[] = [];
   selectedCard?: Card;
   dolar!: Dolar;
+  activeIds: any[] = [];
   precioTotal: number = 0;
 
   constructor(
@@ -75,6 +77,12 @@ export class HomeComponent implements OnInit {
         this.getById(card.tcg_player_id);
       }, 0);
     }
+  }
+
+  onPanelChange($event: any) {
+    console.log($event);
+    console.log(this.activeIds);
+    this.activeIds = [];
   }
   
   getById(tcg_player_id: any) {

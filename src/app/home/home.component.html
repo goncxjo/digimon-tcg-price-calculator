@@ -9,8 +9,8 @@
 		<app-card-info [data]="selectedCard" [dolar]="dolar"></app-card-info>
 	</div>
 
-	<div ngbAccordion #accordion="ngbAccordion" *ngFor="let item of cards">
-		<div ngbAccordionItem="item.tcg_player_id" #accElem="ngbAccordionItem" [destroyOnHide]="false">
+	<div ngbAccordion #accordion="ngbAccordion" [closeOthers]="true">
+		<div *ngFor="let item of cards; let index = index" ngbAccordionItem="{{item.tcg_player_id}}" id="{{item.tcg_player_id}}" [destroyOnHide]="false"  [collapsed]="false">
 			<div ngbAccordionHeader class="accordion-button custom-header py-1">
 				<div class="fw-bold w-100 d-flex flex-column justify-content-start flex-md-row justify-content-md-between align-items-md-center">
 					<p class="m-0 flex-fill w-auto text-truncate" ngbAccordionToggle (click)="calcularPrecioTotal()">{{ getCardMiniInfo(item) }}</p>
@@ -47,8 +47,8 @@
 		<div class="alert alert-light">
 			<h3>Precio total: <strong>ARS {{ precioTotal | currency}}</strong></h3>
 		</div>
-		<button type="button" class="btn btn btn-primary btn-sm no-radius ms-2" (click)="generateUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
+		<!-- <button type="button" class="btn btn btn-primary btn-sm no-radius ms-2" (click)="generateUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
 			Compartir URL <fa-icon icon="share-from-square"></fa-icon>
-		</button>
+		</button> -->
 	</div>	
 </div>	
