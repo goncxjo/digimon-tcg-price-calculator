@@ -71,11 +71,9 @@ export class TcgPlayerService {
                     return this.getCardPrice(tcg_player_id || 0).pipe(
                         mergeMap(price => {
                             card.tcg_player_price = price;
-                            console.log('here 1:', card);
                             return this.getPriceFromPhoenix(card).pipe(
                                 map((px: ProductPricePhoenix) => {
                                     card.phoenix_price = px;
-                                    console.log('here 2:', card);
                                     return card;
                                 })
                             );
@@ -95,9 +93,7 @@ export class TcgPlayerService {
         })
         return this.httpClient.get<any>(url, { headers: headers }).pipe(
             map((res: any) => {
-                console.log(res);
                 const suggestions = res.suggestions;
-                console.log(suggestions[0]);
                 const pxPrice = this.cleanPrice(suggestions[0]?.price);
                 const { url: pxUrl } = suggestions[0];
                 const phoenixPrice: ProductPricePhoenix = {
@@ -105,9 +101,6 @@ export class TcgPlayerService {
                     currency_value: pxPrice || 0,
                     url: pxUrl
                 };
-                console.log(pxPrice);
-                console.log(url);
-                console.log(phoenixPrice);
                 return phoenixPrice;
             })
         );
