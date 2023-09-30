@@ -1,4 +1,5 @@
 import { ProductPriceCardTrader } from "./card-trader";
+import { ProductPricePhoenix } from "./phoenix";
 import { ProductPriceTcgPlayer } from "./tcg-player";
 
 export interface Card {
@@ -18,8 +19,10 @@ export interface Card {
 	tcg_player_url: string;
 	tcg_player_price: ProductPriceTcgPlayer[];
 	card_trader_price: ProductPriceCardTrader[];
+	phoenix_price: ProductPricePhoenix;
 	price: CardPrice;
-	multiplier: number
+	multiplier: number;
+	fullNameAndRarity: string;
 }
 
 export interface CardPrice {

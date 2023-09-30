@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin, map, mergeAll, of } from 'rxjs';
+import { Observable, catchError, forkJoin, map, mergeAll, mergeMap, of } from 'rxjs';
 import { AppConfigService } from 'src/app/core';
-import { Card } from '../models';
+import { Card, ProductPricePhoenix } from '../models';
 import { ProductPriceTcgPlayer, SearchProductResultTcgPlayer, SearchTcgPlayer } from '../models/tcg-player';
 import * as _ from 'lodash';
 import * as uuid from 'uuid';
@@ -16,6 +16,7 @@ export class TcgPlayerService {
     private priceEndpoint: string;
     private imageEndpoint: string;
     private productUrl: string;
+    private phoenixUrl: string;
 
     constructor(
         private httpClient: HttpClient,
@@ -25,6 +26,7 @@ export class TcgPlayerService {
         this.priceEndpoint = this.appConfigService.config.TCG_PLAYER_API_PRICE_ENDPOINT;
         this.imageEndpoint = this.appConfigService.config.TCG_PLAYER_API_IMAGE_ENDPOINT;
         this.productUrl = this.appConfigService.config.TCG_PLAYER_PRODUCT_URL;
+        this.phoenixUrl = this.appConfigService.config.PHOENIX_URL;
     }
   
     getDigimonCards(value: string): Observable<Card[]> {
@@ -61,21 +63,66 @@ export class TcgPlayerService {
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
         })
-        return forkJoin([
-            this.httpClient.post<SearchTcgPlayer>(url, body, { params: params, headers: headers }),
-            this.getCardPrice(tcg_player_id || 0)
-        ]).pipe(
-            map(([response, price]) => {
+        return this.httpClient.post<SearchTcgPlayer>(url, body, { params: params, headers: headers }).pipe(
+            mergeMap(response => {
                 if (response.results[0].totalResults) {
                     let cards = this.getCardsFromResults(response);
                     let card = cards[0];
-                    card.tcg_player_price = price;
-                    return card;                        
+                    return this.getCardPrice(tcg_player_id || 0).pipe(
+                        mergeMap(price => {
+                            card.tcg_player_price = price;
+                            console.log('here 1:', card);
+                            return this.getPriceFromPhoenix(card).pipe(
+                                map((px: ProductPricePhoenix) => {
+                                    card.phoenix_price = px;
+                                    console.log('here 2:', card);
+                                    return card;
+                                })
+                            );
+                        })
+                    );
                 }
-                return {} as Card;
+                return of({} as Card);
             }),
         );
     }
+
+    // TODO: mover a otro service
+    getPriceFromPhoenix(card: Card): Observable<ProductPricePhoenix> {
+        const url = `${this.phoenixUrl}/?wc-ajax=dgwt_wcas_ajax_search&s=${card.collector_number}`;
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+        })
+        return this.httpClient.get<any>(url, { headers: headers }).pipe(
+            map((res: any) => {
+                console.log(res);
+                const suggestions = res.suggestions;
+                console.log(suggestions[0]);
+                const pxPrice = this.cleanPrice(suggestions[0]?.price);
+                const { url: pxUrl } = suggestions[0];
+                const phoenixPrice: ProductPricePhoenix = {
+                    currency_symbol: "ARS",
+                    currency_value: pxPrice || 0,
+                    url: pxUrl
+                };
+                console.log(pxPrice);
+                console.log(url);
+                console.log(phoenixPrice);
+                return phoenixPrice;
+            })
+        );
+    }
+
+    // TODO: mover a otro service
+    cleanPrice(s: string) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(s, 'text/html');
+        const priceElement = doc.querySelector('.woocommerce-Price-amount');
+        const priceText = priceElement ? priceElement?.textContent?.trim() : '';
+        const cleanedPriceText = (priceText || '0.0').replace(/[\$\s]/g, '');
+        const cleanedPriceText_ = cleanedPriceText.replace(/[\,]/g, '.');
+        return parseFloat(cleanedPriceText_);
+    }      
 
     getCardsFromResults(response: SearchTcgPlayer): Card[] {
         const results: SearchProductResultTcgPlayer[] = response.results[0].results;
@@ -89,6 +136,7 @@ export class TcgPlayerService {
                 id: uuid.v4(),
                 name: res.productName,
                 fullName: `${res.productName} (${collector_number})`,
+                fullNameAndRarity: `${res.productName} - ${res.setName} - ${res.customAttributes.number}`,
                 expansion_id: res.setId,
                 image_small_url: this.imageEndpoint.replace('{quality}', '1').replace('{id}', cardId),
                 image_url: this.imageEndpoint.replace('{quality}', '100').replace('{id}', cardId),
