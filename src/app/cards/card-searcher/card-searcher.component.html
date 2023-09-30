@@ -17,10 +17,8 @@
 				[resultFormatter]="formatter"
 				[editable]="false"
 				placeholder="Buscar una carta..."
+				(selectItem)="agregarCarta()"
 			/>
-			<button class="btn btn-primary" type="button" id="button-agregar" (click)="agregarCarta()">
-				<fa-icon icon="plus"></fa-icon>
-			</button>
 		</div>
 	</div>	
 </div>

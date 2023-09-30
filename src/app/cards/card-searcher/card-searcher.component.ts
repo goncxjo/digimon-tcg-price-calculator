@@ -44,7 +44,9 @@ export class CardSearcherComponent implements OnInit {
   }  
 
   agregarCarta() {
-    this.card.emit(this.model);
-    delete this.model;
+    setTimeout(() => {
+      this.card.emit(this.model);
+      delete this.model;
+    }, 0);
   }
 }
