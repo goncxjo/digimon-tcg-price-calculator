@@ -29,7 +29,7 @@
 									<small for="price">TCG Player Normal (median):</small>
 									<div class="input-group">
 										<span class="input-group-text">USD</span>
-										<input type="text" class="form-control" id="customPrice" [value]="getTcgPlayerPrice('Normal')" disabled>
+										<input type="text" class="form-control" id="tcg_player_normal" [value]="getTcgPlayerPrice('Normal')" disabled>
 									</div>
 								</li>
 								<li *ngIf="getTcgPlayerPrice('Foil') != 0" class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start" [class.card-price-active]="priceSelected === 'tcg_player_foil'" (click)="onPriceSelected('tcg_player_foil')">
@@ -37,7 +37,15 @@
 									<small for="price">TCG Player Foil (median):</small>
 									<div class="input-group">
 										<span class="input-group-text">USD</span>
-										<input type="text" class="form-control" id="customPrice" [value]="getTcgPlayerPrice('Foil')" disabled>
+										<input type="text" class="form-control" id="tcg_player_foil" [value]="getTcgPlayerPrice('Foil')" disabled>
+									</div>
+								</li>
+								<li class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start" [class.card-price-active]="priceSelected === 'phoenix'"  (click)="onPriceSelected('phoenix')">
+									<div class="bg-list-item"></div>
+									<small for="customPrice">Phoenix: </small>
+									<div class="input-group">
+										<span class="input-group-text">ARS</span>
+										<input type="number" class="form-control" id="phoenix" [value]="getPhoenixPrice()" disabled>
 									</div>
 								</li>
 								<li class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start" [class.card-price-active]="priceSelected === 'custom'"  (click)="onPriceSelected('custom')">

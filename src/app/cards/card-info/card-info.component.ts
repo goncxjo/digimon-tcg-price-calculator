@@ -10,6 +10,7 @@ export class CardInfoComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() data!: Card;
   @Input() dolar!: Dolar;
   priceSelected: string = "tcg_player_normal";
+  @Output() priceChanged = new EventEmitter<boolean>();
     
   ngOnInit(): void { }
 
@@ -33,15 +34,23 @@ export class CardInfoComponent implements OnInit, OnDestroy, AfterViewInit {
         const price = this.getTcgPlayerPrice(printingType);
         precio = price * this.dolar.venta;
         break;
+      case 'phoenix':
+          precio = this.data.phoenix_price.currency_value;
+        break;
       default:
           precio = this.data.price.currency_value;
-        break;
+          break;
     }
+    // this.priceChanged.emit(true);
     return precio;
   }
 
   getTcgPlayerPrice(printingType: string) {
     return this.data.tcg_player_price.find(p => p.printingType === printingType)?.listedMedianPrice || 0;
+  }
+
+  getPhoenixPrice() {
+    return this.data.phoenix_price.currency_value;
   }
 
   cartaTienePrecio() {
