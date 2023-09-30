@@ -1,9 +1,9 @@
-<div class="row">
-	<div class="alert alert-info" *ngIf="dolar">
+<div class="row" *ngIf="dolar">
+	<div class="alert alert-info">
 		<fa-icon icon="money-bill-trend-up"></fa-icon> Dolar hoy: ARS {{ dolar.venta | currency}}
 	</div>
 
-	<app-card-searcher *ngIf="!id && dolar" (card)="onCardAdded($event)"></app-card-searcher>
+	<app-card-searcher *ngIf="!id" (card)="onCardAdded($event)"></app-card-searcher>
 
 	<div class="row" *ngIf="selectedCard && dolar">
 		<app-card-info [data]="selectedCard" [dolar]="dolar"></app-card-info>
@@ -16,23 +16,23 @@
 					<p class="m-0 col-6 w-auto text-truncate">{{ getCardMiniInfo(item) }}</p>
 					<p class="m-0 col text-start text-md-end">
 						Precio: {{ item.price.currency_value | currency }}
-						<span class="badge rounded-pill bg-danger ms-2">
-							x{{ item.multiplier }}
-						</span>
 					</p>
 					<div class="col text-end">
-						<button ngbAccordionToggle class="btn btn-sm btn-primary no-radius" (click)="calcularPrecioTotal()">
-							<fa-icon icon="eye" *ngIf="accElem.collapsed"></fa-icon>
-							<fa-icon icon="eye-slash" *ngIf="!accElem.collapsed"></fa-icon>
+						<button type="button" class="btn btn-sm no-radius" (click)="changeMultiplier(item, -1)">
+							<fa-icon icon="minus"></fa-icon>
 						</button>
-						<button type="button" class="btn btn-sm btn-danger no-radius" (click)="removeCard(item)">
+						<span class="badge rounded-pill bg-danger">
+							x{{ item.multiplier }}
+						</span>
+						<button type="button" class="btn btn-sm no-radius" (click)="changeMultiplier(item, 1)">
+							<fa-icon icon="plus"></fa-icon>
+						</button>
+						<button type="button" class="btn btn-sm no-radius ms-2" (click)="removeCard(item)">
 							<fa-icon icon="trash"></fa-icon>
 						</button>
-						<button type="button" class="btn btn-sm btn-success ms-2 no-radius" (click)="changeMultiplier(item, -1)">
-							<fa-icon icon="caret-down"></fa-icon>
-						</button>
-						<button type="button" class="btn btn-sm btn-success no-radius" (click)="changeMultiplier(item, 1)">
-							<fa-icon icon="caret-up"></fa-icon>
+						<button ngbAccordionToggle class="btn btn-sm no-radius" (click)="calcularPrecioTotal()">
+							<fa-icon icon="eye" *ngIf="accElem.collapsed"></fa-icon>
+							<fa-icon icon="eye-slash" *ngIf="!accElem.collapsed"></fa-icon>
 						</button>
 					</div>
 				</div>
@@ -47,7 +47,10 @@
 		</div>
 	</div>
 
-	<div class="alert alert-light mt-3" *ngIf="precioTotal !== 0">
+	<div class="alert alert-light mt-3 d-flex flex-row justify-content-between" *ngIf="precioTotal !== 0">
 		<h3>Precio total: ARS {{ precioTotal | currency}}</h3>
+		<button type="button" class="btn btn btn-primary no-radius ms-2" (click)="generateUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
+			Compartir URL <fa-icon icon="share-from-square"></fa-icon>
+		</button>
 	</div>
 </div>	

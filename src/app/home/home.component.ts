@@ -1,10 +1,11 @@
+import {Location} from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { map, take } from 'rxjs';
-import { DolarService } from '../backend/services/dolar.service';
-import { Card, Dolar } from '../backend/models';
-import { TcgPlayerService } from '../backend/services/tcg-player.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { take } from 'rxjs';
 import * as _ from 'lodash';
+import { Card, Dolar } from '../backend/models';
+import { CryptoService, DolarService, TcgPlayerService } from '../backend/services';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ import * as _ from 'lodash';
 })
 export class HomeComponent implements OnInit {
   id: string = '0';
+  importData: string = '';
   cards: Card[] = [];
   selectedCard?: Card;
   dolar!: Dolar;
@@ -23,12 +25,17 @@ export class HomeComponent implements OnInit {
     private route: ActivatedRoute,
     private tcgPlayerService: TcgPlayerService,
     private dolarService: DolarService,
+    private cryptoService: CryptoService,
+    private clipboard: Clipboard,
   ) {
-    route.params.pipe(
+    this.route.params.pipe(
       take(1),
-      map(p => p['id'])
-    ).subscribe(id => {
-      this.id = id;
+    ).subscribe((params) => {
+      this.id = params['id'];
+    });
+    
+    this.route.queryParamMap.subscribe((params) => {
+      this.importData = params.get('importData') || '';
     });
   }
 
@@ -50,6 +57,10 @@ export class HomeComponent implements OnInit {
           this.router.navigate(['/'])
         }
       });
+    } else if (this.importData) {
+      let res = this.cryptoService.decryptJsonUriFriendly(this.importData);
+      this.cards = res;
+      this.calcularPrecioTotal();
     }
 
   }
@@ -92,7 +103,7 @@ export class HomeComponent implements OnInit {
         return c.price.currency_value * c.multiplier;
       });
       
-    }, 10);
+    }, 10);    
   }
 
   changeMultiplier(card: Card, i: number) {
@@ -100,5 +111,11 @@ export class HomeComponent implements OnInit {
       card.multiplier += i;
     }
     this.calcularPrecioTotal();
+  }
+
+  generateUrl() {
+    var data = this.cryptoService.encryptJsonUriFriendly(this.cards);
+    const baseUrl = window.document.baseURI;
+    this.clipboard.copy(`${baseUrl}?importData=${data}`);
   }
 }
