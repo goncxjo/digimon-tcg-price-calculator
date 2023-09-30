@@ -10,6 +10,7 @@ export interface AppConfig {
 	TCG_PLAYER_API_IMAGE_ENDPOINT: string;
 	TCG_PLAYER_PRODUCT_URL: string;
 	DOLAR_API_BASE_URL: string;
+	CRYPTO_SECRET_KEY: string;
 	appVersion: string;
 	production: boolean;
 }

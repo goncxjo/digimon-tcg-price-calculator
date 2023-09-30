@@ -12,7 +12,9 @@ function EnvironmentNameFactory(config: AppConfigService) {
 function AppVersionFactory(config: AppConfigService) {
   return config.get().appVersion;
 }
-
+function CryptoSecretKeyFactory(config: AppConfigService) {
+  return config.get().CRYPTO_SECRET_KEY;
+}
 
 @NgModule({
   declarations: [],
@@ -34,6 +36,10 @@ function AppVersionFactory(config: AppConfigService) {
     },
     { provide: "APP_VERSION",
       useFactory: AppVersionFactory,
+      deps: [AppConfigService],
+    },
+    { provide: "CRYPTO_SECRET_KEY",
+      useFactory: CryptoSecretKeyFactory,
       deps: [AppConfigService],
     }
   ]
