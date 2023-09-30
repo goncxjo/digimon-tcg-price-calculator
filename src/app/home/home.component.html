@@ -12,12 +12,12 @@
 	<div ngbAccordion #accordion="ngbAccordion" *ngFor="let item of cards">
 		<div ngbAccordionItem="item.tcg_player_id" #accElem="ngbAccordionItem" [destroyOnHide]="false">
 			<div ngbAccordionHeader class="accordion-button custom-header py-1">
-				<div class="w-100 d-flex flex-column justify-content-start flex-md-row justify-content-md-between align-items-md-center">
-					<p class="m-0 col-6 w-auto text-truncate">{{ getCardMiniInfo(item) }}</p>
-					<p class="m-0 col text-start text-md-end">
-						Precio: {{ item.price.currency_value | currency }}
+				<div class="fw-bold w-100 d-flex flex-column justify-content-start flex-md-row justify-content-md-between align-items-md-center">
+					<p class="m-0 flex-fill w-auto text-truncate" ngbAccordionToggle (click)="calcularPrecioTotal()">{{ getCardMiniInfo(item) }}</p>
+					<p class="m-0 text-start text-md-end me-3">
+						ARS {{ item.price.currency_value | currency }}
 					</p>
-					<div class="col text-end">
+					<div class="text-end">
 						<button type="button" class="btn btn-sm no-radius" (click)="changeMultiplier(item, -1)">
 							<fa-icon icon="minus"></fa-icon>
 						</button>
@@ -27,12 +27,8 @@
 						<button type="button" class="btn btn-sm no-radius" (click)="changeMultiplier(item, 1)">
 							<fa-icon icon="plus"></fa-icon>
 						</button>
-						<button type="button" class="btn btn-sm no-radius ms-2" (click)="removeCard(item)">
+						<button type="button" class="btn btn-sm no-radius ms-3" (click)="removeCard(item)">
 							<fa-icon icon="trash"></fa-icon>
-						</button>
-						<button ngbAccordionToggle class="btn btn-sm no-radius" (click)="calcularPrecioTotal()">
-							<fa-icon icon="eye" *ngIf="accElem.collapsed"></fa-icon>
-							<fa-icon icon="eye-slash" *ngIf="!accElem.collapsed"></fa-icon>
 						</button>
 					</div>
 				</div>
@@ -47,10 +43,12 @@
 		</div>
 	</div>
 
-	<div class="alert alert-light mt-3 d-flex flex-row justify-content-between" *ngIf="precioTotal !== 0">
-		<h3>Precio total: ARS {{ precioTotal | currency}}</h3>
-		<button type="button" class="btn btn btn-primary no-radius ms-2" (click)="generateUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
+	<div class="mt-3 text-end" *ngIf="precioTotal !== 0">
+		<div class="alert alert-light">
+			<h3>Precio total: <strong>ARS {{ precioTotal | currency}}</strong></h3>
+		</div>
+		<button type="button" class="btn btn btn-primary btn-sm no-radius ms-2" (click)="generateUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
 			Compartir URL <fa-icon icon="share-from-square"></fa-icon>
 		</button>
-	</div>
+	</div>	
 </div>	

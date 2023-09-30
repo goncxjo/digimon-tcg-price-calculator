@@ -2,8 +2,9 @@
   <div class="navbar-container container">
     <a class="navbar-brand" href="#">
       <img id="brand-logo" src="assets/logo.png" alt="digimon">
-      <span id="app-title">
-        Calculadora de precios
+      <span id="app-title" class="d-flex flex-column text-start">
+        <span style="margin-bottom: -7px;">Digimon Card Game</span>
+        <span>Price Calculator</span>
       </span>
     </a>
 
@@ -18,9 +19,6 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" aria-current="page"  [routerLink]="['/como-funciona']">Cómo funciona</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href='https://cafecito.app/goncxjo' rel='noopener' target='_blank'>Quiero aportar</a>
         </li>
         <li class="nav-item">
           <a class="nav-link disabled" href="#">{{ getVersionText() }}</a>
