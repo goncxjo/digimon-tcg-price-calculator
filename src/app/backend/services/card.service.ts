@@ -40,12 +40,15 @@ export class CardService {
 
 
   public mapTcgPlayerToCard(res: any, imageEndpoint: string, productUrl: string) {
+    let card: Card = {} as Card;
+
+    try {
       let cardId = `${res.productId}`.replace('.0', '');
       const number_split = res.customAttributes.number.split(" ");
       const collector_number = number_split[0];
       const rarity_code = number_split[1];
       
-      const card = {
+      card = {
           id: uuid.v4(),
           name: res.productName,
           fullName: `${res.productName} (${collector_number})`,
@@ -69,8 +72,11 @@ export class CardService {
               currency_value: 0.0
           },
           multiplier: 1
-      } as Card;
+      } as Card;  
+    } catch (error) {
+      console.log('hubo un error al obtener info de carta')
+    }
 
-      return card;
+    return card;
   }
 }

@@ -12,7 +12,7 @@ import { NavbarComponent } from './layout/navbar/navbar.component';
 })
 export class AppComponent implements OnInit {
   title: string = 'Cargando...';
-  @ViewChild('httpLoader') httpLoader!: ElementRef;
+  // @ViewChild('httpLoader') httpLoader!: ElementRef;
   @ViewChild('navbar') navbar!: NavbarComponent;
 
   constructor(
@@ -23,13 +23,13 @@ export class AppComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    const httpLoader = this.httpLoader.nativeElement;
+    // const httpLoader = this.httpLoader.nativeElement;
     this.loaderService.httpProgress().subscribe((status: boolean) => {
       if (status) {
-        this.renderer.removeClass(httpLoader, 'd-none');
+        // this.renderer.removeClass(httpLoader, 'd-none');
         this.navbar.isLoading = true;
       } else {
-        this.renderer.addClass(httpLoader, 'd-none');
+        // this.renderer.addClass(httpLoader, 'd-none');
         this.navbar.isLoading = false;
       }
     });

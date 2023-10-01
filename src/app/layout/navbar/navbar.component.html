@@ -14,7 +14,7 @@
       <span id="app-title" class="d-flex flex-column text-start">
         <span>Cargando...</span>
       </span>
-    </a>
+    </a>    
 
     <!-- <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
       <span class="navbar-toggler-icon"></span>
@@ -38,3 +38,5 @@
   </div>
 
 </nav>
+
+<div  class="d-flex flex-column loading-screen" [class.d-none]="!isLoading"></div>
