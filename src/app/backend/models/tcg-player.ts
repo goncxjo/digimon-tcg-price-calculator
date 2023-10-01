@@ -41,9 +41,48 @@ export interface SearchProductResultTcgPlayer {
 	lowestPrice: number;
 }
 
+export interface ProductDetailsTcgPlayer {
+    customListings: number;
+    shippingCategoryId: number;
+    duplicate: boolean;
+    productLineUrlName: string;
+    productTypeName: string;
+    productUrlName: string;
+    productTypeId: number;
+    rarityName: string;
+    sealed: boolean;
+    marketPrice: number;
+    customAttributes: any;
+    lowestPriceWithShipping: number;
+    productName: string;
+    setId: number;
+    setCode: string;
+    productId: number;
+    imageCount: number;
+    score: number;
+    setName: string;
+    sellers: number;
+    foilOnly: boolean;
+    setUrlName: string;
+    sellerListable: boolean;
+    productLineId: number;
+    productStatusId: number;
+    productLineName: string;
+    maxFulfillableQuantity: number;
+    normalOnly: boolean;
+    listings: number;
+    lowestPrice: number;
+    formattedAttributes: any;
+}
+
 export interface ProductPriceTcgPlayer {
 	printingType: string;
 	marketPrice: number;
 	buylistMarketPrice: number;
 	listedMedianPrice: number;
+}
+
+export interface CardPriceTcgPlayer {
+	normal: ProductPriceTcgPlayer,
+	foil: ProductPriceTcgPlayer
 }

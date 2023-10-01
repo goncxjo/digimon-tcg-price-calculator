@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin, map, mergeAll, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { AppConfigService } from 'src/app/core';
 import { Card } from '../models';
-import { ProductPriceTcgPlayer, SearchProductResultTcgPlayer, SearchTcgPlayer } from '../models/tcg-player';
+import { CardPriceTcgPlayer, ProductPriceTcgPlayer, SearchTcgPlayer } from '../models/tcg-player';
 import * as _ from 'lodash';
-import * as uuid from 'uuid';
 import { createTcgPlayerQuery } from './tcg-player-search-query';
+import { CardService } from './card.service';
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +20,7 @@ export class TcgPlayerService {
     constructor(
         private httpClient: HttpClient,
         private appConfigService: AppConfigService,
+        private cardService: CardService,
     ) {
         this.searchEndpoint = this.appConfigService.config.TCG_PLAYER_API_SEARCH_ENDPOINT;
         this.priceEndpoint = this.appConfigService.config.TCG_PLAYER_API_PRICE_ENDPOINT;
@@ -27,7 +28,7 @@ export class TcgPlayerService {
         this.productUrl = this.appConfigService.config.TCG_PLAYER_PRODUCT_URL;
     }
   
-    getDigimonCards(value: string): Observable<Card[]> {
+    public getDigimonCards(value: string): Observable<Card[]> {
         if (value == '') {
             return of<Card[]>([]);
         }
@@ -40,81 +41,32 @@ export class TcgPlayerService {
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
         })
-        return this.httpClient.post<SearchTcgPlayer>(url, JSON.stringify(createTcgPlayerQuery()), { params: params, headers: headers }).pipe(
-            map((response: SearchTcgPlayer) => {
-                return this.getCardsFromResults(response);
+        const response$ = this.httpClient.post<SearchTcgPlayer>(url, JSON.stringify(createTcgPlayerQuery()), { params: params, headers: headers });
+        return this.cardService.getListTcgPlayerCards(response$, this.imageEndpoint, this.productUrl);
+    }
+
+    public getDigimonCardById(tcg_player_id: number): Observable<Card> {
+        const url = `${this.searchEndpoint}/product/${tcg_player_id}/details`;
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+        });
+        const response$ = this.httpClient.get<SearchTcgPlayer>(url, { headers: headers });
+        return this.cardService.getTcgPlayerCard(response$, this.imageEndpoint, this.productUrl);
+    }
+
+    public getCardPrice(tcg_player_id: number): Observable<CardPriceTcgPlayer> {
+        const url = `${this.priceEndpoint}/product/${tcg_player_id}/pricepoints?mpfev=1821`;
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+        });
+        return this.httpClient.get<ProductPriceTcgPlayer[]>(url, { headers: headers }).pipe(
+            map((res: ProductPriceTcgPlayer[]) => {
+                return {
+                    normal: res[0],
+                    foil: res[1]
+                } as CardPriceTcgPlayer;
             })
         );
     }
 
-    getDigimonCardById(tcg_player_id: number | null): Observable<Card> {
-        if (!tcg_player_id) {
-            return of<Card>();
-        }
-
-        const url = `${this.searchEndpoint}/search/request`;
-        const params = {
-            isList: true
-        };
-
-        const body = JSON.stringify(createTcgPlayerQuery(tcg_player_id))
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-        })
-        return forkJoin([
-            this.httpClient.post<SearchTcgPlayer>(url, body, { params: params, headers: headers }),
-            this.getCardPrice(tcg_player_id || 0)
-        ]).pipe(
-            map(([response, price]) => {
-                if (response.results[0].totalResults) {
-                    let cards = this.getCardsFromResults(response);
-                    let card = cards[0];
-                    card.tcg_player_price = price;
-                    return card;                        
-                }
-                return {} as Card;
-            }),
-        );
-    }
-
-    getCardsFromResults(response: SearchTcgPlayer): Card[] {
-        const results: SearchProductResultTcgPlayer[] = response.results[0].results;
-        let cards: Card[] = [];
-        results.forEach(res => {
-            let cardId = `${res.productId}`.replace('.0', '');
-            const number_split = res.customAttributes.number.split(" ");
-            const collector_number = number_split[0];
-            const rarity_code = number_split[1];
-            cards.push({
-                id: uuid.v4(),
-                name: res.productName,
-                fullName: `${res.productName} (${collector_number})`,
-                expansion_id: res.setId,
-                image_small_url: this.imageEndpoint.replace('{quality}', '1').replace('{id}', cardId),
-                image_url: this.imageEndpoint.replace('{quality}', '100').replace('{id}', cardId),
-                card_trader_id: null,
-                card_market_id: null,
-                tcg_player_id: parseInt(cardId),
-                rarity_code: rarity_code,
-                rarity_name: res.rarityName,
-                tcg_player_url: `${this.productUrl}`.replace('{id}', cardId),
-                collector_number: collector_number,
-                expansion_name: res.setName,
-                price: {
-                    currency_symbol: "ARS",
-                    currency_value: 100.0
-                },
-                multiplier: 1
-            } as Card);
-        });
-        return cards;
-    }
-
-    getCardPrice(tcg_player_id: number): Observable<ProductPriceTcgPlayer[]> {
-        const url = `${this.priceEndpoint}/product/${tcg_player_id}/pricepoints?mpfev=1821`;
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-        })
-        return this.httpClient.get<ProductPriceTcgPlayer[]>(url, { headers: headers });
-    }
 }

@@ -1,5 +1,5 @@
 import { ProductPriceCardTrader } from "./card-trader";
-import { ProductPriceTcgPlayer } from "./tcg-player";
+import { CardPriceTcgPlayer } from "./tcg-player";
 
 export interface Card {
 	id: string;		
@@ -16,8 +16,9 @@ export interface Card {
 	collector_number: string;
 	expansion_name: string;
 	tcg_player_url: string;
-	tcg_player_price: ProductPriceTcgPlayer[];
+	tcg_player_price: CardPriceTcgPlayer;
 	card_trader_price: ProductPriceCardTrader[];
+	custom_price: CardPrice;
 	price: CardPrice;
 	multiplier: number
 }
