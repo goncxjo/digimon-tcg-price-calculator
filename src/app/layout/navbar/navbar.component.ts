@@ -7,7 +7,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
   public isMenuCollapsed = true;
-  appVersion: string = '';
+  public appVersion: string = '';
+  public isLoading: boolean = false;
   
   constructor(
     @Inject('APP_VERSION') appVersion: string

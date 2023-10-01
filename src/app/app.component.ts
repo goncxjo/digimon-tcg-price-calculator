@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { LoaderService } from './backend/services/loader.service';
+import { NavbarComponent } from './layout/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { LoaderService } from './backend/services/loader.service';
 export class AppComponent implements OnInit {
   title: string = 'Cargando...';
   @ViewChild('httpLoader') httpLoader!: ElementRef;
+  @ViewChild('navbar') navbar!: NavbarComponent;
 
   constructor(
     private titleService: Title,
@@ -22,14 +24,13 @@ export class AppComponent implements OnInit {
 
   ngAfterViewInit() {
     const httpLoader = this.httpLoader.nativeElement;
-
     this.loaderService.httpProgress().subscribe((status: boolean) => {
       if (status) {
         this.renderer.removeClass(httpLoader, 'd-none');
-        this.renderer.addClass(document.body, 'cursor-loader');
+        this.navbar.isLoading = true;
       } else {
         this.renderer.addClass(httpLoader, 'd-none');
-        this.renderer.removeClass(document.body, 'cursor-loader');
+        this.navbar.isLoading = false;
       }
     });
   }

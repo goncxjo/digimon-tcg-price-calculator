@@ -1,12 +1,9 @@
-<app-navbar></app-navbar>
+<app-navbar #navbar></app-navbar>
+
+<div #httpLoader class="loading-screen d-none"></div>
 
 <div class="container">
   <router-outlet></router-outlet>
 </div>
 
 <app-footer></app-footer>
-
-<div #httpLoader class="d-flex flex-column loading-screen d-none">
-  <p class="loading-text">Cargando...</p>
-  <div class="loading-spinner"></div>
-</div>

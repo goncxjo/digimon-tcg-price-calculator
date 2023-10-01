@@ -1,10 +1,18 @@
 <nav class="navbar sticky-top navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" [routerLink]="['/']">
+    <a id="non-loading-state" class="navbar-brand" [routerLink]="['/']" [class.d-none]="isLoading">
       <img id="brand-logo" src="assets/logo.png" alt="digimon">
+      <span class="separator me-1"></span>
       <span id="app-title" class="d-flex flex-column text-start">
         <span style="margin-bottom: -7px;">Digimon Card Game</span>
         <span>Price Calculator</span>
+      </span>
+    </a>
+    
+    <a id="loading-state" class="navbar-brand" [routerLink]="['/']" [class.d-none]="!isLoading">
+      <fa-icon id="loading-logo" icon="gear" animation="spin"></fa-icon>
+      <span id="app-title" class="d-flex flex-column text-start">
+        <span>Cargando...</span>
       </span>
     </a>
 
