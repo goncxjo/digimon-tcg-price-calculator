@@ -44,7 +44,7 @@ export class CardService {
 
     try {
       let cardId = `${res.productId}`.replace('.0', '');
-      const number_split = res.customAttributes.number.split(" ");
+      const number_split = (res.customAttributes.number || '- -').split(" ");
       const collector_number = number_split[0];
       const rarity_code = number_split[1];
       
