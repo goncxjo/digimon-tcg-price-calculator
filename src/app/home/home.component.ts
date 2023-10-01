@@ -6,7 +6,6 @@ import { take } from 'rxjs';
 import * as _ from 'lodash';
 import { Card, Dolar } from '../backend/models';
 import { CryptoService, DolarService, TcgPlayerService } from '../backend/services';
-import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -62,7 +61,6 @@ export class HomeComponent implements OnInit {
     } else if (this.importData) {
       let res = this.cryptoService.decryptJsonUriFriendly(this.importData);
       this.cards = res;
-      this.calcularPrecioTotal();
     }
 
   }
@@ -77,12 +75,6 @@ export class HomeComponent implements OnInit {
         this.getById(card.tcg_player_id);
       }, 0);
     }
-  }
-
-  onPanelChange($event: any) {
-    console.log($event);
-    console.log(this.activeIds);
-    this.activeIds = [];
   }
   
   getById(tcg_player_id: any) {
@@ -125,5 +117,9 @@ export class HomeComponent implements OnInit {
     var data = this.cryptoService.encryptJsonUriFriendly(this.cards);
     const baseUrl = window.document.baseURI;
     this.clipboard.copy(`${baseUrl}?importData=${data}`);
+  }
+
+  onPriceChanged($event: any) {
+    this.calcularPrecioTotal();
   }
 }

@@ -8,6 +8,7 @@
 				</div>
 			</div>
 		</div>
+
 		<div class="col-sm-12 col-md">
 			<div class="card">
 				<div class="card-body">
@@ -24,7 +25,7 @@
 							
 							<small class="fw-bold">Seleccionar un precio:</small>
 							<div class="list-group">
-								<li *ngIf="getTcgPlayerPrice('Normal') != 0" class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start" [class.card-price-active]="priceSelected === 'tcg_player_normal'" (click)="onPriceSelected('tcg_player_normal')">
+								<li *ngIf="data.tcg_player_price && getTcgPlayerPrice('Normal') != 0" class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start" [class.card-price-active]="priceSelected === 'tcg_player_normal'" (click)="onPriceSelected('tcg_player_normal')">
 									<div class="bg-list-item"></div>
 									<small for="price">TCG Player Normal (median):</small>
 									<div class="input-group">
@@ -32,7 +33,7 @@
 										<input type="text" class="form-control" id="customPrice" [value]="getTcgPlayerPrice('Normal')" disabled>
 									</div>
 								</li>
-								<li *ngIf="getTcgPlayerPrice('Foil') != 0" class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start" [class.card-price-active]="priceSelected === 'tcg_player_foil'" (click)="onPriceSelected('tcg_player_foil')">
+								<li *ngIf="data.tcg_player_price && getTcgPlayerPrice('Foil') != 0" class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start" [class.card-price-active]="priceSelected === 'tcg_player_foil'" (click)="onPriceSelected('tcg_player_foil')">
 									<div class="bg-list-item"></div>
 									<small for="price">TCG Player Foil (median):</small>
 									<div class="input-group">
@@ -42,10 +43,10 @@
 								</li>
 								<li class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start" [class.card-price-active]="priceSelected === 'custom'"  (click)="onPriceSelected('custom')">
 									<div class="bg-list-item"></div>
-									<small for="customPrice">Precio personalizado: </small>
+									<small for="custom">Precio personalizado: </small>
 									<div class="input-group">
 										<span class="input-group-text">ARS</span>
-										<input type="number" class="form-control" id="customPrice" [(ngModel)]="data.price.currency_value">
+										<input type="number" [min]="0" class="form-control" id="custom" [(ngModel)]="data.custom_price.currency_value" (keyup)="onCustomPriceChange($event)">
 									</div>
 								</li>
 							  </div>
@@ -67,4 +68,5 @@
 				</div>
 			</div>
 		</div>
-</div>
+
+	</div>
