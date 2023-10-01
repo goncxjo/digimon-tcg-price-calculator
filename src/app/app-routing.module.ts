@@ -12,13 +12,6 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'cartas/:id',
-    data: {
-      title: 'Ver carta',
-    },
-    component: HomeComponent,
-  },
-  {
     path: 'como-funciona',
     data: {
       title: 'Cómo funciona',
