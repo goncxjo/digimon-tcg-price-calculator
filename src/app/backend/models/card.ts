@@ -29,9 +29,10 @@ export class Card {
 		const number_split = (res.customAttributes.number || '- -').split(" ");
 		const collector_number = number_split[0];
 		const rarity_code = number_split[1];
+		const fullName = res.productName.replace(collector_number, '').replace(' - ', '').replace('[-]', '')
 
 		this.name = res.productName;
-		this.fullName = `${res.productName} (${collector_number})`;
+		this.fullName = `[${collector_number}] ${fullName}`;
 		this.expansion_id = res.setId;
 		this.tcg_player_id = parseInt(cardId);
 		this.rarity_code = rarity_code;
