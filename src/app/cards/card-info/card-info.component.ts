@@ -26,21 +26,21 @@ export class CardInfoComponent implements OnInit, OnDestroy {
     if (this.data.tcg_player_id) {
       const tcgPlayerPrice$ = this.tcgPlayerService.getCardPrice(this.data.tcg_player_id);
       const tcg_player_prices = await firstValueFrom(tcgPlayerPrice$);
+
       if (tcg_player_prices.tcg_player_foil) {
-        this.priceSelected = 'tcg_player_foil'
+        this.priceSelected = 'tcg_player_foil';
         this.data.prices.set('tcg_player_foil', tcg_player_prices.tcg_player_foil);
       }
       if (tcg_player_prices.tcg_player_normal) {
-        this.priceSelected = 'tcg_player_normal'
+        this.priceSelected = 'tcg_player_normal';
         this.data.prices.set('tcg_player_normal', tcg_player_prices.tcg_player_normal);
-      }
-      
-      this.setPrecioCarta();
+      }      
     }
   }
 
-  ngAfterViewInit() {
-    this.loadTcgPlayerPrices();
+  async ngAfterViewInit() {
+    await this.loadTcgPlayerPrices();
+    this.setPrecioCarta();
   }
 
   getPrecioCarta() {
@@ -54,14 +54,6 @@ export class CardInfoComponent implements OnInit, OnDestroy {
   setPrecioCarta() {
     this.data.price.currency_value = this.getPrecioCarta();
     this.priceChangeEvent.emit(true);
-  }
-
-  cartaTienePrecio() {
-    return this.getPrecioCarta() !== 0;
-  }
-
-  getPrecioCartaFixed() {
-    return this.getPrecioCarta().toFixed(2);
   }
 
   onPriceSelected(priceSelected: string) {
