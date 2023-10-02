@@ -9,7 +9,7 @@
 
 <div class="row" *ngIf="dolar">
 	<app-card-searcher *ngIf="!id" (card)="onCardAdded($event)"></app-card-searcher>
-
+	<h6 *ngIf="cards.length > 0">Listado de cartas ({{cards.length}})</h6>
 	<div ngbAccordion #accordion="ngbAccordion" [closeOthers]="true">
 		<div *ngFor="let item of cards; let index = index" ngbAccordionItem="{{item.tcg_player_id}}" id="{{item.tcg_player_id}}" [destroyOnHide]="false"  [collapsed]="false">
 			<div ngbAccordionHeader class="accordion-button custom-header py-1">
@@ -41,6 +41,17 @@
 				</ng-template>
 				</div>
 			</div>
+		</div>
+	</div>
+
+	<div @myInsertRemoveTrigger class="mt-5 info-ayuda" *ngIf="mostrarAyuda && cards.length === 0">
+		<div class="alert alert-info d-flex flex-row align-items-center">
+			<span>
+				<fa-icon icon="circle-info" class="me-3"></fa-icon>
+			</span>
+			<span>
+				Para agregar cartas, escriba en el panel de búsqueda y seleccione alguno de los resultados.
+			</span>
 		</div>
 	</div>
 
