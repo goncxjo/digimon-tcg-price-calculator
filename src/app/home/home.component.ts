@@ -6,11 +6,23 @@ import { take } from 'rxjs';
 import * as _ from 'lodash';
 import { Card, Dolar } from '../backend/models';
 import { CryptoService, DolarService, TcgPlayerService } from '../backend/services';
+import { style, transition, trigger, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  animations: [
+    trigger('myInsertRemoveTrigger', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('200ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('200ms', style({ opacity: 0 }))
+      ])
+    ]),
+  ]
 })
 export class HomeComponent implements OnInit {
   id: string = '0';
@@ -20,7 +32,8 @@ export class HomeComponent implements OnInit {
   dolar!: Dolar;
   activeIds: any[] = [];
   precioTotal: number = 0;
-priceSelected: any;
+  priceSelected: any;
+  mostrarAyuda: boolean = false;
 
   constructor(
     private router: Router,
@@ -48,21 +61,25 @@ priceSelected: any;
       this.dolar = res;
     });
 
-    if (this.id) {
-      this.tcgPlayerService.getDigimonCardById(parseInt(this.id))
-      .pipe(take(1))
-      .subscribe(res => {
-        if (res['id']) {
-          this.selectedCard = res;
-        }
-        else {
-          this.router.navigate(['/'])
-        }
-      });
-    } else if (this.importData) {
-      let res = this.cryptoService.decryptJsonUriFriendly(this.importData);
-      this.cards = res;
-    }
+    setTimeout(() => {
+      this.mostrarAyuda = true;
+    }, 5000);
+
+    // if (this.id) {
+    //   this.tcgPlayerService.getDigimonCardById(parseInt(this.id))
+    //   .pipe(take(1))
+    //   .subscribe(res => {
+    //     if (res['id']) {
+    //       this.selectedCard = res;
+    //     }
+    //     else {
+    //       this.router.navigate(['/'])
+    //     }
+    //   });
+    // } else if (this.importData) {
+    //   let res = this.cryptoService.decryptJsonUriFriendly(this.importData);
+    //   this.cards = res;
+    // }
 
   }
   
@@ -76,6 +93,7 @@ priceSelected: any;
         this.getById(card.tcg_player_id);
       }, 0);
     }
+    this.mostrarAyuda = false;
   }
   
   getById(tcg_player_id: any) {
