@@ -25,6 +25,10 @@ nav {
     padding-left: $nav-brand-padding;
     font-family: pixel-digivolve-italic;
     font-size:small;
+
+    & .loading-title {
+      margin-top: 2px;
+    }
   }
 
   & #navbarNav.navbar-collapse {

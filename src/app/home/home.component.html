@@ -1,9 +1,9 @@
-<div class="alert alert-info text-center mt-3">
+<div class="alert alert-info text-center fw-bold mt-3">
 	<span *ngIf="!dolar">
 		<fa-icon id="loading-logo" icon="spinner" animation="spin" class="me-2"></fa-icon>Obteniendo cotización
 	</span>
 	<span *ngIf="dolar">
-		<fa-icon icon="money-bill-trend-up"></fa-icon> Dolar hoy: ARS {{ dolar.venta | currency}}
+		<fa-icon icon="money-bill-trend-up" class="me-2"></fa-icon> Dolar hoy: ARS {{ dolar.venta | currency}}
 	</span>
 </div>
 
