@@ -79,3 +79,8 @@ body {
 .no-radius {
 	border-radius: 0;
 }
+
+.accordion-button:not(.collapsed) {
+	background-color: $primary;
+	color: white;
+}

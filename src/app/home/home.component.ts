@@ -88,7 +88,7 @@ priceSelected: any;
   }
 
   getCardMiniInfo(card: Card) {
-    return `${card.name} ${card.collector_number} # ${card.rarity_code}`
+    return `${card.fullName} # ${card.rarity_code}`
   }
 
   removeCard(card: Card) {
