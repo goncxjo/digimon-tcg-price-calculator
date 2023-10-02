@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { TcgPlayerService } from 'src/app/backend';
 import { Card, Dolar } from 'src/app/backend/models';
 
@@ -12,7 +12,8 @@ export class CardInfoComponent implements OnInit, OnDestroy {
   @Input() data!: Card;
   @Input() dolar!: Dolar;
   @Output() priceChangeEvent = new EventEmitter<boolean>();
-  priceSelected: string = "tcg_player_normal";
+  priceSelected: string = "custom";
+  custom_price: number = 0;
     
   constructor(
     private tcgPlayerService: TcgPlayerService
@@ -24,13 +25,17 @@ export class CardInfoComponent implements OnInit, OnDestroy {
   async loadTcgPlayerPrices() {
     if (this.data.tcg_player_id) {
       const tcgPlayerPrice$ = this.tcgPlayerService.getCardPrice(this.data.tcg_player_id);
-      this.data.tcg_player_price = await firstValueFrom(tcgPlayerPrice$);
-        let price = this.getTcgPlayerPrice('Normal');
-        if (price == 0) {
-          this.priceSelected = "tcg_player_foil"
-          price = this.getTcgPlayerPrice('Foil');
-        }
-        this.data.price.currency_value = Math.round(price * this.dolar.venta * 100) / 100;
+      const tcg_player_prices = await firstValueFrom(tcgPlayerPrice$);
+      if (tcg_player_prices.tcg_player_foil) {
+        this.priceSelected = 'tcg_player_foil'
+        this.data.prices.set('tcg_player_foil', tcg_player_prices.tcg_player_foil);
+      }
+      if (tcg_player_prices.tcg_player_normal) {
+        this.priceSelected = 'tcg_player_normal'
+        this.data.prices.set('tcg_player_normal', tcg_player_prices.tcg_player_normal);
+      }
+      
+      this.setPrecioCarta();
     }
   }
 
@@ -39,37 +44,16 @@ export class CardInfoComponent implements OnInit, OnDestroy {
   }
 
   getPrecioCarta() {
-    return this.data.price.currency_value;
+    const price = this.data.prices.get(this.priceSelected);
+    if (price?.currency_symbol == 'USD') {
+      return Math.round(price.currency_value * this.dolar.venta * 100) / 100;
+    }
+    return price?.currency_value || 0;
   }
 
   setPrecioCarta() {
-    let precio = 0.0;
-    switch (this.priceSelected) {
-      case 'tcg_player_normal':
-      case 'tcg_player_foil':
-        const printingType = this.priceSelected === 'tcg_player_normal' ? 'Normal' : 'Foil';
-        const price = this.getTcgPlayerPrice(printingType);
-        precio = price * this.dolar.venta;
-        break;
-      case 'custom':
-        precio = this.data.custom_price.currency_value || 0;
-        break;
-      default:
-        break;
-    }
-    this.data.price.currency_value = precio;
+    this.data.price.currency_value = this.getPrecioCarta();
     this.priceChangeEvent.emit(true);
-  }
-
-  getTcgPlayerPrice(printingType: string) {
-    switch (printingType) {
-      case 'Foil':
-        return this.data.tcg_player_price?.foil?.listedMedianPrice || 0;    
-      case 'Normal':
-        return this.data.tcg_player_price?.normal?.listedMedianPrice || 0;    
-      default:
-        return 0;
-    }
   }
 
   cartaTienePrecio() {
@@ -80,16 +64,13 @@ export class CardInfoComponent implements OnInit, OnDestroy {
     return this.getPrecioCarta().toFixed(2);
   }
 
-  getFechaActualizacionDolar() {
-    return (new Date(this.dolar.fechaActualizacion)).toLocaleString('es-AR')
-  }
-
   onPriceSelected(priceSelected: string) {
     this.priceSelected = priceSelected;
     this.setPrecioCarta();
   }
   
   onCustomPriceChange($event: any) {
+    this.data.prices.set('custom', { currency_symbol: 'ARS', currency_value: this.custom_price });
     this.setPrecioCarta();
   }
 

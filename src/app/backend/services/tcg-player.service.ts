@@ -61,10 +61,18 @@ export class TcgPlayerService {
         });
         return this.httpClient.get<ProductPriceTcgPlayer[]>(url, { headers: headers }).pipe(
             map((res: ProductPriceTcgPlayer[]) => {
+                const tcg_player_normal = {
+                    currency_symbol: 'USD',
+                    currency_value: res[0].listedMedianPrice
+                };
+                const tcg_player_foil = {
+                    currency_symbol: 'USD',
+                    currency_value: res[1].listedMedianPrice
+                }
                 return {
-                    normal: res[0],
-                    foil: res[1]
-                } as CardPriceTcgPlayer;
+                    tcg_player_normal: tcg_player_normal.currency_value != null ? tcg_player_normal : null,
+                    tcg_player_foil: tcg_player_foil.currency_value != null ? tcg_player_foil : null
+                };
             })
         );
     }

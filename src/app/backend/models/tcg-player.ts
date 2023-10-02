@@ -1,3 +1,5 @@
+import { CardPrice } from "./card";
+
 export interface SearchTcgPlayer {
     errors: any[];
     results: SearchResultTcgPlayer[];
@@ -83,6 +85,6 @@ export interface ProductPriceTcgPlayer {
 }
 
 export interface CardPriceTcgPlayer {
-	normal: ProductPriceTcgPlayer,
-	foil: ProductPriceTcgPlayer
+	tcg_player_normal: CardPrice | null,
+	tcg_player_foil: CardPrice | null
 }

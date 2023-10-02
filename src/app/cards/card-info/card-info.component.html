@@ -25,20 +25,20 @@
 							
 							<small class="fw-bold">Seleccionar un precio:</small>
 							<div class="list-group">
-								<li *ngIf="data.tcg_player_price && getTcgPlayerPrice('Normal') != 0" class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start" [class.card-price-active]="priceSelected === 'tcg_player_normal'" (click)="onPriceSelected('tcg_player_normal')">
+								<li *ngIf="data.prices.has('tcg_player_normal')" class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start" [class.card-price-active]="priceSelected === 'tcg_player_normal'" (click)="onPriceSelected('tcg_player_normal')">
 									<div class="bg-list-item"></div>
 									<small for="price">TCG Player Normal (median):</small>
 									<div class="input-group">
 										<span class="input-group-text">USD</span>
-										<input type="text" class="form-control" id="customPrice" [value]="getTcgPlayerPrice('Normal')" disabled>
+										<input type="text" class="form-control" id="customPrice" [value]="data.prices.get('tcg_player_normal')?.currency_value" disabled>
 									</div>
 								</li>
-								<li *ngIf="data.tcg_player_price && getTcgPlayerPrice('Foil') != 0" class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start" [class.card-price-active]="priceSelected === 'tcg_player_foil'" (click)="onPriceSelected('tcg_player_foil')">
+								<li *ngIf="data.prices.has('tcg_player_foil')" class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start" [class.card-price-active]="priceSelected === 'tcg_player_foil'" (click)="onPriceSelected('tcg_player_foil')">
 									<div class="bg-list-item"></div>
 									<small for="price">TCG Player Foil (median):</small>
 									<div class="input-group">
 										<span class="input-group-text">USD</span>
-										<input type="text" class="form-control" id="customPrice" [value]="getTcgPlayerPrice('Foil')" disabled>
+										<input type="text" class="form-control" id="customPrice" [value]="data.prices.get('tcg_player_foil')?.currency_value" disabled>
 									</div>
 								</li>
 								<li class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start" [class.card-price-active]="priceSelected === 'custom'"  (click)="onPriceSelected('custom')">
@@ -46,7 +46,7 @@
 									<small for="custom">Precio personalizado: </small>
 									<div class="input-group">
 										<span class="input-group-text">ARS</span>
-										<input type="number" [min]="0" class="form-control" id="custom" [(ngModel)]="data.custom_price.currency_value" (keyup)="onCustomPriceChange($event)">
+										<input type="number" [min]="0" class="form-control" id="custom" [(ngModel)]="custom_price" (keyup)="onCustomPriceChange($event)">
 									</div>
 								</li>
 							  </div>
