@@ -13,8 +13,8 @@ export class LoaderInterceptor implements HttpInterceptor {
 
   constructor(private loaderService: LoaderService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url == 'tcgplayer-search/search/request' && req.body.filters?.productId) {
-      this.loaderService.setHttpProgressStatus(true);
+    if (req.url.includes('bluelytics')) {
+      this.loaderService.setHttpProgressStatus(false);
     }
     else if (this.count === 0) {
       this.loaderService.setHttpProgressStatus(true);

@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   dolar!: Dolar;
   activeIds: any[] = [];
   precioTotal: number = 0;
+priceSelected: any;
 
   constructor(
     private router: Router,
@@ -121,5 +122,9 @@ export class HomeComponent implements OnInit {
 
   onPriceChanged($event: any) {
     this.calcularPrecioTotal();
+  }
+
+  getFechaActualizacionDolar() {
+    return (new Date(this.dolar.fechaActualizacion)).toLocaleString('es-AR')
   }
 }

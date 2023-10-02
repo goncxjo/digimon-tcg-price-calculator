@@ -1,8 +1,13 @@
-<div class="row" *ngIf="dolar">
-	<div class="alert alert-info text-center">
+<div class="alert alert-info text-center mt-3">
+	<span *ngIf="!dolar">
+		<fa-icon id="loading-logo" icon="spinner" animation="spin" class="me-2"></fa-icon>Obteniendo cotización
+	</span>
+	<span *ngIf="dolar">
 		<fa-icon icon="money-bill-trend-up"></fa-icon> Dolar hoy: ARS {{ dolar.venta | currency}}
-	</div>
+	</span>
+</div>
 
+<div class="row" *ngIf="dolar">
 	<app-card-searcher *ngIf="!id" (card)="onCardAdded($event)"></app-card-searcher>
 
 	<div ngbAccordion #accordion="ngbAccordion" [closeOthers]="true">
