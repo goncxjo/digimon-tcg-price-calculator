@@ -29,7 +29,7 @@ export class TcgPlayerService {
     }
   
     public getDigimonCards(value: string): Observable<Card[]> {
-        if (value == '') {
+        if (value == '' || value.toLocaleLowerCase() == 'mon' || value.length < 3) {
             return of<Card[]>([]);
         }
 
