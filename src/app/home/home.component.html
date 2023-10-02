@@ -19,16 +19,16 @@
 						ARS {{ item.price.currency_value | currency }}
 					</p>
 					<div class="text-end">
-						<button type="button" class="btn btn-sm btn-primary no-radius" (click)="changeMultiplier(item, -1)">
+						<button type="button" class="btn btn-sm no-radius" (click)="changeMultiplier(item, -1)">
 							<fa-icon icon="minus"></fa-icon>
 						</button>
 						<span class="badge rounded-pill bg-danger">
 							x{{ item.multiplier }}
 						</span>
-						<button type="button" class="btn btn-sm btn-primary no-radius" (click)="changeMultiplier(item, 1)">
+						<button type="button" class="btn btn-sm no-radius" (click)="changeMultiplier(item, 1)">
 							<fa-icon icon="plus"></fa-icon>
 						</button>
-						<button type="button" class="btn btn-sm btn-primary no-radius ms-3" (click)="removeCard(item)">
+						<button type="button" class="btn btn-sm no-radius ms-3" (click)="removeCard(item)">
 							<fa-icon icon="trash"></fa-icon>
 						</button>
 					</div>
