@@ -24,16 +24,14 @@ export class CardService {
             console.log(`ocurrió un error al obtener información de la carta #${res.productId}`);
           }
         });
-        return cards.sort((a, b) => {
-          const dt1 = a.releaseDate;
-          const dt2 = b.releaseDate;
-
-          if (dt1 != null && dt2 != null) {
-            if (dt1 < dt2) return 1;
-            if (dt1 > dt2) return -1;
-          }
-          return 0;
-        });    
+        return cards;
+        // .sort((a, b) => {
+        //   if (a.releaseDate != null && b.releaseDate != null) {
+        //     if (a.releaseDate < b.releaseDate) return 1;
+        //     if (a.releaseDate > b.releaseDate) return -1;
+        //   }
+        //   return 0;
+        // });    
       })
       )
     }

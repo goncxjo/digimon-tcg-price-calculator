@@ -28,10 +28,11 @@ export class Card {
 	setFromTcgPlayer(res: any, imageEndpoint: string, productUrl: string) {
 		const cardId = `${res.productId}`.replace('.0', '');
 		const [number_, rarity_code] = (res.customAttributes.number || '- -').split(" ");
-		const fullName = res.productName.replace(number_, '').replace(' - ', '').replace('[-]', '')
+		const fullName = res.productName.replace(number_, '').replace(' - ', '').replace('[-]', '');
+		const preReleaseSuffix = res.setName.includes('Pre-Release') ? `(Pre-Release)`: '';
 
-		this.name = fullName;
-		this.fullName = `[${number_}] ${fullName}`;
+		this.name = `${fullName} ${preReleaseSuffix}`;
+		this.fullName = `[${number_}] ${fullName} ${preReleaseSuffix}`;
 		this.expansion_id = res.setId;
 		this.tcg_player_id = parseInt(cardId);
 		this.rarity_code = rarity_code;
@@ -42,7 +43,7 @@ export class Card {
 		this.image_url = imageEndpoint.replace('{quality}', '100').replace('{id}', cardId);
 		this.tcg_player_url = `${productUrl}`.replace('{id}', cardId);
 		this.releaseDate = new Date(res.customAttributes.releaseDate);
-	}	
+	}		
 }
 
 export class CardPrices {
