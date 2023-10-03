@@ -13,12 +13,13 @@ export class Card {
 	tcg_player_id: number | null = null;
 	rarity_code: string = '';
 	rarity_name: string = '';
-	collector_number: string = '';
+	code: CardCode = new CardCode();
 	expansion_name: string = '';
 	tcg_player_url: string = '';
 	price: CardPrice = new CardPrice();
 	prices: Map<string, CardPrice | null> = new Map<string, CardPrice | null>();
 	multiplier: number = 1;
+	releaseDate: Date | null = null;
 
 	constructor() {
 		this.prices.set("custom", new CardPrice());
@@ -26,22 +27,21 @@ export class Card {
 
 	setFromTcgPlayer(res: any, imageEndpoint: string, productUrl: string) {
 		const cardId = `${res.productId}`.replace('.0', '');
-		const number_split = (res.customAttributes.number || '- -').split(" ");
-		const collector_number = number_split[0];
-		const rarity_code = number_split[1];
-		const fullName = res.productName.replace(collector_number, '').replace(' - ', '').replace('[-]', '')
+		const [number_, rarity_code] = (res.customAttributes.number || '- -').split(" ");
+		const fullName = res.productName.replace(number_, '').replace(' - ', '').replace('[-]', '')
 
-		this.name = res.productName;
-		this.fullName = `[${collector_number}] ${fullName}`;
+		this.name = fullName;
+		this.fullName = `[${number_}] ${fullName}`;
 		this.expansion_id = res.setId;
 		this.tcg_player_id = parseInt(cardId);
 		this.rarity_code = rarity_code;
 		this.rarity_name = res.rarityName;
-		this.collector_number = collector_number;
+		this.code = new CardCode(number_);
 		this.expansion_name = res.setName;
 		this.image_small_url = imageEndpoint.replace('{quality}', '1').replace('{id}', cardId);
 		this.image_url = imageEndpoint.replace('{quality}', '100').replace('{id}', cardId);
 		this.tcg_player_url = `${productUrl}`.replace('{id}', cardId);
+		this.releaseDate = new Date(res.customAttributes.releaseDate);
 	}	
 }
 
@@ -53,4 +53,23 @@ export class CardPrices {
 export class CardPrice {
 	currency_value: number = 0;
 	currency_symbol: string = 'ARS';
+}
+
+export class CardCode {
+	expansion_code: string = '';
+	id: number = 0;
+	default = '-';
+
+	constructor(code: string = '-') {
+		this.default = code;
+		if (code != '-') {
+			const card_code = code.split('-');
+			this.expansion_code = card_code[0];
+			this.id = parseInt(card_code[1] || '0');
+		}
+	}
+
+	get value() {
+		return `${this.expansion_code}-${this.id}`.toLocaleUpperCase();
+	}
 }
