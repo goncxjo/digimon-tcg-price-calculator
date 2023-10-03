@@ -1,4 +1,4 @@
-<div class="alert alert-info text-center fw-bold mt-3">
+<div class="alert alert-success text-center fw-bold mt-3">
 	<span *ngIf="!dolar">
 		<fa-icon id="loading-logo" icon="spinner" animation="spin" class="me-2"></fa-icon>Obteniendo cotización
 	</span>
@@ -9,41 +9,7 @@
 
 <div class="row" *ngIf="dolar">
 	<app-card-searcher *ngIf="!id" (card)="onCardAdded($event)"></app-card-searcher>
-	<h6 *ngIf="cards.length > 0">Listado de cartas ({{cards.length}})</h6>
-	<div ngbAccordion #accordion="ngbAccordion" [closeOthers]="true">
-		<div *ngFor="let item of cards; let index = index" ngbAccordionItem="{{item.tcg_player_id}}" id="{{item.tcg_player_id}}" [destroyOnHide]="false"  [collapsed]="false">
-			<div ngbAccordionHeader class="accordion-button custom-header py-1">
-				<div class="fw-bold w-100 d-flex flex-column justify-content-start flex-md-row justify-content-md-between align-items-md-center">
-					<p class="digimon-card-mini-title m-0 flex-fill w-auto text-truncate" ngbAccordionToggle (click)="calcularPrecioTotal()">{{ getCardMiniInfo(item) }}</p>
-					<p class="m-0 text-start text-md-end me-3">
-						ARS {{ item.price.currency_value | currency }}
-					</p>
-					<div class="text-end">
-						<button type="button" class="btn btn-sm no-radius" (click)="changeMultiplier(item, -1)">
-							<fa-icon icon="minus"></fa-icon>
-						</button>
-						<span class="badge rounded-pill bg-danger">
-							x{{ item.multiplier }}
-						</span>
-						<button type="button" class="btn btn-sm no-radius" (click)="changeMultiplier(item, 1)">
-							<fa-icon icon="plus"></fa-icon>
-						</button>
-						<button type="button" class="btn btn-sm no-radius ms-3" (click)="removeCard(item)">
-							<fa-icon icon="trash"></fa-icon>
-						</button>
-					</div>
-				</div>
-			</div>
-			<div ngbAccordionCollapse>
-				<div ngbAccordionBody>
-				<ng-template>
-					<app-card-info [data]="item" [dolar]="dolar" (priceChangeEvent)="onPriceChanged($event)"></app-card-info>
-				</ng-template>
-				</div>
-			</div>
-		</div>
-	</div>
-
+	
 	<div @myInsertRemoveTrigger class="mt-5 info-ayuda" *ngIf="mostrarAyuda && cards.length === 0">
 		<div class="alert alert-info d-flex flex-row align-items-center">
 			<span>
@@ -54,13 +20,52 @@
 			</span>
 		</div>
 	</div>
-
-	<div class="mt-5 text-end" *ngIf="precioTotal !== 0">
-		<div class="alert alert-light">
-			<h3>Precio total: <strong>ARS {{ precioTotal | currency}}</strong></h3>
-		</div>
-		<!-- <button type="button" class="btn btn btn-primary btn-sm no-radius ms-2" (click)="generateUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
-			Compartir URL <fa-icon icon="share-from-square"></fa-icon>
-		</button> -->
-	</div>	
 </div>	
+
+<div class="card" *ngIf="cards.length > 0">
+	<div class="card-header fw-bold">
+		Listado de cartas ({{cards.length}})
+	</div>
+	<div class="card-body">
+		<div ngbAccordion #accordion="ngbAccordion" [closeOthers]="true">
+			<div *ngFor="let item of cards; let index = index" ngbAccordionItem="{{item.tcg_player_id}}" id="{{item.tcg_player_id}}" [destroyOnHide]="false"  [collapsed]="false">
+				<div ngbAccordionHeader class="accordion-button custom-header py-1">
+					<div class="fw-bold w-100 d-flex flex-column justify-content-start flex-md-row justify-content-md-between align-items-md-center">
+						<p class="digimon-card-mini-title m-0 flex-fill w-auto text-truncate" ngbAccordionToggle (click)="calcularPrecioTotal()">{{ getCardMiniInfo(item) }}</p>
+						<p class="m-0 text-start text-md-end me-3">
+							ARS {{ item.price.currency_value | currency }}
+						</p>
+						<div class="text-end">
+							<button type="button" class="btn btn-sm no-radius" (click)="changeMultiplier(item, -1)">
+								<fa-icon icon="minus"></fa-icon>
+							</button>
+							<span class="badge rounded-pill bg-danger">
+								x{{ item.multiplier }}
+							</span>
+							<button type="button" class="btn btn-sm no-radius" (click)="changeMultiplier(item, 1)">
+								<fa-icon icon="plus"></fa-icon>
+							</button>
+							<button type="button" class="btn btn-sm no-radius ms-3" (click)="removeCard(item)">
+								<fa-icon icon="trash"></fa-icon>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div ngbAccordionCollapse>
+					<div ngbAccordionBody>
+					<ng-template>
+						<app-card-info [data]="item" [dolar]="dolar" (priceChangeEvent)="onPriceChanged($event)"></app-card-info>
+					</ng-template>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card-footer text-body-secondary text-end">
+		<h3>Precio total: <strong>ARS {{ precioTotal | currency}}</strong></h3>
+	</div>
+</div>
+
+	<!-- <button type="button" class="btn btn btn-primary btn-sm no-radius ms-2" (click)="generateUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
+		Compartir URL <fa-icon icon="share-from-square"></fa-icon>
+	</button> -->
