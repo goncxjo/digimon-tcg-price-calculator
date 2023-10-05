@@ -12,6 +12,12 @@
 				<small class="text-secondary-emphasis"><strong>Código: </strong> {{ data.code.default }}</small>
 				<small class="text-secondary-emphasis"><strong>Rareza: </strong> {{ data.rarity_name }}</small>
 				<small class="text-secondary-emphasis"><strong>Expansión: </strong> {{ data.expansion_name }}</small>
+				<small>
+					<a [attr.href]="data.tcg_player_url">
+						Link al producto en TCG Player <fa-icon icon="share-from-square"></fa-icon>
+					</a>
+				</small>
+				
 				<small class="mt-3 fw-bold">Seleccionar un precio:</small>
 				<div class="list-group">
 					<li *ngIf="data.prices.has('tcg_player_normal')"
