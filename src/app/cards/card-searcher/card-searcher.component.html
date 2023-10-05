@@ -1,11 +1,20 @@
 <ng-template #rt let-r="result" let-t="term">
-	<img [src]="r['image_url']" class="me-3" style="width: 25px" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
-	<ngb-highlight [result]="r.fullName" [term]="t"></ngb-highlight>
+	<div class="d-flex flex-row align-items-center">
+		<small class="fw-bolder col-exp_code text-center">{{r.code.default}}</small>
+		<img class="col-2 mx-3" [src]="r['image_url']" style="width: 3rem" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
+		<div class="col d-flex flex-column text-truncate">
+			<ngb-highlight [result]="r.name" [term]="t" class="text-truncate"></ngb-highlight>
+			<small class="text-truncate">{{r['expansion_name']}}</small>
+		</div>
+	</div>
 </ng-template>
 
 <div class="mb-3 row">
 	<div class="col">
 		<div class="input-group">
+			<span class="input-group-text">
+				<fa-icon icon="magnifying-glass"></fa-icon>
+			</span>
 			<input
 				id="typeahead-template"
 				type="text"
