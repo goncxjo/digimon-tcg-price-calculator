@@ -10,12 +10,6 @@ body {
 	min-height: 100vh;
 }
 
-.app-container {
-	display: flex;
-	flex-direction: column;
-	min-height: 93vh;
-}
-
 @font-face {
 	font-family: pixel-digivolve;
 	src: url('assets/fonts/Pixel\ Digivolve.otf') format("truetype");
@@ -28,6 +22,7 @@ body {
 
 $border-radius: 0;
 $font-family-base: "Montserrat",-apple-system,sans-serif !important;
+$app-navbar-height-default: 3.5rem;
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
@@ -36,10 +31,17 @@ body {
 	background-color: $gray-200;
 }
 
+.app-container {
+	display: flex;
+	flex-direction: column;
+	min-height: calc(100vh - $app-navbar-height-default*2);
+}
+
 #ngb-typeahead-0 {
-	width: 100%;
+	width: 95%;
     overflow-y: scroll;
-    height: 50vh;
+    overflow-x: hidden;
+    max-height: 50vh;
 }
 
 .cursor-loader {
@@ -78,4 +80,25 @@ body {
 
 .no-radius {
 	border-radius: 0;
+}
+
+.nav-default-height {
+	height: $app-navbar-height-default;
+}
+
+.app-offcanvas {
+	height: calc($app-navbar-height-default - $hr-margin-y);
+	padding-top: $navbar-padding-y;
+	padding-bottom: 0;
+	
+    display: flex;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: space-between;
+	font-size: $navbar-toggler-font-size;
+}
+
+.offcanvas-footer {
+	padding-top: $navbar-padding-y;
+	height: $app-navbar-height-default;
 }
