@@ -1,6 +1,6 @@
 <ng-template #rt let-r="result" let-t="term">
 	<div class="d-flex flex-row align-items-center">
-		<img class="col-2 mx-3" [src]="r['image_url']" style="width: 3rem" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
+		<img class="col-2 me-3" [src]="r['image_url']" style="width: 3rem" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
 		<div class="col d-flex flex-column text-truncate">
 			<ngb-highlight [result]="r.name" [term]="t" class="text-truncate"></ngb-highlight>
 			<small class="text-muted text-truncate">{{r['expansion_name']}}</small>
