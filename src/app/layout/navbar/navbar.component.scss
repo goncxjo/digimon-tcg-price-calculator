@@ -2,7 +2,7 @@ $nav-brand-padding: 0.7em;
 
 #app-title {
   padding-left: $nav-brand-padding;
-  font-family: pixel-digivolve-italic;
+  font-family: pixel-digivolve;
   font-size:small;
 }
 
@@ -13,17 +13,11 @@ $nav-brand-padding: 0.7em;
   display: flex;
   align-items: center;
   padding: 0px;
-
-  & .separator {
-    height: 1.2em;
-    width: 1px;
-    background-color: white;
-  }
 }
 
 #brand-logo {
-  height: 1em;
-  padding-right: $nav-brand-padding;
+  height: 2em;
+  filter: invert(1);
 }
 
 .offcanvas-body {
@@ -32,6 +26,9 @@ $nav-brand-padding: 0.7em;
     &.active {
       opacity: 1;
     }
+  }
+  .offcanvas-subtitle {
+    font-size: 0.75rem;
   }
 }
 

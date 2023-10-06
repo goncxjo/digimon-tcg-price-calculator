@@ -1,21 +1,14 @@
 <nav class="nav-default-height navbar sticky-top navbar-dark bg-primary">
   <div class="container">
 
-    <a id="non-loading-state" class="navbar-brand brand" [routerLink]="['/']" [class.d-none]="isLoading">
-      <img id="brand-logo" src="assets/logo.png" alt="digimon">
-      <span class="separator me-1"></span>
-      <span id="app-title" class="d-flex flex-column text-start">
-        <span style="margin-bottom: -7px;">Digimon Card Game</span>
-        <span>Price Calculator</span>
-      </span>
+    <a class="navbar-brand py-0" [routerLink]="['/']">
+      <div class="brand" *ngIf="isLoading else logo">
+        <fa-icon id="loading-logo" icon="gear" animation="spin"></fa-icon>
+        <span id="app-title" class="d-flex flex-column text-start loading-title">
+          <span>Cargando</span>
+        </span>  
+      </div>
     </a>
-    
-    <a id="loading-state" class="navbar-brand brand" [routerLink]="['/']" [class.d-none]="!isLoading">
-      <fa-icon id="loading-logo" icon="gear" animation="spin"></fa-icon>
-      <span id="app-title" class="d-flex flex-column text-start loading-title">
-        <span>Cargando</span>
-      </span>
-    </a>    
 
     <button class="navbar-toggler border-0 app-nav-btn" type="button" (click)="open(content)">
       <fa-icon icon="bars"></fa-icon>
@@ -25,19 +18,26 @@
 
 <div class="d-flex flex-column loading-screen" [class.d-none]="!isLoading"></div>
 
+<ng-template #logo>
+  <div class="brand">
+    <img id="brand-logo" src="assets/logo.svg" alt="digimon">
+    <span id="app-title" class="d-flex flex-column text-start">
+      <span style="margin-bottom: -7px;">Digimon Card Game</span>
+      <span>Price Calculator</span>
+    </span>
+  </div>
+</ng-template>
+
 <ng-template #content let-offcanvas>
 	<div class="app-offcanvas offcanvas-header">
+    <span class="mt-2">
+      <span *ngIf="false else logo"></span>
+    </span>
 
-    <div class="brand pt-2">
-      <img id="brand-logo" src="assets/logo.png" alt="digimon">
-      <span class="separator me-1"></span>
-      <span id="app-title" class="d-flex flex-column text-start">
-        <span style="margin-bottom: -7px;">Digimon Card Game</span>
-        <span>Price Calculator</span>
-      </span>
-    </div>
+    <button class="navbar-toggler border-0 app-nav-btn p-2 mt-2" type="button" (click)="offcanvas.dismiss('Cross click')">
+      <fa-icon icon="times"></fa-icon>
+    </button>
 
-    <button type="button" class="btn-close btn-close-white mt-1 app-nav-btn" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
 	</div>
 	<div class="offcanvas-body pt-0">
     <hr>
@@ -49,12 +49,15 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/como-funciona']" [routerLinkActive]="['active']">Cómo funciona</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href='https://cafecito.app/goncxjo'>Quiero donar</a>
+      </li>
 
     </ul>
 
     <hr>
 
-    <small class="opacity-50">Otras aplicaciones</small>
+    <small class="offcanvas-subtitle opacity-50 text-uppercase">Otras aplicaciones</small>
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" href="https://online-judge-eight.vercel.app/">AI Judge by WARBEN</a>
@@ -71,3 +74,4 @@
         </ul>
   </div>
 </ng-template>
+
