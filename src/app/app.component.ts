@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { LoaderService } from './backend/services/loader.service';
@@ -19,7 +19,10 @@ export class AppComponent implements OnInit {
     private titleService: Title,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private loaderService: LoaderService, private renderer: Renderer2) {
+    private loaderService: LoaderService,
+    private renderer: Renderer2,
+    private meta: Meta
+    ) {
   }
 
   ngAfterViewInit() {
@@ -36,6 +39,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.updateMetaTags();
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() => {
@@ -55,6 +60,12 @@ export class AppComponent implements OnInit {
         return { title, showPageTitle };
       }),
     ).subscribe((cfg) => this.setTitle(cfg));
+  }
+
+  updateMetaTags() {
+    const url = `${window.location.protocol}//${window.location.hostname}`;
+    this.meta.updateTag({property: 'og:image', content: `${url}/assets/og-image-logo.png`});
+    this.meta.updateTag({property: 'og:url', content: `${url}`})
   }
 
   private setTitle(cfg: any) {
