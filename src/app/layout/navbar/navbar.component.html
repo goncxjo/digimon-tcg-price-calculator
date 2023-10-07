@@ -42,7 +42,7 @@
 	<div class="offcanvas-body pt-0">
     <hr>
 
-    <ul class="navbar-nav">
+    <ul class="navbar-nav" (click)="offcanvas.dismiss('')">
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/']" [routerLinkActive]="['active']">Inicio</a>
       </li>
@@ -58,7 +58,7 @@
     <hr>
 
     <small class="offcanvas-subtitle opacity-50 text-uppercase">Otras aplicaciones</small>
-    <ul class="navbar-nav">
+    <ul class="navbar-nav" (click)="offcanvas.dismiss('')">
       <li class="nav-item">
         <a class="nav-link" href="https://online-judge-eight.vercel.app/">AI Judge by WARBEN</a>
         <a class="nav-link" href="https://www.digi-tcg.online/">Digimon TCG Simulator by WE-Kaito</a>
