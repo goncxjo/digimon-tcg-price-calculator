@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { take } from 'rxjs';
 import * as _ from 'lodash';
-import { Card, Dolar } from '../backend/models';
+import { Card, CardExport, Dolar } from '../backend/models';
 import { CryptoService, DolarService, TcgPlayerService } from '../backend/services';
 import { style, transition, trigger, animate } from '@angular/animations';
 
@@ -76,24 +76,38 @@ export class HomeComponent implements OnInit {
     //       this.router.navigate(['/'])
     //     }
     //   });
-    // } else if (this.importData) {
-    //   let res = this.cryptoService.decryptJsonUriFriendly(this.importData);
-    //   this.cards = res;
     // }
+
+    if (this.importData) {
+      let res = this.cryptoService.decryptJsonUriFriendly(this.importData);
+      res.forEach((c: CardExport) => {
+        setTimeout(() => {
+          this.addCard(c.tcg_player_id);
+        }, 10);
+      });
+    }
 
   }
   
   onCardAdded($event: any) {
     let card = $event;
+    this.addCard(card.tcg_player_id);
+    this.mostrarAyuda = false;
+  }
+
+  addCard(tcg_player_id: number) {
     let foundCard =_.find(this.cards, (c) => {
-      return c.tcg_player_id == card.tcg_player_id;
+      return c.tcg_player_id == tcg_player_id;
     });
     if(!foundCard) {
       setTimeout(() => {
-        this.getById(card.tcg_player_id);
+        try {
+          this.getById(tcg_player_id);
+        } catch (error) {
+          console.log(`error al importar #${tcg_player_id}`)
+        }
       }, 0);
     }
-    this.mostrarAyuda = false;
   }
   
   getById(tcg_player_id: any) {
@@ -131,7 +145,8 @@ export class HomeComponent implements OnInit {
   }
 
   generateUrl() {
-    var data = this.cryptoService.encryptJsonUriFriendly(this.cards);
+    const result = this.cards.map(c => c.exportEntity())
+    var data = this.cryptoService.encryptJsonUriFriendly(result);
     const baseUrl = window.document.baseURI;
     this.clipboard.copy(`${baseUrl}?importData=${data}`);
   }

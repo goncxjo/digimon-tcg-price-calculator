@@ -56,6 +56,15 @@ export class Card {
 			this.multiplier += i;
 		}
 	}
+
+	exportEntity() {
+		const model = {
+			tcg_player_id: this.tcg_player_id,
+			code: this.code.default,
+			multiplier: this.multiplier
+		} as CardExport;
+		return model;
+	}
 }
 
 export class CardPrices {
@@ -85,4 +94,12 @@ export class CardCode {
 	get value() {
 		return `${this.expansion_code}-${this.id}`.toLocaleUpperCase();
 	}
+}
+
+export interface CardExport {
+	tcg_player_id: number;
+	code: string;
+	selectedPrice: string;
+	customPrice: CardPrice;
+	multiplier: number;
 }
