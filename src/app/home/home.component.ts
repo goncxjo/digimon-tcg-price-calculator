@@ -126,9 +126,7 @@ export class HomeComponent implements OnInit {
   }
 
   changeMultiplier(card: Card, i: number) {
-    if (card.multiplier + i >= 1) {
-      card.multiplier += i;
-    }
+    card.changeMultiplier(i);
     this.calcularPrecioTotal();
   }
 

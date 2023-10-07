@@ -14,7 +14,6 @@ export class CardInfoComponent implements OnInit, OnDestroy {
   @Input() reduced: boolean = true;
   @Output() priceChangeEvent = new EventEmitter<boolean>();
   @Output() cardRemovedEvent = new EventEmitter<number>();
-  @Output() multiplierChangeEvent = new EventEmitter<boolean>();
 
   priceSelected: string = "custom";
   custom_price: number = 0;
@@ -60,6 +59,14 @@ export class CardInfoComponent implements OnInit, OnDestroy {
     this.priceChangeEvent.emit(true);
   }
 
+  esUnidad() {
+    return this.data.multiplier == 1;
+  }
+
+  getPrecioCartaTotal() {
+    return this.getPrecioCarta() * this.data.multiplier;
+  }
+
   onPriceSelected(priceSelected: string) {
     this.priceSelected = priceSelected;
     this.setPrecioCarta();
@@ -78,8 +85,4 @@ export class CardInfoComponent implements OnInit, OnDestroy {
       this.cardRemovedEvent.emit(item.tcg_player_id);
     }
   }
-
-  changeMultiplier(card: Card, i: number) {
-    card.changeMultiplier(i);
-    this.multiplierChangeEvent.emit(true);
-  }}
+}
