@@ -116,3 +116,23 @@ body {
 .card-reduced-img-container-height {
 	height: 10rem;
 }
+
+
+.translate-middle-sm-multiplier {
+    @extend .translate-middle;
+}
+
+.translate-middle-sm-multiplier-buttons {
+    @extend .translate-middle;
+}
+
+@include media-breakpoint-down(sm) {
+	.translate-middle-sm-multiplier {
+		transform: translate(-75%, -25%) !important;
+	}
+	
+	.translate-middle-sm-multiplier-buttons {
+		transform: translate(-75%, -50%) !important;
+	}
+	
+}
