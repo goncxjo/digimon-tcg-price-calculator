@@ -2,11 +2,23 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { firstValueFrom } from 'rxjs';
 import { TcgPlayerService } from 'src/app/backend';
 import { Card, Dolar } from 'src/app/backend/models';
+import { style, transition, trigger, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-card-info',
   templateUrl: './card-info.component.html',
-  styleUrls: ['./card-info.component.scss']
+  styleUrls: ['./card-info.component.scss'],
+  animations: [
+    trigger('myInsertRemoveTrigger', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('250ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('50ms', style({ opacity: 0 }))
+      ])
+    ]),
+  ]
 })
 export class CardInfoComponent implements OnInit, OnDestroy {
   @Input() data!: Card;
