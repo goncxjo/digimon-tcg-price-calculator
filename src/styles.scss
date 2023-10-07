@@ -20,7 +20,8 @@ body {
 	src: url('assets/fonts/Pixel\ Digivolve\ Italic.otf') format("truetype");
 }
 
-$border-radius: 0;
+$border-width: 0;
+
 $font-family-base: "Montserrat",-apple-system,sans-serif !important;
 $app-navbar-height-default: 3.5rem;
 
@@ -44,7 +45,7 @@ body {
     max-height: 50vh;
 
 	.dropdown-item.active, .dropdown-item:active {
-		background-color: $gray-200;
+		background-color: $gray-100;
 		color: black;
 	}
 }
