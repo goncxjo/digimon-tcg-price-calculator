@@ -20,6 +20,7 @@ export class Card {
 	prices: Map<string, CardPrice | null> = new Map<string, CardPrice | null>();
 	multiplier: number = 1;
 	releaseDate: Date | null = null;
+	infoReduced: boolean = true;
 
 	constructor() {
 		this.prices.set("custom", new CardPrice());
@@ -47,7 +48,14 @@ export class Card {
 		this.image_url = imageEndpoint.replace('{quality}', '100').replace('{id}', cardId);
 		this.tcg_player_url = `${productUrl}`.replace('{id}', cardId);
 		this.releaseDate = new Date(res.customAttributes.releaseDate);
-	}		
+	}
+
+
+	changeMultiplier(i: number) {
+		if (this.multiplier + i >= 1) {
+			this.multiplier += i;
+		}
+	}
 }
 
 export class CardPrices {
