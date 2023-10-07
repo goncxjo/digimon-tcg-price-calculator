@@ -24,11 +24,11 @@
 
 
 <div class="row">
-	<div *ngFor="let item of cards; let index = index" [ngClass]="{'col-12': !item.infoReduced, 'col-md-6 col-lg-4': item.infoReduced}">
+	<div @myInsertRemoveTrigger *ngFor="let item of cards; let index = index" [ngClass]="{'col-12': !item.infoReduced, 'col-md-6 col-lg-4': item.infoReduced}">
 		<div class="card my-3">
 
 			<span *ngIf="item.infoReduced">
-				<button class="border-0 position-absolute top-0 start-100 translate-middle-sm-multiplier badge rounded-close-btn bg-danger">
+				<button class="border-0 position-absolute top-0 start-100 translate-middle-sm-multiplier badge rounded-close-btn bg-danger" (click)="removeCard(item)">
 					<fa-icon icon="times"></fa-icon>
 					<span class="visually-hidden">cantidad cartas</span>
 				</button>
@@ -61,7 +61,8 @@
 	<span>Precio total: <strong>ARS {{ precioTotal | currency}}</strong></span>
 </div>
 
-
-<button type="button" class="btn btn btn-primary btn-sm ms-2" (click)="generateUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
+<button *ngIf="cards.length > 0" type="button" class="btn btn btn-primary btn-sm ms-2" (click)="generateUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
 	Compartir URL <fa-icon icon="share-from-square"></fa-icon>
 </button>
+
+
