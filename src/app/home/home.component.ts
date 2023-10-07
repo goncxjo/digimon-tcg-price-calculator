@@ -142,6 +142,14 @@ export class HomeComponent implements OnInit {
     this.calcularPrecioTotal();
   }
 
+  onMultiplierChanged($event: any) {
+    this.calcularPrecioTotal();
+  }
+
+  onCardRemoved(id: number) {
+    this.removeCard({ tcg_player_id: id } as Card)
+  }
+
   getFechaActualizacionDolar() {
     return (new Date(this.dolar.fechaActualizacion)).toLocaleString('es-AR')
   }

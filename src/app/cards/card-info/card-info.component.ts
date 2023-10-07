@@ -11,10 +11,14 @@ import { Card, Dolar } from 'src/app/backend/models';
 export class CardInfoComponent implements OnInit, OnDestroy {
   @Input() data!: Card;
   @Input() dolar!: Dolar;
+  @Input() reduced: boolean = true;
   @Output() priceChangeEvent = new EventEmitter<boolean>();
+  @Output() cardRemovedEvent = new EventEmitter<number>();
+  @Output() multiplierChangeEvent = new EventEmitter<boolean>();
+
   priceSelected: string = "custom";
   custom_price: number = 0;
-    
+
   constructor(
     private tcgPlayerService: TcgPlayerService
   ) { }
@@ -68,4 +72,14 @@ export class CardInfoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
   }
-}
+
+  remove(item: Card) {
+    if (item.tcg_player_id) {
+      this.cardRemovedEvent.emit(item.tcg_player_id);
+    }
+  }
+
+  changeMultiplier(card: Card, i: number) {
+    card.changeMultiplier(i);
+    this.multiplierChangeEvent.emit(true);
+  }}
