@@ -57,15 +57,15 @@
 	</div>
 </div>
 
-<div *ngIf="cards.length > 0" class="alert alert-primary mt-3 text-end fw-bolder">
+<div *ngIf="!noData" class="alert alert-primary mt-3 text-end fw-bolder">
 	<span>Precio total: <strong>ARS {{ precioTotal | currency}}</strong></span>
 </div>
 
-<div>
-	<button *ngIf="cards.length > 0" type="button" class="btn btn btn-primary btn-sm ms-2" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
+<div *ngIf="!noData">
+	<button type="button" class="btn btn btn-primary btn-sm ms-2" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
 		Copiar URL <fa-icon icon="copy"></fa-icon>
 	</button>
-	<a *ngIf="cards.length > 0" type="button" class="btn btn btn-success btn-sm ms-2" href="https://api.whatsapp.com/send?text=cartas: {{generateUrl()}}" data-action="share/whatsapp/share">
+	<a type="button" class="btn btn btn-success btn-sm ms-2" [href]="getShareUrl('wsp')" data-action="share/whatsapp/share">
 		Compartir <fa-icon [icon]="['fab', 'whatsapp']"></fa-icon>
 	</a>
 </div>

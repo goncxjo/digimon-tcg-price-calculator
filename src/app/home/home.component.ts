@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
   precioTotal: number = 0;
   priceSelected: any;
   mostrarAyuda: boolean = false;
+  mostrarBotonesCompartir: boolean = false;
 
   constructor(
     private router: Router,
@@ -52,6 +53,10 @@ export class HomeComponent implements OnInit {
     this.route.queryParamMap.subscribe((params) => {
       this.importData = params.get('importData') || '';
     });
+  }
+
+  get noData() {
+    return this.cards.length == 0;
   }
 
   ngOnInit(): void {
@@ -148,7 +153,7 @@ export class HomeComponent implements OnInit {
     const result = this.cards.map(c => c.exportEntity())
     var data = this.cryptoService.encryptJsonUriFriendly(result);
     const baseUrl = window.document.baseURI;
-    return encodeURIComponent(`${baseUrl}?importData=${data}`);
+    return `${baseUrl}?importData=${data}`;
   }
 
   copyUrl() {
@@ -156,15 +161,17 @@ export class HomeComponent implements OnInit {
     this.clipboard.copy(result);
   }
 
-  shareUrl(type: string) {
+  // TODO: ver error 'ExpressionChangedAfterItHasBeenCheckedError'
+  getShareUrl(type: string) {
+    if (this.noData) {
+      return '#';
+    }
     const result = this.generateUrl();
     switch (type) {
       case 'wsp':
-        window.open(`whatsapp://send?text= ${result}`, '_blank')
-        break;
-    
+        return `https://api.whatsapp.com/send?text= ${encodeURIComponent(result)}`;    
       default:
-        break;
+        return '#';
     }
   }
 
