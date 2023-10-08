@@ -11,7 +11,7 @@
 				<small class="text-secondary-emphasis"><strong>Código: </strong> {{ data.code.default }}</small>
 				<small class="text-secondary-emphasis"><strong>Rareza: </strong> {{ data.rarity_name }}</small>
 				<small>
-					<a [attr.href]="data.tcg_player_url">
+					<a [attr.href]="data.tcg_player_url" rel='noopener' target='_blank'>
 						Link al producto en TCG Player <fa-icon icon="share-from-square"></fa-icon>
 					</a>
 				</small>
