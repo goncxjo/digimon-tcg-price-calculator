@@ -9,14 +9,11 @@ import { style, transition, trigger, animate } from '@angular/animations';
   templateUrl: './card-info.component.html',
   styleUrls: ['./card-info.component.scss'],
   animations: [
-    trigger('myInsertRemoveTrigger', [
+    trigger('myInsertTrigger', [
       transition(':enter', [
         style({ opacity: 0 }),
         animate('250ms', style({ opacity: 1 })),
       ]),
-      transition(':leave', [
-        animate('50ms', style({ opacity: 0 }))
-      ])
     ]),
   ]
 })
