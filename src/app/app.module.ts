@@ -19,6 +19,7 @@ import { CardSearcherComponent } from './cards/card-searcher/card-searcher.compo
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
 import { ComoFuncionaComponent } from './como-funciona/como-funciona.component';
 import { HttpErrorInterceptor, LoaderInterceptor } from './backend/interceptors';
 
@@ -55,6 +56,6 @@ registerLocaleData(localeEsAr, 'es-Ar');
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {
-    library.addIconPacks(fas, far);
+    library.addIconPacks(fas, far, fab);
   }
 }
