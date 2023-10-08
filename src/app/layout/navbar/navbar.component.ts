@@ -28,7 +28,6 @@ export class NavbarComponent implements OnInit {
 
 	open(content: any) {
     this.isMenuCollapsed = !this.isMenuCollapsed;
-    console.log(this.isMenuCollapsed);
 		this.offcanvasService.open(content, { position: 'end', panelClass: 'bg-primary text-bg-dark' }).result.then(
 			(result) => {
         this.isMenuCollapsed = !this.isMenuCollapsed;
