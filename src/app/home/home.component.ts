@@ -161,17 +161,14 @@ export class HomeComponent implements OnInit {
     this.clipboard.copy(result);
   }
 
-  // TODO: ver error 'ExpressionChangedAfterItHasBeenCheckedError'
-  getShareUrl(type: string) {
-    if (this.noData) {
-      return '#';
-    }
+  shareUrl(type: string) {
     const result = this.generateUrl();
     switch (type) {
       case 'wsp':
-        return `https://api.whatsapp.com/send?text= ${encodeURIComponent(result)}`;    
+        window.open(`https://api.whatsapp.com/send?text= ${encodeURIComponent(result)}`, '_blank');
+        break;
       default:
-        return '#';
+        break
     }
   }
 
