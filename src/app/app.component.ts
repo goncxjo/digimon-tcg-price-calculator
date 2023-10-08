@@ -64,8 +64,10 @@ export class AppComponent implements OnInit {
 
   updateMetaTags() {
     const url = `${window.location.protocol}//${window.location.hostname}`;
-    this.meta.updateTag({property: 'og:image', content: `${url}/assets/og-image-logo.png`});
     this.meta.updateTag({property: 'og:url', content: `${url}`})
+    this.meta.updateTag({property: 'og:image', content: `${url}/assets/og-image-logo.png`});
+    this.meta.updateTag({property: 'twitter:url', content: `${url}`})
+    this.meta.updateTag({property: 'twitter:image', content: `${url}/assets/og-image-logo.png`});
   }
 
   private setTitle(cfg: any) {
