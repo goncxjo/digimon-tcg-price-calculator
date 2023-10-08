@@ -2,7 +2,7 @@
   <div class="container">
 
     <a class="navbar-brand py-0" [routerLink]="['/']">
-      <div class="brand" *ngIf="isLoading else logo">
+      <div class="brand ps-3" *ngIf="isLoading else logo">
         <fa-icon id="loading-logo" icon="gear" animation="spin"></fa-icon>
         <span id="app-title" class="d-flex flex-column text-start loading-title">
           <span>Cargando</span>
@@ -50,7 +50,7 @@
         <a class="nav-link" [routerLink]="['/como-funciona']" [routerLinkActive]="['active']">Cómo funciona</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href='https://cafecito.app/goncxjo'>Quiero donar</a>
+        <a class="nav-link" href='https://cafecito.app/goncxjo' rel='noopener' target='_blank'>Quiero donar</a>
       </li>
 
     </ul>
@@ -60,8 +60,8 @@
     <small class="offcanvas-subtitle opacity-50 text-uppercase">Otras aplicaciones</small>
     <ul class="navbar-nav" (click)="offcanvas.dismiss('')">
       <li class="nav-item">
-        <a class="nav-link" href="https://online-judge-eight.vercel.app/">AI Judge by WARBEN</a>
-        <a class="nav-link" href="https://www.digi-tcg.online/">Digimon TCG Simulator by WE-Kaito</a>
+        <a class="nav-link" href="https://online-judge-eight.vercel.app/" rel='noopener' target='_blank'>AI Judge by WARBEN</a>
+        <a class="nav-link" href="https://www.digi-tcg.online/" rel='noopener' target='_blank'>Digimon TCG Simulator by WE-Kaito</a>
       </li>
     </ul>
     
