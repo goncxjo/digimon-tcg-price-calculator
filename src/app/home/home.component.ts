@@ -160,7 +160,7 @@ export class HomeComponent implements OnInit {
     const result = this.generateUrl();
     switch (type) {
       case 'wsp':
-        window.open(`whatsapp://send?text=${result}`)
+        window.open(`whatsapp://send?text= ${result}`, '_blank')
         break;
     
       default:
