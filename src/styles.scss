@@ -32,6 +32,10 @@ body {
 	background-color: $gray-200;
 }
 
+hr {
+	border-width: 1px;
+}
+
 .app-container {
 	display: flex;
 	flex-direction: column;
