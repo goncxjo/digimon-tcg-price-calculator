@@ -61,8 +61,12 @@
 	<span>Precio total: <strong>ARS {{ precioTotal | currency}}</strong></span>
 </div>
 
-<button *ngIf="cards.length > 0" type="button" class="btn btn btn-primary btn-sm ms-2" (click)="generateUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
-	Compartir URL <fa-icon icon="share-from-square"></fa-icon>
+<button *ngIf="cards.length > 0" type="button" class="btn btn btn-primary btn-sm ms-2" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
+	Copiar URL <fa-icon icon="share-from-square"></fa-icon>
+</button>
+
+<button *ngIf="cards.length > 0" type="button" class="btn btn btn-success btn-sm ms-2" (click)="shareUrl('wsp')">
+	Compartir <fa-icon [icon]="['fab', 'whatsapp']"></fa-icon>
 </button>
 
 

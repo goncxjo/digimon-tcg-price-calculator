@@ -148,7 +148,24 @@ export class HomeComponent implements OnInit {
     const result = this.cards.map(c => c.exportEntity())
     var data = this.cryptoService.encryptJsonUriFriendly(result);
     const baseUrl = window.document.baseURI;
-    this.clipboard.copy(`${baseUrl}?importData=${data}`);
+    return `${baseUrl}?importData=${data}`;
+  }
+
+  copyUrl() {
+    const result = this.generateUrl();
+    this.clipboard.copy(result);
+  }
+
+  shareUrl(type: string) {
+    const result = this.generateUrl();
+    switch (type) {
+      case 'wsp':
+        window.open(`whatsapp://send?text=${result}`)
+        break;
+    
+      default:
+        break;
+    }
   }
 
   onPriceChanged($event: any) {
