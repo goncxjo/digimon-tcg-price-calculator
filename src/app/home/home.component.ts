@@ -148,7 +148,7 @@ export class HomeComponent implements OnInit {
     const result = this.cards.map(c => c.exportEntity())
     var data = this.cryptoService.encryptJsonUriFriendly(result);
     const baseUrl = window.document.baseURI;
-    return `${baseUrl}?importData=${data}`;
+    return encodeURIComponent(`${baseUrl}?importData=${data}`);
   }
 
   copyUrl() {
