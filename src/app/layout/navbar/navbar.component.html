@@ -2,8 +2,8 @@
   <div class="container">
 
     <a class="navbar-brand py-0" [routerLink]="['/']">
-      <div class="brand ps-3" *ngIf="isLoading else logo">
-        <fa-icon id="loading-logo" icon="gear" animation="spin"></fa-icon>
+      <div class="brand" *ngIf="isLoading else logo">
+        <img id="brand-logo" src="assets/logo_loading.svg" alt="loading">
         <span id="app-title" class="d-flex flex-column text-start loading-title">
           <span>Cargando</span>
         </span>  
@@ -20,7 +20,7 @@
 
 <ng-template #logo>
   <div class="brand">
-    <img id="brand-logo" src="assets/logo.svg" alt="digimon">
+    <img id="brand-logo" src="assets/logo.svg" alt="digi-calc">
     <span id="app-title" class="d-flex flex-column text-start">
       <span style="margin-bottom: -7px;">Digimon Card Game</span>
       <span>Price Calculator</span>
