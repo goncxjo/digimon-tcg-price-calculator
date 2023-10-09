@@ -1,5 +1,5 @@
 <ng-template #rt let-r="result" let-t="term">
-	<div class="d-flex flex-row align-items-center">
+	<div class="d-flex flex-row align-items-center" (click)="blurInput()">
 		<img class="col-2 me-3" [src]="r['image_url']" style="width: 3rem" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
 		<div class="col d-flex flex-column text-truncate">
 			<ngb-highlight [result]="r.name" [term]="t" class="text-truncate"></ngb-highlight>
@@ -17,6 +17,7 @@
 			</span> -->
 			<input
 				id="typeahead-template"
+				#cardSearcherInput
 				type="text"
 				class="form-control"
 				[(ngModel)]="model"
@@ -25,8 +26,9 @@
 				[inputFormatter]="formatter"
 				[resultFormatter]="formatter"
 				[editable]="false"
-				placeholder="Buscar una carta..."
+				placeholder="Escribí acá el nombre de la carta"
 				(selectItem)="agregarCarta()"
+				(keyup.enter)="blurInput()"
 			/>
 		</div>
 	</div>	

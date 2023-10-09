@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Observable, OperatorFunction, of } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Observable, OperatorFunction, Subject, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { Card } from 'src/app/backend';
 import { TcgPlayerService } from 'src/app/backend/services/tcg-player.service';
 
@@ -13,7 +13,8 @@ export class CardSearcherComponent implements OnInit {
   public model?: Card;
   data: Card[] = [];
   @Output() card = new EventEmitter<Card>();
-	
+  @ViewChild('cardSearcherInput') cardSearcherInput!: ElementRef;
+
   searching = false;
 	searchFailed = false;
 
@@ -48,5 +49,9 @@ export class CardSearcherComponent implements OnInit {
       this.card.emit(this.model);
       delete this.model;
     }, 0);
+  }
+
+  blurInput() {
+    this.cardSearcherInput.nativeElement.blur();
   }
 }
