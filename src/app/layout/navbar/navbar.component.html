@@ -2,7 +2,8 @@
   <div class="container">
 
     <a class="navbar-brand py-0" [routerLink]="['/']">
-      <div class="brand" *ngIf="isLoading else logo">
+      <div class="brand" *ngIf="isLoading else logo"></div>
+      <div class="brand" [hidden]="!isLoading">
         <img id="brand-logo" src="assets/logo_loading.svg" alt="loading">
         <span id="app-title" class="d-flex flex-column text-start loading-title">
           <span>Cargando</span>
