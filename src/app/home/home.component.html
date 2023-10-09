@@ -1,27 +1,39 @@
 <div class="alert alert-success text-center mt-3">
 	<span *ngIf="!dolar">
-		<fa-icon id="loading-logo" icon="spinner" animation="spin" class="me-2"></fa-icon>Obteniendo cotización
+		<fa-icon id="loading-logo" icon="spinner" animation="spin" class="me-2"/>Obteniendo cotización
 	</span>
 	<span *ngIf="dolar">
-		<fa-icon icon="money-bill-trend-up" class="me-2"></fa-icon> Dolar hoy: ARS {{ dolar.venta | currency}}
+		<fa-icon icon="money-bill-trend-up" class="me-2"/> Dolar hoy: ARS {{ dolar.venta | currency}}
 	</span>
 </div>
 
 <div class="row" *ngIf="dolar">
 	<app-card-searcher *ngIf="!id" (card)="onCardAdded($event)"></app-card-searcher>
 	
-	<div @myInsertRemoveTrigger class="mt-5 info-ayuda" *ngIf="mostrarAyuda && cards.length === 0">
+	<div @myInsertRemoveTrigger class="col-lg-4 mx-auto mt-5 info-ayuda" *ngIf="mostrarAyuda && cards.length === 0">
 		<div class="alert alert-info d-flex flex-row align-items-center">
 			<span>
-				<fa-icon icon="circle-info" class="me-3"></fa-icon>
+				<fa-icon icon="circle-info" class="me-3"/>
 			</span>
 			<span>
-				Para agregar cartas, escriba en el panel de búsqueda y seleccione alguno de los resultados.
+				Para agregar cartas, escribí en el panel de búsqueda y seleccioná alguno de los resultados.
 			</span>
 		</div>
 	</div>
 </div>
 
+
+<div class="btn-group" *ngIf="cards.length > 0" role="group">
+	<button type="button" class="btn btn btn-primary btn-sm" (click)="ordenar('precio', 'desc')">
+		<fa-icon icon="arrow-up-9-1" />
+	</button>
+	<button type="button" class="btn btn btn-primary btn-sm active" disabled >
+		Ordenar
+	</button>
+	<button type="button" class="btn btn btn-primary btn-sm" (click)="ordenar('precio', 'asc')">
+		<fa-icon icon="arrow-down-1-9" />
+	</button>
+</div>
 
 <div class="row">
 	<div @myInsertRemoveTrigger *ngFor="let item of cards; let index = index" [ngClass]="{'col-12': !item.infoReduced, 'col-md-6 col-lg-4': item.infoReduced}">
@@ -29,18 +41,18 @@
 
 			<span *ngIf="item.infoReduced">
 				<button class="border-0 position-absolute top-0 start-100 translate-middle-sm-multiplier badge rounded-close-btn bg-danger" (click)="removeCard(item)">
-					<fa-icon icon="times"></fa-icon>
+					<fa-icon icon="times"/>
 					<span class="visually-hidden">cantidad cartas</span>
 				</button>
 				<div class="btn-group-vertical position-absolute top-50 start-100 translate-middle-sm-multiplier-buttons" role="group">
 					<button type="button" class="btn btn-sm btn-secondary" (click)="changeMultiplier(item, 1)">
-						<fa-icon icon="plus"></fa-icon>
+						<fa-icon icon="plus"/>
 					</button>
 					<button type="button" class="btn btn-sm btn-secondary px-0 active">
 						x{{ item.multiplier }}
 					</button>
 					<button type="button" class="btn btn-sm btn-secondary" (click)="changeMultiplier(item, -1)">
-						<fa-icon icon="minus"></fa-icon>
+						<fa-icon icon="minus"/>
 					</button>
 				</div>
 			</span>
@@ -63,10 +75,10 @@
 
 <div *ngIf="!noData">
 	<button type="button" class="btn btn btn-primary btn-sm ms-2" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
-		Copiar URL <fa-icon icon="copy"></fa-icon>
+		Copiar URL <fa-icon icon="copy"/>
 	</button>
 	<button type="button" class="btn btn btn-success btn-sm ms-2" (click)="shareUrl('wsp')">
-		Compartir <fa-icon [icon]="['fab', 'whatsapp']"></fa-icon>
+		Compartir <fa-icon [icon]="['fab', 'whatsapp']"/>
 	</button>
 </div>
 

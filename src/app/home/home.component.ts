@@ -85,40 +85,46 @@ export class HomeComponent implements OnInit {
 
     if (this.importData) {
       let res = this.cryptoService.decryptJsonUriFriendly(this.importData);
-      res.forEach((c: CardExport) => {
+      res.forEach((c: string) => {
         setTimeout(() => {
-          this.addCard(c.tcg_player_id);
+          const card = new Card();
+          card.mapExportToEntity(c);
+          this.addCard(card);
         }, 10);
       });
+      this.router.navigate([], { queryParams: {} });
     }
 
   }
   
   onCardAdded($event: any) {
     let card = $event;
-    this.addCard(card.tcg_player_id);
+    this.addCard(card);
     this.mostrarAyuda = false;
   }
 
-  addCard(tcg_player_id: number) {
+  addCard(card: Card) {
     let foundCard =_.find(this.cards, (c) => {
-      return c.tcg_player_id == tcg_player_id;
+      return c.tcg_player_id == card.tcg_player_id;
     });
     if(!foundCard) {
       setTimeout(() => {
         try {
-          this.getById(tcg_player_id);
+          this.getById(card);
         } catch (error) {
-          console.log(`error al importar #${tcg_player_id}`)
+          console.log(`error al importar #${card.tcg_player_id}`)
         }
       }, 0);
     }
   }
   
-  getById(tcg_player_id: any) {
-    this.tcgPlayerService.getDigimonCardById(tcg_player_id)
+  getById(card: Card) {
+    this.tcgPlayerService.getDigimonCardById(card.tcg_player_id || 0)
     .pipe(take(1))
     .subscribe(res => {
+      res.multiplier = card.multiplier;
+      res.prices.set('custom', card.prices.get('custom') || null);
+
       this.cards.push(res);
       this.calcularPrecioTotal();
     });
@@ -150,7 +156,7 @@ export class HomeComponent implements OnInit {
   }
 
   generateUrl() {
-    const result = this.cards.map(c => c.exportEntity())
+    const result = this.cards.map(c => c.exportString());
     var data = this.cryptoService.encryptJsonUriFriendly(result);
     const baseUrl = window.document.baseURI;
     return `${baseUrl}?importData=${data}`;
@@ -169,6 +175,22 @@ export class HomeComponent implements OnInit {
         break;
       default:
         break
+    }
+  }
+
+  ordenar(metodo: string, valor: string) {
+    switch (metodo) {
+      case 'precio':
+        this.cards.sort((a: Card, b: Card) => {
+          if (valor == 'asc') {
+            return a.price.currency_value * a.multiplier - b.price.currency_value * b.multiplier
+          }
+          return b.price.currency_value * b.multiplier - a.price.currency_value * a.multiplier
+        });
+        break;
+    
+      default:
+        break;
     }
   }
 

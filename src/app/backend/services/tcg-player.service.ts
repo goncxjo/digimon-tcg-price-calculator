@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
 import { AppConfigService } from 'src/app/core';
-import { Card } from '../models';
+import { Card, CardPrice } from '../models';
 import { CardPriceTcgPlayer, ProductPriceTcgPlayer, SearchTcgPlayer } from '../models/tcg-player';
 import * as _ from 'lodash';
 import { createTcgPlayerQuery } from './tcg-player-search-query';
@@ -61,14 +61,9 @@ export class TcgPlayerService {
         });
         return this.httpClient.get<ProductPriceTcgPlayer[]>(url, { headers: headers }).pipe(
             map((res: ProductPriceTcgPlayer[]) => {
-                const tcg_player_normal = {
-                    currency_symbol: 'USD',
-                    currency_value: res[0].listedMedianPrice
-                };
-                const tcg_player_foil = {
-                    currency_symbol: 'USD',
-                    currency_value: res[1].listedMedianPrice
-                }
+                const tcg_player_normal = new CardPrice('USD', res[0].listedMedianPrice);
+                const tcg_player_foil = new CardPrice('USD', res[1].listedMedianPrice);
+                
                 return {
                     tcg_player_normal: tcg_player_normal.currency_value != null ? tcg_player_normal : null,
                     tcg_player_foil: tcg_player_foil.currency_value != null ? tcg_player_foil : null

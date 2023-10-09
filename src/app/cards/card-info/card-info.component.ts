@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { TcgPlayerService } from 'src/app/backend';
-import { Card, Dolar } from 'src/app/backend/models';
+import { Card, CardPrice, Dolar } from 'src/app/backend/models';
 import { style, transition, trigger, animate } from '@angular/animations';
 
 @Component({
@@ -50,8 +50,19 @@ export class CardInfoComponent implements OnInit, OnDestroy {
     }
   }
 
+  async loadCustomPrice() {
+      const customPrice = this.data.prices.get('custom');
+      if (customPrice) {
+        this.custom_price = customPrice.currency_value;
+        if (customPrice.currency_value) {
+          this.priceSelected = 'custom';
+        }
+      }
+  }
+
   async ngAfterViewInit() {
     await this.loadTcgPlayerPrices();
+    await this.loadCustomPrice();
     this.setPrecioCarta();
   }
 
@@ -82,7 +93,7 @@ export class CardInfoComponent implements OnInit, OnDestroy {
   }
   
   onCustomPriceChange($event: any) {
-    this.data.prices.set('custom', { currency_symbol: 'ARS', currency_value: this.custom_price });
+    this.data.prices.set('custom', new CardPrice('ARS', this.custom_price));
     this.setPrecioCarta();
   }
 
