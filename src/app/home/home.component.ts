@@ -147,7 +147,11 @@ export class HomeComponent implements OnInit {
         return c.price.currency_value * c.multiplier;
       });
       
-    }, 10);    
+    }, 10);
+  }
+
+  getPrecioTotalUSD() {
+    return Math.round(this.precioTotal / this.dolar.venta * 100) / 100;
   }
 
   changeMultiplier(card: Card, i: number) {

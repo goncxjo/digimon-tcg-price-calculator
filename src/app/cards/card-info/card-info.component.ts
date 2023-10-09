@@ -86,6 +86,15 @@ export class CardInfoComponent implements OnInit, OnDestroy {
   getPrecioCartaTotal() {
     return this.getPrecioCarta() * this.data.multiplier;
   }
+  
+  getPrecioCartaUSD() {
+    return Math.round(this.getPrecioCarta() / this.dolar.venta * 100) / 100;
+  }
+  
+  getPrecioCartaTotalUSD() {
+    return this.getPrecioCartaUSD() * this.data.multiplier;
+  }
+
 
   onPriceSelected(priceSelected: string) {
     this.priceSelected = priceSelected;

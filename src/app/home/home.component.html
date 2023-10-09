@@ -70,7 +70,10 @@
 </div>
 
 <div *ngIf="!noData" class="alert alert-primary mt-3 text-end fw-bolder">
-	<span>Precio total: <strong>ARS {{ precioTotal | currency}}</strong></span>
+	<span>Precio total:
+		<strong>ARS {{ precioTotal | currency}}</strong>
+		(<strong>USD {{ getPrecioTotalUSD() | currency}}</strong>)
+	</span>
 </div>
 
 <div *ngIf="!noData">
