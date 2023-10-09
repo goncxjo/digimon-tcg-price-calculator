@@ -61,9 +61,32 @@ export class Card {
 		const model = {
 			tcg_player_id: this.tcg_player_id,
 			code: this.code.default,
-			multiplier: this.multiplier
+			multiplier: this.multiplier,
+			customPrice: this.prices.get('custom')
 		} as CardExport;
 		return model;
+	}
+
+	exportString() {
+		const model = this.exportEntity();
+		const customPrice: string = `${model.customPrice?.currency_symbol} ${model.customPrice?.currency_value}`
+		return `${model.tcg_player_id}_${model.code}_${model.multiplier}_${customPrice}`;
+	}
+
+	mapExportToEntity(value: string) {
+		try {
+			const [tcg_player_id, code, multiplier, customPriceString] = value.split('_');
+			const customPrice = new CardPrice();
+			customPrice.setPrice(customPriceString);
+	
+			this.tcg_player_id = parseInt(tcg_player_id);
+			this.code = new CardCode(code);
+			this.multiplier = parseInt(multiplier);
+			this.prices.set('custom', customPrice);
+				
+		} catch (error) {
+			console.log(`error al mapear #${value}`)
+		}
 	}
 }
 
@@ -73,8 +96,19 @@ export class CardPrices {
 }
 
 export class CardPrice {
-	currency_value: number = 0;
-	currency_symbol: string = 'ARS';
+	currency_value: number;
+	currency_symbol: string;
+
+	constructor(symbol: string = 'ARS', value: number = 0) {
+		this.currency_symbol = symbol;		
+		this.currency_value = value;		
+	}
+
+	setPrice(price: string) {
+		const [symbol, value] = price.split(' ');
+		this.currency_value = parseFloat(value);
+		this.currency_symbol = symbol;
+	}
 }
 
 export class CardCode {
