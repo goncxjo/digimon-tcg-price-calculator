@@ -178,6 +178,22 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  ordenar(metodo: string, valor: string) {
+    switch (metodo) {
+      case 'precio':
+        this.cards.sort((a: Card, b: Card) => {
+          if (valor == 'asc') {
+            return a.price.currency_value * a.multiplier - b.price.currency_value * b.multiplier
+          }
+          return b.price.currency_value * b.multiplier - a.price.currency_value * a.multiplier
+        });
+        break;
+    
+      default:
+        break;
+    }
+  }
+
   onPriceChanged($event: any) {
     this.calcularPrecioTotal();
   }
