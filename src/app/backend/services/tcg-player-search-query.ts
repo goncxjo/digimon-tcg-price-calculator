@@ -5,7 +5,7 @@ export function createTcgPlayerQuery(productId: number = 0): any {
 		size: 20,
 		filters: {
 		  term: {
-			productLineUrlName: ["digimon-card-game"],
+			productLineName: ["Digimon Card Game"],
 			rarityName: ["Common", "Uncommon", "Rare", "Super Rare", "Secret Rare", "Promo"],
 		  },
 		  range: {},
