@@ -12,8 +12,8 @@
 <div class="alert alert-warning text-center mt-3" *ngIf="editDolarMode">
 	<span *ngIf="dolar">
 		<form class="row row-cols-auto g-3 justify-content-center align-items-center">
-			<label for="dolar" class="col-3 col-md-1 col-form-label col-form-label-sm">Dolar custom: </label>
-			<div class="col">
+			<label for="dolar" class="col-4 col-md-1 col-form-label col-form-label-sm">Dolar custom: </label>
+			<div class="col-6 col-md-2">
 				<div class="input-group input-group-sm">
 					<span class="input-group-text">ARS</span>
 					<input type="number" [min]="0" [(ngModel)]="dolar.venta" class="form-control form-control-sm" name="dolarVenta" >
