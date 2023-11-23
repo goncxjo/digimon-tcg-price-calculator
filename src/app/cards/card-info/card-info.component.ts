@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { TcgPlayerService } from 'src/app/backend';
 import { Card, CardPrice, Dolar } from 'src/app/backend/models';
@@ -17,10 +17,10 @@ import { style, transition, trigger, animate } from '@angular/animations';
     ]),
   ]
 })
-export class CardInfoComponent implements OnInit, OnDestroy {
+export class CardInfoComponent implements OnInit, OnDestroy, OnChanges {
   @Input() data!: Card;
   @Input() dolar!: Dolar;
-  @Input() reduced: boolean = true;
+  @Input() dolarChanged: any;
   @Output() priceChangeEvent = new EventEmitter<boolean>();
   @Output() cardRemovedEvent = new EventEmitter<number>();
 
@@ -112,6 +112,14 @@ export class CardInfoComponent implements OnInit, OnDestroy {
   remove(item: Card) {
     if (item.tcg_player_id) {
       this.cardRemovedEvent.emit(item.tcg_player_id);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propName in changes) {
+      if (propName == 'dolarChanged') {
+        this.setPrecioCarta();
+      }
     }
   }
 }

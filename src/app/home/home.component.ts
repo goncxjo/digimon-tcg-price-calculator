@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit {
   priceSelected: any;
   mostrarAyuda: boolean = false;
   mostrarBotonesCompartir: boolean = false;
+  editDolarMode: boolean = false;
 
   constructor(
     private router: Router,
@@ -60,11 +61,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dolarService.getDolarBlue()
-    .pipe(take(1))
-    .subscribe(res => {
-      this.dolar = res;
-    });
+    this.getDolar();
 
     setTimeout(() => {
       this.mostrarAyuda = true;
@@ -95,6 +92,13 @@ export class HomeComponent implements OnInit {
       this.router.navigate([], { queryParams: {} });
     }
 
+  }
+  getDolar() {
+    this.dolarService.getDolarBlue()
+    .pipe(take(1))
+    .subscribe(res => {
+      this.dolar = res;
+    });
   }
   
   onCardAdded($event: any) {
@@ -212,5 +216,13 @@ export class HomeComponent implements OnInit {
 
   getFechaActualizacionDolar() {
     return (new Date(this.dolar.fechaActualizacion)).toLocaleString('es-AR')
+  }
+
+  toggleEditDolarMode() {
+    this.editDolarMode = !this.editDolarMode;
+
+    if (!this.editDolarMode) {
+      this.getDolar();
+    }
   }
 }

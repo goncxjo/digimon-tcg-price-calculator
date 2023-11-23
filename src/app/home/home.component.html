@@ -1,9 +1,28 @@
-<div class="alert alert-success text-center mt-3">
+<div class="alert alert-success text-center mt-3" *ngIf="!editDolarMode">
 	<span *ngIf="!dolar">
 		<fa-icon id="loading-logo" icon="spinner" animation="spin" class="me-2"/>Obteniendo cotización
 	</span>
 	<span *ngIf="dolar">
-		<fa-icon icon="money-bill-trend-up" class="me-2"/> Dolar hoy: ARS {{ dolar.venta | currency}}
+		Dolar hoy: ARS {{ dolar.venta | currency }}
+		<button type="button" class="btn btn-outline-success btn-sm" (click)="toggleEditDolarMode()">
+			<fa-icon icon="pen" />
+		</button>
+	</span>
+</div>
+<div class="alert alert-warning text-center mt-3" *ngIf="editDolarMode">
+	<span *ngIf="dolar">
+		<form class="row row-cols-auto g-3 justify-content-center align-items-center">
+			<label for="dolar" class="col-3 col-md-1 col-form-label col-form-label-sm">Dolar custom: </label>
+			<div class="col">
+				<div class="input-group input-group-sm">
+					<span class="input-group-text">ARS</span>
+					<input type="number" [min]="0" [(ngModel)]="dolar.venta" class="form-control form-control-sm" name="dolarVenta" >
+				</div>
+			</div>
+			<button type="button" class="btn btn-outline-danger btn-sm" (click)="toggleEditDolarMode()">
+				<fa-icon icon="ban" />
+			</button>
+		</form>
 	</span>
 </div>
 
@@ -61,6 +80,7 @@
 				<app-card-info
 					[data]="item"
 					[dolar]="dolar"
+					[dolarChanged]="dolar.venta"
 					(priceChangeEvent)="onPriceChanged($event)"
 					(cardRemovedEvent)="onCardRemoved($event)"
 				></app-card-info>
