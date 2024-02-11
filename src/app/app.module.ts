@@ -22,6 +22,7 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { ComoFuncionaComponent } from './como-funciona/como-funciona.component';
 import { HttpErrorInterceptor, LoaderInterceptor } from './backend/interceptors';
+import { ExportImgComponent } from './cards/modals/export-img/export-img.component';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en')
@@ -33,7 +34,8 @@ registerLocaleData(localeEsAr, 'es-Ar');
     HomeComponent,
     CardInfoComponent,
     CardSearcherComponent,
-    ComoFuncionaComponent
+    ComoFuncionaComponent,
+    ExportImgComponent
   ],
   imports: [
     BrowserModule,

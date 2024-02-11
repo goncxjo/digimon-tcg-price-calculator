@@ -1,5 +1,5 @@
 import {Location} from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { take } from 'rxjs';
@@ -7,6 +7,8 @@ import * as _ from 'lodash';
 import { Card, CardExport, Dolar } from '../backend/models';
 import { CryptoService, DolarService, TcgPlayerService } from '../backend/services';
 import { style, transition, trigger, animate } from '@angular/animations';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ExportImgComponent } from '../cards/modals/export-img/export-img.component';
 
 @Component({
   selector: 'app-home',
@@ -44,6 +46,7 @@ export class HomeComponent implements OnInit {
     private dolarService: DolarService,
     private cryptoService: CryptoService,
     private clipboard: Clipboard,
+    private modalService: NgbModal
   ) {
     this.route.params.pipe(
       take(1),
@@ -225,4 +228,19 @@ export class HomeComponent implements OnInit {
       this.getDolar();
     }
   }
+
+	openExportImg() {
+		const modalInstance = this.modalService.open(ExportImgComponent, { fullscreen: true });
+
+    modalInstance.componentInstance.cards = this.cards;
+    modalInstance.componentInstance.dolar = this.dolar;
+    modalInstance.componentInstance.precioTotal = this.precioTotal;
+    modalInstance.componentInstance.precioTotalUSD = this.getPrecioTotalUSD();
+
+    modalInstance.result.then(this.onModalSuccess, onError);
+
+    function onError() { }
+  }
+
+  onModalSuccess = () => { }
 }

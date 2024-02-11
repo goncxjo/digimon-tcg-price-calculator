@@ -1,0 +1,47 @@
+<div class="modal-content">
+	<div class="modal-header">
+		<h4 class="modal-title">Exportar listado de cartas</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="close('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+
+		<div class="container">
+			<div class="row">
+				<div *ngFor="let item of cards; let index = index" class="mb-2 px-1" [style.width]="colExportWidth">
+					<div class="img-container position-relative">
+						<img [src]="item.image_url" class="img-fluid mh-100" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
+						<span class="position-absolute top-0 start-50 translate-middle bg-danger badge rounded-pill">
+							x{{ item.multiplier }}
+						</span>
+						<span class="position-absolute top-100 start-50 translate-middle bg-primary badge rounded-pill export-font">
+							$ {{ getPrecio(item) / item.multiplier | currency}}
+						</span>
+					</div>
+					<!-- <div class="alert alert-danger text-center py-0 my-2">
+						<span class="export-font">
+							<strong>
+								x{{ item.multiplier }}
+							</strong>
+						</span>
+					</div>-->
+					<div class="alert alert-success text-center p-0 my-2">
+						<span class="export-font">
+							<!-- <strong>ARS {{ getPrecio(item) / item.multiplier | currency}} (U)</strong>
+							<hr class="m-0"> -->
+							<strong>${{ getPrecio(item) | currency}}</strong>
+						</span>
+					</div>
+				</div>				
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal-footer">
+		<div class="alert p-0 text-end fw-bolder">
+			<span>Precio total:
+				<strong>ARS {{ precioTotal | currency}}</strong>
+				(<strong>USD {{ precioTotalUSD | currency}}</strong>)
+			</span>
+		</div>
+</div>
+</div>
