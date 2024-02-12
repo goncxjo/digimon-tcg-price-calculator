@@ -10,6 +10,8 @@ import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { ReversePipe } from './reverse.pipe';
 import { YesNoSelectComponent } from './yes-no-select/yes-no-select.component';
 import { CurrencySelectComponent } from './currency-select/currency-select.component';
+import { QrCodeComponent } from './qr-code/qr-code.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 const MODULES = [
   CommonModule,
@@ -17,6 +19,7 @@ const MODULES = [
   FormsModule,
   ReactiveFormsModule,
   FontAwesomeModule,
+  QRCodeModule
 ]
 
 const PRIVATE_COMPONENTS: any = [
@@ -25,13 +28,15 @@ const PRIVATE_COMPONENTS: any = [
 const PUBLIC_COMPONENTS: any = [
   ReversePipe,
   YesNoSelectComponent,
-  CurrencySelectComponent
+  CurrencySelectComponent,
+  QrCodeComponent
 ];
 
 @NgModule({
   declarations: [
     ...PRIVATE_COMPONENTS,
     ...PUBLIC_COMPONENTS,
+    QrCodeComponent,
   ],
   imports: MODULES,
   exports: [

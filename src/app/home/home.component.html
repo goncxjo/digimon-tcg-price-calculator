@@ -106,8 +106,21 @@
 	<button type="button" class="btn btn btn-primary btn-sm ms-2" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
 		Copiar URL <fa-icon icon="copy"/>
 	</button>
+	<button type="button" class="btn btn btn-primary btn-sm ms-2" (click)="generateQR()">
+		Generar QR <fa-icon icon="qrcode"/>
+	</button>
 	<button type="button" class="btn btn btn-success btn-sm ms-2" (click)="shareUrl('wsp')">
 		Compartir <fa-icon [icon]="['fab', 'whatsapp']"/>
 	</button>
 </div>
+
+<ng-template #qr let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title">Código QR</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body pt-0 text-center">
+		<app-qr-code [data]="importData"></app-qr-code>
+	</div>
+</ng-template>
 

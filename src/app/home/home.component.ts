@@ -1,10 +1,10 @@
 import {Location} from '@angular/common';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { take } from 'rxjs';
 import * as _ from 'lodash';
-import { Card, CardExport, Dolar } from '../backend/models';
+import { Card, Dolar } from '../backend/models';
 import { CryptoService, DolarService, TcgPlayerService } from '../backend/services';
 import { style, transition, trigger, animate } from '@angular/animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -27,6 +27,9 @@ import { ExportImgComponent } from '../cards/modals/export-img/export-img.compon
   ]
 })
 export class HomeComponent implements OnInit {
+
+  @ViewChild('qr') qrModal!: ElementRef;
+
   id: string = '0';
   importData: string = '';
   cards: Card[] = [];
@@ -38,7 +41,8 @@ export class HomeComponent implements OnInit {
   mostrarAyuda: boolean = false;
   mostrarBotonesCompartir: boolean = false;
   editDolarMode: boolean = false;
-
+  mostrarQR = false;
+  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -243,4 +247,11 @@ export class HomeComponent implements OnInit {
   }
 
   onModalSuccess = () => { }
+
+	generateQR() {
+    setTimeout(() => {
+      this.importData = this.generateUrl();
+      this.modalService.open(this.qrModal);
+    }, 2000);
+  }
 }

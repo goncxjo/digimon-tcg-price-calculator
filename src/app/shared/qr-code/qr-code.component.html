@@ -1,0 +1,17 @@
+<qrcode
+	(qrCodeURL)="onChangeURL($event)"
+	[qrdata]="data"
+    [allowEmptyString]="true"
+    [cssClass]="'center'"
+    [colorDark]="'#000000ff'"
+    [colorLight]="'#ffffffff'"
+    [elementType]="'canvas'"
+    [errorCorrectionLevel]="'H'"
+    [margin]="4"
+    [scale]="1"
+    [width]="400"
+></qrcode>
+
+<a [href]="qrCodeDownloadLink" download="qrcode" type="button" class="btn btn-primary">
+	Descargar
+</a>
