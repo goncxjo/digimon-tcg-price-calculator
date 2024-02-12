@@ -21,6 +21,7 @@ export class Card {
 	multiplier: number = 1;
 	releaseDate: Date | null = null;
 	infoReduced: boolean = true;
+	image_base64: Blob | null = null;
 
 	constructor() {
 		this.prices.set("custom", new CardPrice());
