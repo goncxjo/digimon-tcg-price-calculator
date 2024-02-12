@@ -17,10 +17,10 @@ import { CardInfoComponent } from './cards/card-info/card-info.component';
 import { ToastrModule } from 'ngx-toastr';
 import { CardSearcherComponent } from './cards/card-searcher/card-searcher.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library, IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { ComoFuncionaComponent } from './como-funciona/como-funciona.component';
 import { HttpErrorInterceptor, LoaderInterceptor } from './backend/interceptors';
 import { ExportImgComponent } from './cards/modals/export-img/export-img.component';
@@ -28,12 +28,6 @@ import { ExportImgComponent } from './cards/modals/export-img/export-img.compone
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en')
 registerLocaleData(localeEsAr, 'es-Ar');
-
-library.add(
-  fas,
-  far,
-  fab
-);
 
 @NgModule({
   declarations: [
@@ -65,6 +59,7 @@ library.add(
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {
-    library.addIconPacks(fas, far, fab);
+    library.addIconPacks(fas, far);
+    library.addIcons(faWhatsapp as IconDefinition);
   }
 }

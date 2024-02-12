@@ -3,8 +3,10 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { ReversePipe } from './reverse.pipe';
 
 const MODULES = [
@@ -37,6 +39,7 @@ const PUBLIC_COMPONENTS: any = [
 export class SharedModule {
   constructor(library: FaIconLibrary) {
     library.addIconPacks(fas, far);
+    library.addIcons(faWhatsapp as IconDefinition);
   }
 
 }
