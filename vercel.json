@@ -8,6 +8,10 @@
 		{
 		  "source": "/tcgplayer-mpapi/:path*",
 		  "destination": "https://mpapi.tcgplayer.com/v2/:path*"
+		},
+		{
+		  "source": "/tcgplayer-images/:path*",
+		  "destination": "https://product-images.tcgplayer.com/:path*"
 		}
 	],
 	"headers": [
@@ -19,6 +23,12 @@
 	  },
 	  {
 		"source": "/tcgplayer-mpapi/(.*)",
+		"headers": [
+		  { "key": "Access-Control-Allow-Origin", "value": "*" }
+		]
+	  },
+	  {
+		"source": "/tcgplayer-images/(.*)",
 		"headers": [
 		  { "key": "Access-Control-Allow-Origin", "value": "*" }
 		]
