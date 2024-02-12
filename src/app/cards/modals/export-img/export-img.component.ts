@@ -14,7 +14,7 @@ export class ExportImgComponent implements OnInit {
   precioTotal: number = 0;
   precioTotalUSD: number = 0;
   // TODO: pendiente parametrizar
-  colExportWidth: string = 'calc(100% / 4)';
+  colExportWidth: string = 'calc(100% / 8)';
 
   constructor(
     private modalService: NgbActiveModal,

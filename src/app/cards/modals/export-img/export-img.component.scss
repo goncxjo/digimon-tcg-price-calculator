@@ -1,3 +1,36 @@
+@import 'bootstrap/scss/bootstrap';
+
+.bg-modal-content {
+	background-color: $gray-200;
+}
+
 .export-font {
     font-size: 0.5rem;
+}
+
+.bg-badge-unit-price-export-card {
+    @extend .bg-secondary;
+
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.bg-badge-multiplier-export-card {
+    background: rgba(25, 25, 25, .5);
+    color: white;
+    font-size: x-large;
+    border: 1px white solid;
+}
+
+.bg-badge-total-export-card {
+    @extend .bg-primary;
+
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+
+.card-export-item {
+    border: $gray-600 1px solid;
+    border-radius: 7px;
 }
