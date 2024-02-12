@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Card, Dolar } from 'src/app/backend';
 
@@ -7,20 +8,39 @@ import { Card, Dolar } from 'src/app/backend';
   templateUrl: './export-img.component.html',
   styleUrls: ['./export-img.component.scss']
 })
-export class ExportImgComponent implements OnInit {
+export class ExportImgComponent implements OnInit, AfterViewInit {
 
+  form = this.buildForm();
   cards: Card[] = [];
   dolar!: Dolar;
   precioTotal: number = 0;
   precioTotalUSD: number = 0;
+  selectedCurrency = 'ARS';
   // TODO: pendiente parametrizar
   colExport: number = 5;
   colExportWidth: string = `calc(100% / ${this.colExport})`;
 
   constructor(
     private modalService: NgbActiveModal,
-
+    private formBuilder: FormBuilder
   ) { }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.form.get('currency')?.setValue(this.selectedCurrency);
+    }, 0);
+  }
+
+  get formFields() {
+    return this.form.controls;
+  }
+
+  private buildForm(): FormGroup {
+    return this.formBuilder.group({
+      currency: ['']
+    });
+  }
+
 
   dismiss(reason?: string) {
     this.modalService.dismiss(reason)
@@ -38,27 +58,24 @@ export class ExportImgComponent implements OnInit {
   }
 
   getPrecio(c: Card) {
-    return c.price.currency_value * c.multiplier;
+    var price = c.price.currency_value;
+    if (this.selectedCurrency == 'ARS') {
+      return price;
+    }
+    return this.getPrecioUSD(price);
   }
 
-  getPrecioUSD(c: Card) {
-    return Math.round(this.getPrecio(c) / this.dolar.venta * 100) / 100;
+  getPrecioUSD(price: number) {
+    return Math.round(price / this.dolar.venta * 100) / 100;
   }
 
   zoom(i: number){
-    // if (this.colExport >= 5 && i > 0) {
-    //   return;
-    // }
-    
-    if (this.colExport <= 3 && i < 0) {
-      return;
-    }
-
     this.colExport += i;
     this.colExportWidth = `calc(100% / ${this.colExport})`;
-    console.log(this.colExport);
-    console.log(this.colExportWidth);
+  }
 
+  onCurrencyChange(event: string) {
+    this.selectedCurrency = event;
   }
 
 }

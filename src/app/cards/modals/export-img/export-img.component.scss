@@ -1,3 +1,5 @@
+@import '../../../layout/navbar/navbar.component.scss';
+
 .bg-modal-content {
 	background-color: #e9ecef; // $gray-200
 }
@@ -9,6 +11,8 @@
 .bg-badge-unit-price-export-card {
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+    text-overflow: ellipsis;
+    overflow: auto;
 }
 
 .bg-badge-multiplier-export-card {
@@ -21,8 +25,9 @@
 .bg-badge-total-export-card {
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
+    text-overflow: ellipsis;
+    overflow: auto;
 }
-
 
 .card-export-item {
     border: #6c757d 1px solid; // $gray-600
