@@ -16,6 +16,9 @@ export class LoaderInterceptor implements HttpInterceptor {
     if (req.url.includes('bluelytics')) {
       this.loaderService.setHttpProgressStatus(false);
     }
+    else if (req.url.includes('pricepoints')) {
+      this.loaderService.setHttpProgressStatus(true);
+    }
     else if (this.count === 0) {
       this.loaderService.setHttpProgressStatus(true);
     }
