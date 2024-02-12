@@ -14,7 +14,8 @@ export class ExportImgComponent implements OnInit {
   precioTotal: number = 0;
   precioTotalUSD: number = 0;
   // TODO: pendiente parametrizar
-  colExportWidth: string = 'calc(100% / 8)';
+  colExport: number = 5;
+  colExportWidth: string = `calc(100% / ${this.colExport})`;
 
   constructor(
     private modalService: NgbActiveModal,
@@ -42,6 +43,22 @@ export class ExportImgComponent implements OnInit {
 
   getPrecioUSD(c: Card) {
     return Math.round(this.getPrecio(c) / this.dolar.venta * 100) / 100;
+  }
+
+  zoom(i: number){
+    // if (this.colExport >= 5 && i > 0) {
+    //   return;
+    // }
+    
+    if (this.colExport <= 3 && i < 0) {
+      return;
+    }
+
+    this.colExport += i;
+    this.colExportWidth = `calc(100% / ${this.colExport})`;
+    console.log(this.colExport);
+    console.log(this.colExportWidth);
+
   }
 
 }

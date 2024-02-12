@@ -6,10 +6,24 @@
 		</button>
 	</div>
 	<div class="modal-body bg-modal-content">
-		<div class="row justify-content-center">
-			<div *ngFor="let item of cards; let index = index" class="card-export-item m-2 p-0" [style.width]="colExportWidth">
 
-				<span class="bg-badge-unit-price-export-card badge d-block">
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-primary btn-sm" (click)="zoom(-1)">
+				<fa-icon icon="search-plus" />
+			</button>
+			<button type="button" class="btn btn-primary btn-sm active" disabled >
+				Zoom
+			</button>
+			<button type="button" class="btn btn-primary btn-sm" (click)="zoom(1)">
+				<fa-icon icon="search-minus" />
+			</button>
+		</div>
+
+
+		<div class="row justify-content-center">
+			<div *ngFor="let item of cards; let index = index" class="card-export-item m-2 p-0 text-center" [style.width]="colExportWidth">
+
+				<span class="bg-badge-unit-price-export-card bg-secondary badge d-block export-font">
 					$ {{ getPrecio(item) / item.multiplier | currency}}
 				</span>	
 
@@ -20,9 +34,10 @@
 					</span>
 				</div>
 
-				<span class="bg-badge-total-export-card badge d-block">
-					=${{ getPrecio(item) | currency}}
+				<span class="bg-badge-total-export-card bg-primary badge d-block">
+					${{ getPrecio(item) | currency }}
 				</span>
+
 			</div>				
 		</div>
 	</div>
