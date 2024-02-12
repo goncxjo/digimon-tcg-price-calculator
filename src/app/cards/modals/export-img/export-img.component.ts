@@ -23,6 +23,7 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   // TODO: pendiente parametrizar
   colExport: number = 5;
   colExportWidth: string = `calc(100% / ${this.colExport})`;
+  descargandoFotos: boolean = false;
 
   constructor(
     private modalService: NgbActiveModal,
@@ -68,6 +69,7 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   }
 
   accept(): void {
+    this.descargandoFotos = false;
     this.modalService.close('yes')
   }
 
@@ -92,25 +94,29 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
     this.selectedCurrency = event;
   }
 
-  screenshot() {
-    const elements2Hide: Array<Element> = this.content.nativeElement.querySelectorAll(`.screenshot-hide`);
-    elements2Hide.forEach(element => {
-      this.renderer.setStyle(element, 'display', 'none');
-    });
+  async screenshot() {
+    this.descargandoFotos = true;
+    
+    setTimeout(() => {
+      const elements2Hide: Array<Element> = this.content.nativeElement.querySelectorAll(`.screenshot-hide`);
+      elements2Hide.forEach(element => {
+        this.renderer.setStyle(element, 'display', 'none');
+      });
+  
+      const elements2Show: Array<Element> = this.content.nativeElement.querySelectorAll(`.screenshot-show`);
+      elements2Show.forEach(element => {
+        this.renderer.removeClass(element, 'd-none');
+      });
 
-    const elements2Show: Array<Element> = this.content.nativeElement.querySelectorAll(`.screenshot-show`);
-    elements2Show.forEach(element => {
-      this.renderer.removeClass(element, 'd-none');
-    });
-
-    html2canvas(this.content.nativeElement).then((canvas) => {
-      const imageData = canvas.toDataURL("image/png");
-      const link = document.createElement("a");
-      link.setAttribute("download", "screenshot.png");
-      link.setAttribute("href", imageData);
-      link.click();
-      this.accept();
-    });
+      html2canvas(this.content.nativeElement).then((canvas) => {
+        const imageData = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.setAttribute("download", `digi-calcu_${new Date().toISOString()}.png`);
+        link.setAttribute("href", imageData);
+        link.click();
+        this.accept();
+      });
+    }, 2000);
   }
 
   async getBase64ImageFromUrl(imageUrl: string) {
