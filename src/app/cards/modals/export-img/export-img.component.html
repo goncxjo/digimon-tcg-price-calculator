@@ -1,20 +1,28 @@
-<div class="modal-content">
+<div class="modal-content" #content id="capture">
 	<div class="modal-header bg-dark text-light">
 		<div class="brand">
 			<img id="brand-logo" src="assets/logo.svg" alt="digi-calc">
 			<span id="app-title" class="d-flex flex-column text-start">
-			  <span>Foto general</span>
+				<span style="margin-bottom: -7px;">Digimon Card Game</span>
+				<span>Price Calculator</span>
+			</span>
+			<span class="app-subtitle ms-2 ps-2 screenshot-hide">
+				Exportar foto
 			</span>
 		</div>
 		
 
-		<button type="button" class="btn btn-danger" (click)="close('Cross click')">
+		<button type="button" class="btn btn-danger screenshot-hide" (click)="close('Cross click')">
 			&#x2715;
 		</button>
 	</div>
 	<div class="modal-body bg-modal-content">
 
-		<form [formGroup]="form" class="row g-3">
+		<form [formGroup]="form" class="row g-3 screenshot-hide">
+			<div class="col col-md-3">
+				<app-currency-select formControlName="currency" (ngModelChange)="onCurrencyChange($event)"></app-currency-select>
+			</div>
+
 			<div class="btn-group col col-md-3" role="group">
 				<button type="button" class="btn btn-primary btn-sm" (click)="zoom(1)">
 					<fa-icon icon="search-minus" />
@@ -27,10 +35,30 @@
 				</button>
 			</div>
 	
-			<div class="col col-md-3">
-				<app-currency-select formControlName="currency" (ngModelChange)="onCurrencyChange($event)"></app-currency-select>
+			<div class="btn-group col col-md-3" role="group">
+				<button type="button" class="btn btn-primary btn-sm active" (click)="screenshot()">
+					Exportar <fa-icon icon="download" />
+				</button>
 			</div>
 		</form>
+
+		<div class="row row-cols-1 d-none screenshot-show">
+			<div class="col">
+				<span>
+					<strong> Dólar: </strong>${{ dolar.venta | currency }} 
+				</span>
+			</div>
+			<div class="col">
+				<span>
+					<strong> Moneda seleccionada: </strong>{{ this.form.getRawValue().currency }} 
+				</span>
+			</div>
+			<div class="col">
+				<span>
+					<strong> Fecha generación: </strong>{{ actualDate | date:'dd/MM/yyyy' }} 
+				</span>
+			</div>
+		</div>
 
 		<div class="row justify-content-center">
 			<div *ngFor="let item of cards; let index = index" class="card-export-item m-2 p-0 text-center" [style.width]="colExportWidth">
@@ -44,9 +72,9 @@
 					</span>
 				</span>	
 
-				<div class="img-container position-relative">
-					<img [src]="item.image_url" class="img-fluid mh-100" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
-					<span class="position-absolute top-50 start-50 translate-middle bg-badge-multiplier-export-card badge rounded-pill">
+				<div class="img-container d-flex justify-content-center align-items-center">
+					<img [src]="item.image_base64" class="img-fluid mh-100" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
+					<span class="position-absolute bg-badge-multiplier-export-card badge rounded-pill">
 						{{ item.multiplier }}
 					</span>
 				</div>

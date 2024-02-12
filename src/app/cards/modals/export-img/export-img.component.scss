@@ -1,5 +1,9 @@
 @import '../../../layout/navbar/navbar.component.scss';
 
+.app-subtitle {
+    border-left: 1px white solid;
+}
+
 .bg-modal-content {
 	background-color: #e9ecef; // $gray-200
 }
