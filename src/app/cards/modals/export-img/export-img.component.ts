@@ -14,15 +14,21 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   @ViewChild('content') content!: ElementRef;
 
   form = this.buildForm();
+
   cards: Card[] = [];
   dolar!: Dolar;
   actualDate: Date = new Date();
+
   precioTotal: number = 0;
   precioTotalUSD: number = 0;
+
   selectedCurrency = 'ARS';
+  mostrarPrecios: boolean = true;
+  
   // TODO: pendiente parametrizar
   colExport: number = 5;
   colExportWidth: string = `calc(100% / ${this.colExport})`;
+  
   descargandoFotos: boolean = false;
 
   constructor(
@@ -40,12 +46,13 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
         })
         .catch(err => console.error(err)); 
       }
-    });
+    }); 
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.form.get('currency')?.setValue(this.selectedCurrency);
+      this.form.get('showCurrency')?.setValue(this.mostrarPrecios);
     }, 0);
   }
 
@@ -55,7 +62,8 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
 
   private buildForm(): FormGroup {
     return this.formBuilder.group({
-      currency: ['']
+      currency: [''],
+      showCurrency: ['']
     });
   }
 
@@ -94,6 +102,10 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
     this.selectedCurrency = event;
   }
 
+  onShowCurrencyChange(event: boolean) {
+    this.mostrarPrecios = event;
+  }
+
   async screenshot() {
     this.descargandoFotos = true;
     
@@ -116,7 +128,7 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
         link.click();
         this.accept();
       });
-    }, 2000);
+    }, 1500);
   }
 
   async getBase64ImageFromUrl(imageUrl: string) {

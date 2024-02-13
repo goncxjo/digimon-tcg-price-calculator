@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DoCheck, forwardRef, Injector, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, forwardRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -17,6 +17,8 @@ export class YesNoSelectComponent implements OnInit, ControlValueAccessor, DoChe
   value!: boolean;
   control!: NgControl;
   isDisabled!: boolean;
+
+  @Input() innerLabel: string = "";
 
   @ViewChild('input', { static: false, read: NgControl }) input: any;
 

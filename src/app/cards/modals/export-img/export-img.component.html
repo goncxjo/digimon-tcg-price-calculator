@@ -1,4 +1,4 @@
-<div class="modal-content" #content id="capture">
+<div class="modal-content" #content>
 	<div class="modal-header bg-dark text-light">
 		<div class="brand">
 			<img id="brand-logo" src="assets/logo.svg" alt="digi-calc">
@@ -6,11 +6,10 @@
 				<span style="margin-bottom: -7px;">Digimon Card Game</span>
 				<span>Price Calculator</span>
 			</span>
-			<span class="app-subtitle ms-2 ps-2 screenshot-hide">
+			<span class="app-subtitle ms-3 ps-3 screenshot-hide">
 				Foto
 			</span>
 		</div>
-		
 
 		<button type="button" class="btn btn-danger screenshot-hide" (click)="close('Cross click')">
 			&#x2715;
@@ -20,7 +19,11 @@
 
 		<form [formGroup]="form" class="row g-3 screenshot-hide mb-3">
 			<div class="col-12 col-md-3">
-				<app-currency-select formControlName="currency" (ngModelChange)="onCurrencyChange($event)"></app-currency-select>
+				<app-yes-no-select formControlName="showCurrency" [innerLabel]="'Mostrar precios: '" (ngModelChange)="onShowCurrencyChange($event)"></app-yes-no-select>
+			</div>
+
+			<div class="col-12 col-md-3">
+				<app-currency-select formControlName="currency" [innerLabel]="'Moneda: '" (ngModelChange)="onCurrencyChange($event)" *ngIf="mostrarPrecios"></app-currency-select>
 			</div>
 
 			<div class="btn-group col-12 col-md-3" role="group">
@@ -41,34 +44,28 @@
 						<fa-icon icon="download" class="me-1"/>Exportar 
 					</span>
 					<span *ngIf="descargandoFotos">
-						<fa-icon icon="sync" [spin]="true" class="me-1"/>Descargando fotos...
+						<fa-icon icon="sync" [spin]="true" class="me-1"/>Exportando...
 					  </span>
 				</button>
 			</div>
 		</form>
 
-		<div class="row row-cols-1 d-none screenshot-show">
+		<div class="row row-cols-1 d-none screenshot-show" *ngIf="mostrarPrecios">
 			<div class="col">
-				<span>
-					<strong> Dólar: </strong>${{ dolar.venta | currency }} 
-				</span>
+				<strong>Dólar: </strong>${{ dolar.venta | currency }} 
 			</div>
 			<div class="col">
-				<span>
-					<strong> Moneda seleccionada: </strong>{{ this.form.getRawValue().currency }} 
-				</span>
+				<strong>Moneda seleccionada: </strong>{{ this.form.getRawValue().currency }} 
 			</div>
 			<div class="col">
-				<span>
-					<strong> Fecha generación: </strong>{{ actualDate | date:'dd/MM/yyyy' }} 
-				</span>
+				<strong>Fecha generación: </strong>{{ actualDate | date:'dd/MM/yyyy' }} 
 			</div>
 		</div>
 
 		<div class="row justify-content-center">
 			<div *ngFor="let item of cards; let index = index" class="card-export-item m-2 p-0 text-center" [style.width]="colExportWidth">
 
-				<span class="bg-badge-unit-price-export-card bg-secondary badge d-block export-font">
+				<span class="bg-badge-unit-price-export-card bg-secondary badge d-block export-font" *ngIf="mostrarPrecios">
 					<span *ngIf="item.multiplier > 1">
 						$ {{ getPrecio(item) | currency}}
 					</span>
@@ -84,7 +81,7 @@
 					</span>
 				</div>
 
-				<span class="bg-badge-total-export-card bg-primary badge d-block export-font">
+				<span class="bg-badge-total-export-card bg-primary badge d-block export-font" *ngIf="mostrarPrecios">
 					${{ getPrecio(item) * item.multiplier | currency }}
 				</span>
 
@@ -93,7 +90,7 @@
 	</div>
 	
 	<div class="modal-footer bg-primary text-light">
-		<div class="alert p-0 text-end fw-bolder">
+		<div class="alert p-0 text-end fw-bolder" *ngIf="mostrarPrecios">
 			<span>Precio total:
 				<strong>ARS {{ precioTotal | currency}}</strong> / <strong>USD {{ precioTotalUSD | currency}}</strong>
 			</span>
