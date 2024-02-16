@@ -27,13 +27,13 @@
 			</div>
 
 			<div class="btn-group col-12 col-md-3" role="group">
-				<button type="button" class="btn btn-primary btn-sm" (click)="zoom(1)">
+				<button type="button" class="btn btn-primary btn-sm" (click)="zoom(-0.5)" [disabled]="colExport < 2">
 					<fa-icon icon="search-minus" />
 				</button>
 				<button type="button" class="btn btn-primary btn-sm active" disabled >
 					Zoom
 				</button>
-				<button type="button" class="btn btn-primary btn-sm" (click)="zoom(-1)" [disabled]="colExport <= 3">
+				<button type="button" class="btn btn-primary btn-sm" (click)="zoom(0.5)" [disabled]="colExport > 5">
 					<fa-icon icon="search-plus" />
 				</button>
 			</div>
@@ -62,29 +62,31 @@
 			</div>
 		</div>
 
-		<div class="row justify-content-center">
-			<div *ngFor="let item of cards; let index = index" class="card-export-item m-2 p-0 text-center" [style.width]="colExportWidth">
+		<div class="container-justify">
+			<div class="row justify-content-center">
+				<div *ngFor="let item of cards; let index = index" class="card-export-item p-0 m-2 text-center">
 
-				<span class="bg-badge-unit-price-export-card bg-secondary badge d-block export-font" *ngIf="mostrarPrecios">
-					<span *ngIf="item.multiplier > 1">
-						$ {{ getPrecio(item) | currency}}
-					</span>
-					<span *ngIf="item.multiplier == 1">
-						&nbsp;
-					</span>
-				</span>	
+					<span class="bg-badge-unit-price-export-card bg-secondary badge d-block export-font" *ngIf="mostrarPrecios">
+						<span *ngIf="item.multiplier > 1">
+							$ {{ getPrecio(item) | currency}}
+						</span>
+						<span *ngIf="item.multiplier == 1">
+							&nbsp;
+						</span>
+					</span>	
 
-				<div class="img-container d-flex justify-content-center align-items-center">
-					<img [src]="item.image_base64" class="img-fluid mh-100" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
-					<span class="position-absolute bg-badge-multiplier-export-card badge rounded-pill">
-						{{ item.multiplier }}
+					<div class="img-container d-flex justify-content-center align-items-center">
+						<img [src]="item.image_base64" onerror="this.onerror=null;this.src='assets/card-back.png';" [style.height]="cardHeight" [style.width]="cardWidth"/>
+						<span class="position-absolute bg-badge-multiplier-export-card badge rounded-pill">
+							{{ item.multiplier }}
+						</span>
+					</div>
+
+					<span class="bg-badge-total-export-card bg-primary badge d-block export-font" *ngIf="mostrarPrecios">
+						${{ getPrecio(item) * item.multiplier | currency }}
 					</span>
+
 				</div>
-
-				<span class="bg-badge-total-export-card bg-primary badge d-block export-font" *ngIf="mostrarPrecios">
-					${{ getPrecio(item) * item.multiplier | currency }}
-				</span>
-
 			</div>
 		</div>
 	</div>

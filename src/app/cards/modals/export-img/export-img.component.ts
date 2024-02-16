@@ -25,9 +25,9 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   selectedCurrency = 'ARS';
   mostrarPrecios: boolean = true;
   
-  // TODO: pendiente parametrizar
-  colExport: number = 5;
-  colExportWidth: string = `calc(100% / ${this.colExport})`;
+  colExport: number = 3;
+  cardHeight: string = `calc(88px * ${this.colExport})`;
+  cardWidth: string = `calc(64px * ${this.colExport})`;
   
   descargandoFotos: boolean = false;
 
@@ -95,7 +95,8 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
 
   zoom(i: number){
     this.colExport += i;
-    this.colExportWidth = `calc(100% / ${this.colExport})`;
+    this.cardHeight = `calc(88px * ${this.colExport})`;
+    this.cardWidth = `calc(64px * ${this.colExport})`;
   }
 
   onCurrencyChange(event: string) {
