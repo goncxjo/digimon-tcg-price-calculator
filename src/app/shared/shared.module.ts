@@ -6,7 +6,7 @@ import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontaweso
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { faWhatsapp, faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { ReversePipe } from './reverse.pipe';
 import { YesNoSelectComponent } from './yes-no-select/yes-no-select.component';
 import { CurrencySelectComponent } from './currency-select/currency-select.component';
@@ -49,6 +49,7 @@ export class SharedModule {
   constructor(library: FaIconLibrary) {
     library.addIconPacks(fas, far);
     library.addIcons(faWhatsapp as IconDefinition);
+    library.addIcons(faFacebook as IconDefinition);
   }
 
 }
