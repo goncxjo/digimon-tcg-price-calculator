@@ -9,6 +9,7 @@ import { CryptoService, DolarService, TcgPlayerService } from '../backend/servic
 import { style, transition, trigger, animate } from '@angular/animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExportImgComponent } from '../cards/modals/export-img/export-img.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -50,7 +51,8 @@ export class HomeComponent implements OnInit {
     private dolarService: DolarService,
     private cryptoService: CryptoService,
     private clipboard: Clipboard,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) {
     this.route.params.pipe(
       take(1),
@@ -182,17 +184,6 @@ export class HomeComponent implements OnInit {
     this.clipboard.copy(result);
   }
 
-  shareUrl(type: string) {
-    const result = this.generateUrl();
-    switch (type) {
-      case 'wsp':
-        window.open(`https://api.whatsapp.com/send?text= ${encodeURIComponent(result)}`, '_blank');
-        break;
-      default:
-        break
-    }
-  }
-
   ordenar(metodo: string, valor: string) {
     switch (metodo) {
       case 'precio':
@@ -246,7 +237,17 @@ export class HomeComponent implements OnInit {
     function onError() { }
   }
 
-  onModalSuccess = () => { }
+  onModalSuccess = (reason: string) => {
+    switch(reason) {
+      case 'download':
+        this.toastr.success('Se ha exportado la imagen con éxito!', 'Exportar 💾');
+        break;
+        case 'screenshot':
+        this.toastr.success('Se ha copiado la imagen con éxito. Revisa tu portapapeles.', 'Capturar 📸');
+        break;
+
+    }
+  }
 
 	generateQR() {
     setTimeout(() => {
