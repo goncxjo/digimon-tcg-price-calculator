@@ -58,15 +58,21 @@
 			</div>
 		</div>
 
-		<div class="row row-cols-1 d-none screenshot-show" *ngIf="mostrarPrecios">
+		<div class="row row-cols-1 mb-3 d-none screenshot-show" *ngIf="mostrarPrecios">
 			<div class="col">
-				<strong>Dólar: </strong>${{ dolar.venta | currency }} 
+				<small class="text-secondary-emphasis">
+					<strong>Dólar: </strong>${{ dolar.venta | currency }}
+				</small>
 			</div>
 			<div class="col">
-				<strong>Moneda seleccionada: </strong>{{ this.form.getRawValue().currency }} 
+				<small class="text-secondary-emphasis">
+					<strong>Moneda seleccionada: </strong>{{ this.form.getRawValue().currency }}
+				</small>
 			</div>
 			<div class="col">
-				<strong>Fecha generación: </strong>{{ actualDate | date:'dd/MM/yyyy' }} 
+				<small class="text-secondary-emphasis">
+					<strong>Fecha generación: </strong>{{ actualDate | date:'dd/MM/yyyy hh:mm:ss' }}
+				</small>
 			</div>
 		</div>
 

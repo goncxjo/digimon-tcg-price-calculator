@@ -110,14 +110,18 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
     this.descargandoFoto = true;    
     this.handleExport();
     await this.downloadImg();
-    this.close('download');
+    setTimeout(() => {
+      this.close('download');
+    }, 2000);
   }
 
   async screenshot() {
     this.capturarFoto = true;
     this.handleExport();
     await this.copyImgToClipboard();
-    this.close('screenshot');
+    setTimeout(() => {
+      this.close('screenshot');
+    }, 2000);
   }
 
   handleExport() {
@@ -135,7 +139,6 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   private async downloadImg() {
     htmlToImage.toPng(this.content.nativeElement)
     .then((dataUrl) => {
-      console.log('asdf');
       download(dataUrl, `digi-calcu_${new Date().toISOString()}.png`);
     });
   }
