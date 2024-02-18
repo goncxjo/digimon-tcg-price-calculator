@@ -10,23 +10,21 @@
 				Foto
 			</span>
 		</div>
-
 		<button type="button" class="btn btn-danger screenshot-hide" (click)="close('Cross click')">
 			&#x2715;
 		</button>
 	</div>
 	<div class="modal-body bg-modal-content">
-
 		<form [formGroup]="form" class="row g-3 screenshot-hide mb-3">
-			<div class="col-12 col-md-3">
+			<div class="col-12 col-md-3 col-lg-2">
 				<app-yes-no-select formControlName="showCurrency" [innerLabel]="'Mostrar precios: '" (ngModelChange)="onShowCurrencyChange($event)"></app-yes-no-select>
 			</div>
 
-			<div class="col-12 col-md-3">
+			<div class="col-12 col-md-3 col-lg-2">
 				<app-currency-select formControlName="currency" [innerLabel]="'Moneda: '" (ngModelChange)="onCurrencyChange($event)" *ngIf="mostrarPrecios"></app-currency-select>
 			</div>
 
-			<div class="btn-group col-12 col-md-3" role="group">
+			<div class="btn-group col-12 col-md-3 col-lg-2" role="group">
 				<button type="button" class="btn btn-primary btn-sm" (click)="zoom(-0.5)" [disabled]="colExport < 2">
 					<fa-icon icon="search-minus" />
 				</button>
@@ -37,18 +35,28 @@
 					<fa-icon icon="search-plus" />
 				</button>
 			</div>
-	
-			<div class="btn-group col-12 col-md-3" role="group">
-				<button type="button" class="btn btn-primary btn-sm active" (click)="screenshot()">
-					<span *ngIf="!descargandoFotos">
-						<fa-icon icon="download" class="me-1"/>Exportar 
+		</form>
+
+		<div class="row screenshot-hide mb-3">
+			<div class="btn-group col-12 col-md-6 col-lg-4" role="group">
+				<button type="button" class="btn btn-primary btn-sm" (click)="download()">
+					<span *ngIf="!descargandoFoto">
+						<fa-icon icon="download" class="me-1"/>Descargar 
 					</span>
-					<span *ngIf="descargandoFotos">
-						<fa-icon icon="sync" [spin]="true" class="me-1"/>Exportando...
+					<span *ngIf="descargandoFoto">
+						<fa-icon icon="sync" [spin]="true" class="me-1"/>Descargando...
+					  </span>
+				</button>
+				<button type="button" class="btn btn-success btn-sm" (click)="screenshot()">
+					<span *ngIf="!capturarFoto">
+						<fa-icon icon="copy" class="me-1"/>Copiar
+					</span>
+					<span *ngIf="capturarFoto">
+						<fa-icon icon="sync" [spin]="true" class="me-1"/>Copiando...
 					  </span>
 				</button>
 			</div>
-		</form>
+		</div>
 
 		<div class="row row-cols-1 d-none screenshot-show" *ngIf="mostrarPrecios">
 			<div class="col">

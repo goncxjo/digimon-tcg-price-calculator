@@ -2,7 +2,8 @@ import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } fr
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Card, Dolar } from 'src/app/backend';
-import html2canvas from 'html2canvas';
+import * as htmlToImage from 'html-to-image';
+import * as download from 'downloadjs';
 
 @Component({
   selector: 'app-export-img',
@@ -29,7 +30,8 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   cardHeight: string = `calc(88px * ${this.colExport})`;
   cardWidth: string = `calc(64px * ${this.colExport})`;
   
-  descargandoFotos: boolean = false;
+  descargandoFoto: boolean = false;
+  capturarFoto: boolean = false;
 
   constructor(
     private modalService: NgbActiveModal,
@@ -73,12 +75,9 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   }
 
   close(response: string): void {
+    this.descargandoFoto = false;
+    this.capturarFoto = false;
     this.modalService.close(response)
-  }
-
-  accept(): void {
-    this.descargandoFotos = false;
-    this.modalService.close('yes')
   }
 
   getPrecio(c: Card) {
@@ -107,29 +106,59 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
     this.mostrarPrecios = event;
   }
 
-  async screenshot() {
-    this.descargandoFotos = true;
-    
-    setTimeout(() => {
-      const elements2Hide: Array<Element> = this.content.nativeElement.querySelectorAll(`.screenshot-hide`);
-      elements2Hide.forEach(element => {
-        this.renderer.setStyle(element, 'display', 'none');
-      });
-  
-      const elements2Show: Array<Element> = this.content.nativeElement.querySelectorAll(`.screenshot-show`);
-      elements2Show.forEach(element => {
-        this.renderer.removeClass(element, 'd-none');
-      });
+  async download() {
+    this.descargandoFoto = true;    
+    this.handleExport();
+    await this.downloadImg();
+    this.close('download');
+  }
 
-      html2canvas(this.content.nativeElement).then((canvas) => {
-        const imageData = canvas.toDataURL("image/png");
-        const link = document.createElement("a");
-        link.setAttribute("download", `digi-calcu_${new Date().toISOString()}.png`);
-        link.setAttribute("href", imageData);
-        link.click();
-        this.accept();
-      });
-    }, 1500);
+  async screenshot() {
+    this.capturarFoto = true;
+    this.handleExport();
+    await this.copyImgToClipboard();
+    this.close('screenshot');
+  }
+
+  handleExport() {
+    const elements2Hide: Array<Element> = this.content.nativeElement.querySelectorAll(`.screenshot-hide`);
+    elements2Hide.forEach(element => {
+      this.renderer.setStyle(element, 'display', 'none');
+    });
+
+    const elements2Show: Array<Element> = this.content.nativeElement.querySelectorAll(`.screenshot-show`);
+    elements2Show.forEach(element => {
+      this.renderer.removeClass(element, 'd-none');
+    });
+  } 
+
+  private async downloadImg() {
+    htmlToImage.toPng(this.content.nativeElement)
+    .then((dataUrl) => {
+      console.log('asdf');
+      download(dataUrl, `digi-calcu_${new Date().toISOString()}.png`);
+    });
+  }
+
+  private async copyImgToClipboard() {
+    htmlToImage.toBlob(this.content.nativeElement)
+    .then((blob) => {
+      const dataType = "image/png";
+      if (blob) {
+        const data = [new ClipboardItem({ [dataType]: blob })];
+        navigator.clipboard.write(data);
+      }
+    });
+  }
+
+  share(type: string, data: string) {
+    switch (type) {
+      case 'wsp':
+        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(data)}`, '_blank');
+        break;
+      default:
+        break
+    }
   }
 
   async getBase64ImageFromUrl(imageUrl: string) {
