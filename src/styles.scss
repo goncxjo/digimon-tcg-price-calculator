@@ -27,6 +27,8 @@ $app-navbar-height-default: 3.5rem;
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+// regular style toast
+@import 'ngx-toastr/toastr';
 
 body {
 	background-color: $gray-200;
@@ -137,6 +139,36 @@ hr {
 	
 	.translate-middle-sm-multiplier-buttons {
 		transform: translate(-75%, -50%) !important;
-	}
-	
+	}	
+}
+
+$bg-wsp: #25d366;
+$bg-fb: #1877f2;
+
+.btn-whatsapp {
+	--bs-btn-font-weight: 600;
+	--bs-btn-color: var(--bs-white);
+	--bs-btn-bg: var($bg-wsp);
+	--bs-btn-border-color: var($bg-wsp);
+	--bs-btn-hover-color: var(--bs-white);
+	--bs-btn-hover-bg: #{shade-color($bg-wsp, 10%)};
+	--bs-btn-hover-border-color: #{shade-color($bg-wsp, 10%)};
+	--bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+	--bs-btn-active-color: var(--bs-btn-hover-color);
+	--bs-btn-active-bg: #{shade-color($bg-wsp, 20%)};
+	--bs-btn-active-border-color: #{shade-color($bg-wsp, 20%)};
+}
+
+.btn-facebook {
+	--bs-btn-font-weight: 600;
+	--bs-btn-color: var(--bs-white);
+	--bs-btn-bg: var($bg-fb);
+	--bs-btn-border-color: var($bg-fb);
+	--bs-btn-hover-color: var(--bs-white);
+	--bs-btn-hover-bg: #{shade-color($bg-fb, 10%)};
+	--bs-btn-hover-border-color: #{shade-color($bg-fb, 10%)};
+	--bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+	--bs-btn-active-color: var(--bs-btn-hover-color);
+	--bs-btn-active-bg: #{shade-color($bg-fb, 20%)};
+	--bs-btn-active-border-color: #{shade-color($bg-fb, 20%)};
 }
