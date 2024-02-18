@@ -2,8 +2,8 @@ import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } fr
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Card, Dolar } from 'src/app/backend';
-import * as htmlToImage from 'html-to-image';
 import * as download from 'downloadjs';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-export-img',
@@ -107,19 +107,19 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   }
 
   async download() {
-    this.descargandoFoto = true;    
-    this.handleExport();
-    await this.downloadImg();
+    this.descargandoFoto = true;
     setTimeout(() => {
-      this.close('download');
+      this.handleExport();
+      this.downloadImg();
+      this.close('download');        
     }, 2000);
   }
 
   async screenshot() {
     this.capturarFoto = true;
-    this.handleExport();
-    await this.copyImgToClipboard();
     setTimeout(() => {
+      this.handleExport();
+      this.copyImgToClipboard();
       this.close('screenshot');
     }, 2000);
   }
@@ -137,20 +137,21 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   } 
 
   private async downloadImg() {
-    htmlToImage.toPng(this.content.nativeElement)
-    .then((dataUrl) => {
-      download(dataUrl, `digi-calcu_${new Date().toISOString()}.png`);
+    html2canvas(this.content.nativeElement).then((canvas) => {
+      const imageData = canvas.toDataURL("image/png");
+      download(imageData, `digi-calcu_${new Date().toISOString()}.png`);
     });
   }
 
   private async copyImgToClipboard() {
-    htmlToImage.toBlob(this.content.nativeElement)
-    .then((blob) => {
-      const dataType = "image/png";
-      if (blob) {
-        const data = [new ClipboardItem({ [dataType]: blob })];
-        navigator.clipboard.write(data);
-      }
+    html2canvas(this.content.nativeElement).then((canvas) => {
+      canvas.toBlob((blob) => {
+        const dataType = "image/png";
+        if (blob) {
+          const data = [new ClipboardItem({ [dataType]: blob })];
+          navigator.clipboard.write(data);
+        }  
+      });
     });
   }
 
