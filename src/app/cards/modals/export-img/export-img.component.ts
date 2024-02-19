@@ -112,7 +112,7 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
       this.handleExport();
       this.downloadImg();
       this.close('download');        
-    }, 2000);
+    }, 100);
   }
 
   async screenshot() {
@@ -121,7 +121,7 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
       this.handleExport();
       this.copyImgToClipboard();
       this.close('screenshot');
-    }, 2000);
+    }, 100);
   }
 
   handleExport() {
