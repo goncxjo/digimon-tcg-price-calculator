@@ -10,6 +10,7 @@ import { style, transition, trigger, animate } from '@angular/animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExportImgComponent } from '../cards/modals/export-img/export-img.component';
 import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from '../backend/services/loader.service';
 
 @Component({
   selector: 'app-home',
@@ -52,7 +53,8 @@ export class HomeComponent implements OnInit {
     private cryptoService: CryptoService,
     private clipboard: Clipboard,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private loaderService: LoaderService
   ) {
     this.route.params.pipe(
       take(1),
@@ -238,21 +240,26 @@ export class HomeComponent implements OnInit {
   }
 
   onModalSuccess = (reason: string) => {
-    switch(reason) {
-      case 'download':
-        this.toastr.success('Se ha exportado la imagen con éxito!', 'Exportar 💾');
-        break;
+    this.loaderService.setHttpProgressStatus(true);
+    setTimeout(() => {
+      switch(reason) {
+        case 'download':
+          this.toastr.success('Se ha exportado la imagen con éxito!', 'Exportar 💾');
+          break;
         case 'screenshot':
-        this.toastr.success('Se ha copiado la imagen con éxito. Revisa tu portapapeles.', 'Capturar 📸');
-        break;
-
-    }
+          this.toastr.success('Se ha copiado la imagen con éxito. Revisa tu portapapeles.', 'Capturar 📸');
+          break;
+      }
+    this.loaderService.setHttpProgressStatus(false);
+    }, 2000);
   }
 
 	generateQR() {
+    this.loaderService.setHttpProgressStatus(true);
     setTimeout(() => {
       this.importData = this.generateUrl();
       this.modalService.open(this.qrModal);
+    this.loaderService.setHttpProgressStatus(false);
     }, 2000);
   }
 }
