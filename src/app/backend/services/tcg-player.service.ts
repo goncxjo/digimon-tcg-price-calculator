@@ -33,7 +33,7 @@ export class TcgPlayerService {
             return of<Card[]>([]);
         }
 
-        if(filters.isPreRelease) {
+        if(filters.isPreRelease && !filters.expansions) {
             value = value.concat(' Pre-Release');
         }
 
