@@ -34,6 +34,7 @@ export class CardSearcherComponent implements OnInit {
   searching = false;
 	searchFailed = false;
   mostrarBusquedaAvanzada = false;
+  esPreRelease = false;
 
   constructor(
     private tcgPlayerService: TcgPlayerService,
@@ -86,6 +87,7 @@ export class CardSearcherComponent implements OnInit {
       category: [''],
       colors: [''],
       rarities: [''],
+      isPreRelease: [''],
     });
   }
 
@@ -96,6 +98,11 @@ export class CardSearcherComponent implements OnInit {
       categories: values?.category?.id ? [values?.category?.id] : [],
       colors: _.map(values?.colors, 'id'),
       rarities: _.map(values?.rarities, 'id'),
+      isPreRelease: this.esPreRelease
     }
   }
+
+  onIsPreReleaseChanged($event: any) {
+    this.esPreRelease = $event.target.checked;
+  }    
 }

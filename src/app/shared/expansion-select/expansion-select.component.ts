@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, DoCheck, forwardRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, forwardRef, Injector, Input, OnInit, ViewChild, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable } from 'rxjs';
+import * as _ from 'lodash';
 import { TcgPlayerService } from 'src/app/backend';
 import { ExpansionTcgPlayer } from 'src/app/backend/models/tcg-player';
 
@@ -17,13 +17,14 @@ import { ExpansionTcgPlayer } from 'src/app/backend/models/tcg-player';
   ]
 })
 export class ExpansionSelectComponent implements OnInit, ControlValueAccessor, DoCheck, AfterViewInit {
-  value!: ExpansionTcgPlayer | null;
+  value!: ExpansionTcgPlayer;
   control!: NgControl;
   isDisabled!: boolean;
 
   @Input() mostrarOpcionTodos: boolean = true;
+  @Input() esPreRelease: boolean = false;
 
-  data$: Observable<ExpansionTcgPlayer[]> = this.tcgPlayerService.getDigimonExpansions();
+  data$: ExpansionTcgPlayer[] = [];
 
   @ViewChild('input', { static: false, read: NgControl }) input: any;
 
@@ -33,9 +34,7 @@ export class ExpansionSelectComponent implements OnInit, ControlValueAccessor, D
   constructor(
     private injector: Injector,
     private tcgPlayerService: TcgPlayerService
-  ) {
-    this.value = null;
-   }
+  ) { }
 
   ngDoCheck(): void {
     if (this.input && this.control) {
@@ -89,5 +88,35 @@ export class ExpansionSelectComponent implements OnInit, ControlValueAccessor, D
 
   compareSelectedValue(item: ExpansionTcgPlayer, value: ExpansionTcgPlayer) {
     return (!item || !value) ? false : item.setNameId === value.setNameId;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propName in changes) {
+      if(propName != 'mostrarOpcionTodos') {
+        const changedProp = changes[propName];
+        if (changedProp.isFirstChange()) {
+          this.refreshData(false);
+        } else {
+          const from = JSON.stringify(changedProp.previousValue);
+          const to = JSON.stringify(changedProp.currentValue);
+          if(to != from) this.refreshData(true);
+        }
+      }
+    }
+  }
+
+  private refreshData(refreshValue: boolean) {
+    this.tcgPlayerService.getDigimonExpansions().subscribe((data: ExpansionTcgPlayer[]) => {
+      this.data$ = _.filter(data, (d: ExpansionTcgPlayer) => {
+        if (this.esPreRelease) {
+          return d.abbreviation.includes("_PR");
+        }
+        return !d.abbreviation.includes("_PR");
+      })
+      
+      if (this.value && refreshValue) {
+        this.value = data[0];
+      }
+    });
   }
 }

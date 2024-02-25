@@ -16,7 +16,7 @@ import { ListItem } from 'src/app/backend/models/list-item';
   ]
 })
 export class CategorySelectComponent implements OnInit, ControlValueAccessor, DoCheck, AfterViewInit {
-  value!: ListItem | null;
+  value!: ListItem;
   control!: NgControl;
   isDisabled!: boolean;
 

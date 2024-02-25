@@ -33,6 +33,10 @@ export class TcgPlayerService {
             return of<Card[]>([]);
         }
 
+        if(filters.isPreRelease) {
+            value = value.concat(' Pre-Release');
+        }
+
         const url = `${this.searchEndpoint}/search/request`;
         const params = {
             q: value,

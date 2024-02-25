@@ -56,9 +56,15 @@
 		</div>
 
 		<form [formGroup]="form" class="row g-3">
+			<div class="col-12">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="isPreRelease" formControlName="isPreRelease" (change)="onIsPreReleaseChanged($event)">
+					<label class="form-check-label" for="isPreRelease">Pre-Release</label>
+				</div>
+			</div>
 			<div class="col-md-6">
 				<label for="category" class="form-label">Expansión</label>
-				<app-expansion-select formControlName="expansion" [mostrarOpcionTodos]="true"></app-expansion-select>
+				<app-expansion-select formControlName="expansion" [mostrarOpcionTodos]="true" [esPreRelease]="esPreRelease"></app-expansion-select>
 			</div>
 			<div class="col-md-6">
 				<label for="category" class="form-label">Categoría</label>

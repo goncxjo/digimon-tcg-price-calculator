@@ -52,4 +52,5 @@ export interface FiltersTcgPlayerQuery {
 	categories: string[],
 	colors: string[],
 	rarities: string[],
+	isPreRelease: boolean,
 }
