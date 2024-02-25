@@ -12,6 +12,10 @@ import { YesNoSelectComponent } from './yes-no-select/yes-no-select.component';
 import { CurrencySelectComponent } from './currency-select/currency-select.component';
 import { QrCodeComponent } from './qr-code/qr-code.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { ExpansionSelectComponent } from './expansion-select/expansion-select.component';
+import { ColorMultiSelectComponent } from './color-multiselect/color-multiselect.component';
+import { RarityMultiSelectComponent } from './rarity-multiselect/rarity-multiselect.component';
+import { CategorySelectComponent } from './category-select/category-select.component';
 
 const MODULES = [
   CommonModule,
@@ -29,7 +33,11 @@ const PUBLIC_COMPONENTS: any = [
   ReversePipe,
   YesNoSelectComponent,
   CurrencySelectComponent,
-  QrCodeComponent
+  QrCodeComponent,
+  ExpansionSelectComponent,
+  ColorMultiSelectComponent,
+  RarityMultiSelectComponent,
+  CategorySelectComponent
 ];
 
 @NgModule({

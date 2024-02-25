@@ -9,12 +9,10 @@
 	</div>
 </ng-template>
 
-<div class="mb-3 row">
-	<div class="col">
+
+<div class="mb-1 row">
+	<div class="col-12">
 		<div class="input-group">
-			<!-- <span class="input-group-text">
-				<fa-icon icon="magnifying-glass"></fa-icon>
-			</span> -->
 			<input
 				id="typeahead-template"
 				#cardSearcherInput
@@ -31,5 +29,50 @@
 				(keyup.enter)="blurInput()"
 			/>
 		</div>
-	</div>	
+	</div>
+	<div class="col-12">
+		<div id="advancedSearch" class="form-text text-end">
+			<button
+				type="button"
+				class="btn btn-link text-decoration-none"
+				style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+				(click)="toggleBusquedaAvanzada()"
+			>
+				Búsqueda avanzada...
+			</button>
+		</div>
+	</div>
+</div>
+
+<div @myInsertRemoveTrigger class="card text-bg-secondary mb-3" [hidden]="!mostrarBusquedaAvanzada">
+	<div class="card-body">
+		<div class="alert alert-info d-flex flex-row align-items-center py-2">
+			<span>
+				<fa-icon icon="circle-info" class="me-3"/>
+			</span>
+			<small>
+				Primero filtrás y luego escribís el nombre de la carta
+			</small>
+		</div>
+
+		<form [formGroup]="form" class="row g-3">
+			<div class="col-md-6">
+				<label for="category" class="form-label">Expansión</label>
+				<app-expansion-select formControlName="expansion" [mostrarOpcionTodos]="true"></app-expansion-select>
+			</div>
+			<div class="col-md-6">
+				<label for="category" class="form-label">Categoría</label>
+				<app-category-select formControlName="category" [mostrarOpcionTodos]="true"></app-category-select>
+			</div>
+			
+			<div class="col-6">
+				<label for="color" class="form-label">Color</label>
+				<app-color-multiselect formControlName="colors"></app-color-multiselect>
+			</div>
+			<div class="col-6">
+				<label for="rarity" class="form-label">Rareza</label>
+				<app-rarity-multiselect formControlName="rarities"></app-rarity-multiselect>
+			</div>
+		</form>
+	</div>
 </div>

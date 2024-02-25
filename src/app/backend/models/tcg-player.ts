@@ -88,3 +88,14 @@ export interface CardPriceTcgPlayer {
 	tcg_player_normal: CardPrice | null,
 	tcg_player_foil: CardPrice | null
 }
+
+export interface ExpansionTcgPlayer {
+	abbreviation: string; 
+	active: string; 
+	categoryId: number; 
+	cleanSetName: string; 
+	name: string; 
+	releaseDate: string; 
+	setNameId: number; 
+	urlName: string; 
+}

@@ -1,15 +1,31 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { Observable, OperatorFunction, Subject, of } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import * as _ from 'lodash';
+import { Observable, OperatorFunction, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
-import { Card } from 'src/app/backend';
+import { Card, FiltersTcgPlayerQuery } from 'src/app/backend';
 import { TcgPlayerService } from 'src/app/backend/services/tcg-player.service';
 
 @Component({
   selector: 'app-card-searcher',
   templateUrl: './card-searcher.component.html',
   styleUrls: ['./card-searcher.component.scss'],
+  animations: [
+    trigger('myInsertRemoveTrigger', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('200ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('200ms', style({ opacity: 0 }))
+      ])
+    ]),
+  ]
 })
 export class CardSearcherComponent implements OnInit {
+  form = this.buildForm();
+
   public model?: Card;
   data: Card[] = [];
   @Output() card = new EventEmitter<Card>();
@@ -17,9 +33,11 @@ export class CardSearcherComponent implements OnInit {
 
   searching = false;
 	searchFailed = false;
+  mostrarBusquedaAvanzada = false;
 
   constructor(
     private tcgPlayerService: TcgPlayerService,
+    private formBuilder: FormBuilder,
   ) { }
 
   search: OperatorFunction <string, readonly Card[]> = (text$: Observable <string> ) =>
@@ -28,7 +46,7 @@ export class CardSearcherComponent implements OnInit {
 			distinctUntilChanged(),
 			tap(() => (this.searching = true)),
 			switchMap((term) =>
-				this.tcgPlayerService.getDigimonCards(term).pipe(
+				this.tcgPlayerService.getDigimonCards(term, this.mapFilters()).pipe(
 					tap(() => (this.searchFailed = false)),
 					catchError(() => {
 						this.searchFailed = true;
@@ -53,5 +71,31 @@ export class CardSearcherComponent implements OnInit {
 
   blurInput() {
     this.cardSearcherInput.nativeElement.blur();
+  }
+
+  toggleBusquedaAvanzada() {
+    this.mostrarBusquedaAvanzada = !this.mostrarBusquedaAvanzada;
+    if(!this.mostrarBusquedaAvanzada) {
+      this.form.reset();
+    }
+  }
+
+  private buildForm(): FormGroup {
+    return this.formBuilder.group({
+      expansion: [''],
+      category: [''],
+      colors: [''],
+      rarities: [''],
+    });
+  }
+
+  mapFilters(): FiltersTcgPlayerQuery {
+    var values = this.form.getRawValue();
+    return {
+      expansions: values?.expansion?.urlName ? [values?.expansion?.urlName] : [],
+      categories: values?.category?.id ? [values?.category?.id] : [],
+      colors: _.map(values?.colors, 'id'),
+      rarities: _.map(values?.rarities, 'id'),
+    }
   }
 }

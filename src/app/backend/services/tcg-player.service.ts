@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
 import { AppConfigService } from 'src/app/core';
 import { Card, CardPrice } from '../models';
-import { CardPriceTcgPlayer, ProductPriceTcgPlayer, SearchTcgPlayer } from '../models/tcg-player';
+import { CardPriceTcgPlayer, ExpansionTcgPlayer, ProductPriceTcgPlayer, SearchTcgPlayer } from '../models/tcg-player';
 import * as _ from 'lodash';
-import { createTcgPlayerQuery } from './tcg-player-search-query';
+import { FiltersTcgPlayerQuery, createTcgPlayerQuery } from './tcg-player-search-query';
 import { CardService } from './card.service';
 
 @Injectable({
@@ -28,7 +28,7 @@ export class TcgPlayerService {
         this.productUrl = this.appConfigService.config.TCG_PLAYER_PRODUCT_URL;
     }
   
-    public getDigimonCards(value: string): Observable<Card[]> {
+    public getDigimonCards(value: string, filters: FiltersTcgPlayerQuery): Observable<Card[]> {
         if (value == '' || value.toLocaleLowerCase() == 'mon' || value.length < 3) {
             return of<Card[]>([]);
         }
@@ -40,8 +40,10 @@ export class TcgPlayerService {
         };
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
-        })
-        const response$ = this.httpClient.post<SearchTcgPlayer>(url, JSON.stringify(createTcgPlayerQuery()), { params: params, headers: headers });
+        });
+        var query = createTcgPlayerQuery(0, filters);
+
+        const response$ = this.httpClient.post<SearchTcgPlayer>(url, JSON.stringify(query), { params: params, headers: headers });
         return this.cardService.getListTcgPlayerCards(response$, this.imageEndpoint, this.productUrl);
     }
 
@@ -72,4 +74,15 @@ export class TcgPlayerService {
         );
     }
 
+    public getDigimonExpansions(): Observable<ExpansionTcgPlayer[]> {
+        const url = `${this.priceEndpoint}/Catalog/SetNames?active=true&categoryId=63&mpfev=2196`;
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+        });
+        return this.httpClient.get<any>(url, { headers: headers }).pipe(
+            map((response: any) => {
+                return _.sortBy(response.results, 'releaseDate').reverse();
+            })
+        );
+    }
 }

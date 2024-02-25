@@ -108,20 +108,16 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
 
   async download() {
     this.descargandoFoto = true;
-    setTimeout(() => {
-      this.handleExport();
-      this.downloadImg();
-      this.close('download');        
-    }, 2000);
+    this.handleExport();
+    this.downloadImg();
+    this.close('download');
   }
 
   async screenshot() {
     this.capturarFoto = true;
-    setTimeout(() => {
-      this.handleExport();
-      this.copyImgToClipboard();
-      this.close('screenshot');
-    }, 2000);
+    this.handleExport();
+    this.copyImgToClipboard();
+    this.close('screenshot');
   }
 
   handleExport() {

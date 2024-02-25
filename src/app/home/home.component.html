@@ -29,7 +29,7 @@
 <div class="row" *ngIf="dolar">
 	<app-card-searcher *ngIf="!id" (card)="onCardAdded($event)"></app-card-searcher>
 	
-	<div @myInsertRemoveTrigger class="col-lg-4 mx-auto mt-5 info-ayuda" *ngIf="mostrarAyuda && cards.length === 0">
+	<div @myInsertRemoveTrigger class="col-lg-4 mx-auto mt-2 info-ayuda" *ngIf="mostrarAyuda && cards.length === 0">
 		<div class="alert alert-info d-flex flex-row align-items-center">
 			<span>
 				<fa-icon icon="circle-info" class="me-3"/>
