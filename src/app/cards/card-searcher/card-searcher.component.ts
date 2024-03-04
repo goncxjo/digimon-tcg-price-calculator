@@ -78,6 +78,7 @@ export class CardSearcherComponent implements OnInit {
     this.mostrarBusquedaAvanzada = !this.mostrarBusquedaAvanzada;
     if(!this.mostrarBusquedaAvanzada) {
       this.form.reset();
+      this.esPreRelease = false;
     }
   }
 
