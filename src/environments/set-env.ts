@@ -12,6 +12,7 @@ const setEnv = () => {
   // `environment.ts` file structure
   const envConfigFile = `export const environment = {
 	ENVIRONMENT_NAME: '${process.env['ENVIRONMENT_NAME']}',
+	DIGITOOLS_API_BASE_URL: '${process.env['DIGITOOLS_API_BASE_URL']}',
 	CARD_TRADER_API_BASE_URL: '${process.env['CARD_TRADER_API_BASE_URL']}',
 	CARD_TRADER_API_JWT_TOKEN: '${process.env['CARD_TRADER_API_JWT_TOKEN']}',
 	CARD_TRADER_API_GAME_ID: ${parseInt(process.env['CARD_TRADER_API_GAME_ID'] || '')},

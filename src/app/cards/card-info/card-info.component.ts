@@ -3,6 +3,7 @@ import { firstValueFrom } from 'rxjs';
 import { TcgPlayerService } from 'src/app/backend';
 import { Card, CardPrice, Dolar } from 'src/app/backend/models';
 import { style, transition, trigger, animate } from '@angular/animations';
+import { DigitoolsService } from 'src/app/backend/services/digitools.service';
 
 @Component({
   selector: 'app-card-info',
@@ -28,7 +29,8 @@ export class CardInfoComponent implements OnInit, OnDestroy, OnChanges {
   custom_price: number = 0;
 
   constructor(
-    private tcgPlayerService: TcgPlayerService
+    private tcgPlayerService: TcgPlayerService,
+    private digitoolsService: DigitoolsService
   ) { }
 
   ngOnInit(): void {
@@ -50,6 +52,19 @@ export class CardInfoComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  async loadDigitoolsPrices() {
+    if (this.data.code) {
+      const digitoolsPrices$ = this.digitoolsService.getCardPrice(this.data.code.default);
+      const digitools_prices = await firstValueFrom(digitoolsPrices$);
+
+      digitools_prices.forEach(c => {
+        this.data.prices.set(c.source, new CardPrice('ARS', c.price_ars));        
+      });
+
+      console.log(this.data.code.default, this.data.prices);
+    }
+  }
+
   async loadCustomPrice() {
       const customPrice = this.data.prices.get('custom');
       if (customPrice) {
@@ -62,6 +77,7 @@ export class CardInfoComponent implements OnInit, OnDestroy, OnChanges {
 
   async ngAfterViewInit() {
     await this.loadTcgPlayerPrices();
+    await this.loadDigitoolsPrices();
     await this.loadCustomPrice();
     this.setPrecioCarta();
   }

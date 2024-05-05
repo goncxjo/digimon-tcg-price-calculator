@@ -42,6 +42,7 @@ export class AppConfigService {
     InitAppConfig(): AppConfig {
         return {
             ENVIRONMENT_NAME: environment.ENVIRONMENT_NAME,
+            DIGITOOLS_API_BASE_URL: environment.DIGITOOLS_API_BASE_URL,
             CARD_TRADER_API_BASE_URL: environment.CARD_TRADER_API_BASE_URL,
             CARD_TRADER_API_JWT_TOKEN: environment.CARD_TRADER_API_JWT_TOKEN,
             CARD_TRADER_API_GAME_ID: environment.CARD_TRADER_API_GAME_ID,
