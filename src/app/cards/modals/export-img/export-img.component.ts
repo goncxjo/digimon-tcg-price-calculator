@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Card, Dolar } from 'src/app/backend';
 import * as download from 'downloadjs';
 import html2canvas from 'html2canvas';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-export-img',
@@ -25,6 +26,8 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
 
   selectedCurrency = 'ARS';
   mostrarPrecios: boolean = true;
+  sort: string = '';
+  ascSort: boolean = true;
   
   colExport: number = 3;
   cardHeight: string = `calc(88px * ${this.colExport})`;
@@ -55,6 +58,7 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.form.get('currency')?.setValue(this.selectedCurrency);
       this.form.get('showCurrency')?.setValue(this.mostrarPrecios);
+      this.form.get('ascSort')?.setValue(this.ascSort);
     }, 0);
   }
 
@@ -65,7 +69,9 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   private buildForm(): FormGroup {
     return this.formBuilder.group({
       currency: [''],
-      showCurrency: ['']
+      showCurrency: [''],
+      sort: [''],
+      ascSort: ['']
     });
   }
 
@@ -104,6 +110,37 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
 
   onShowCurrencyChange(event: boolean) {
     this.mostrarPrecios = event;
+  }
+
+  onSortDirectionChange(event: boolean) {
+    this.ascSort = event;
+    if (this.sort) {
+      this.cards = _.reverse(this.cards)
+    }
+  }
+
+  onSortChange(event: any) {
+    this.sort = event.id;
+
+    switch (this.sort) {
+      case 'category':
+        this.cards = _.sortBy(this.cards, ['category', 'digimonLevel', 'code.default']);
+        break;
+      case 'code':
+        this.cards = _.sortBy(this.cards, ['code.default']);
+        break;
+      case 'price_unit':
+        this.cards = _.sortBy(this.cards, ['price.currency_value']);
+        break;    
+      case 'price_total':
+        this.cards = _.sortBy(this.cards, c => {return c.price.currency_value * c.multiplier});
+        break;
+      default:
+        break;
+    }
+    if (!this.ascSort) {
+      this.cards = _.reverse(this.cards)
+    }
   }
 
   async download() {

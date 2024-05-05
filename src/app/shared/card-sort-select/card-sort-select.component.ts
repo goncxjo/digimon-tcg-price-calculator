@@ -1,24 +1,29 @@
 import { AfterViewInit, Component, DoCheck, forwardRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { ListItem } from 'src/app/backend/models/list-item';
 
 @Component({
-  selector: 'app-yes-no-select',
-  templateUrl: './yes-no-select.component.html',
-  styleUrls: ['./yes-no-select.component.scss'],
+  selector: 'app-card-sort-select',
+  templateUrl: './card-sort-select.component.html',
+  styleUrls: ['./card-sort-select.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => YesNoSelectComponent),
+      useExisting: forwardRef(() => CardSortSelectComponent),
       multi: true
     },
   ]
 })
-export class YesNoSelectComponent implements OnInit, ControlValueAccessor, DoCheck, AfterViewInit {
-  value: boolean = false;
+export class CardSortSelectComponent implements OnInit, ControlValueAccessor, DoCheck, AfterViewInit {
+  value!: ListItem;
   control!: NgControl;
   isDisabled!: boolean;
 
   @Input() innerLabel: string = "";
+  @Input() mostrarOpcionTodos: boolean = false;
+
+  data$: ListItem[] = [];
 
   @ViewChild('input', { static: false, read: NgControl }) input: any;
 
@@ -53,7 +58,7 @@ export class YesNoSelectComponent implements OnInit, ControlValueAccessor, DoChe
     this.onTouch = fn;
   }
 
-  writeValue(value: boolean): void {
+  writeValue(value: ListItem): void {
     this.value = value;
   }
 
@@ -62,6 +67,9 @@ export class YesNoSelectComponent implements OnInit, ControlValueAccessor, DoChe
   }
 
   ngOnInit(): void {
+    this.getCardSortBy().subscribe(data => {
+      this.data$ = data;
+    });
     this.control = this.injector.get(NgControl);
   }
 
@@ -79,7 +87,17 @@ export class YesNoSelectComponent implements OnInit, ControlValueAccessor, DoChe
     }
   }
 
-  compareSelectedValue(item: boolean, value: boolean) {
-    return (!item || !value) ? false : item === value;
+  compareSelectedValue(item: ListItem, value: ListItem) {
+    return (!item || !value) ? false : item.id === value.id;
   }
+
+  getCardSortBy(): Observable<ListItem[]> {
+    return of([
+      { id: "category", name: "Categoría" },
+      { id: "code", name: "Código" },
+      { id: "price_unit", name: "Precio unidad" },
+      { id: "price_total", name: "Precio Total" },
+    ]);
+  }
+
 }

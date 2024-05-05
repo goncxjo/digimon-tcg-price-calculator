@@ -16,6 +16,7 @@ import { ExpansionSelectComponent } from './expansion-select/expansion-select.co
 import { ColorMultiSelectComponent } from './color-multiselect/color-multiselect.component';
 import { RarityMultiSelectComponent } from './rarity-multiselect/rarity-multiselect.component';
 import { CategorySelectComponent } from './category-select/category-select.component';
+import { CardSortSelectComponent } from './card-sort-select/card-sort-select.component';
 
 const MODULES = [
   CommonModule,
@@ -37,14 +38,15 @@ const PUBLIC_COMPONENTS: any = [
   ExpansionSelectComponent,
   ColorMultiSelectComponent,
   RarityMultiSelectComponent,
-  CategorySelectComponent
+  CategorySelectComponent,
+  CardSortSelectComponent
 ];
 
 @NgModule({
   declarations: [
     ...PRIVATE_COMPONENTS,
     ...PUBLIC_COMPONENTS,
-    QrCodeComponent,
+    CardSortSelectComponent,
   ],
   imports: MODULES,
   exports: [

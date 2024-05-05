@@ -20,7 +20,8 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor, Do
   control!: NgControl;
   isDisabled!: boolean;
 
-  @Input() mostrarOpcionTodos: boolean = true;
+  @Input() innerLabel: string = "";
+  @Input() mostrarOpcionTodos: boolean = false;
 
   data$: ListItem[] = [];
 

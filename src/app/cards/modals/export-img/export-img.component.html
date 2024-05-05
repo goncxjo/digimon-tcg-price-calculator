@@ -24,6 +24,14 @@
 				<app-currency-select formControlName="currency" [innerLabel]="'Moneda: '" (ngModelChange)="onCurrencyChange($event)" *ngIf="mostrarPrecios"></app-currency-select>
 			</div>
 
+			<div class="col-12 col-md-3 col-lg-2">
+				<app-card-sort-select formControlName="sort" [innerLabel]="'Ordenar por: '" (ngModelChange)="onSortChange($event)" ></app-card-sort-select>
+			</div>
+
+			<div class="col-12 col-md-3 col-lg-2">
+				<app-yes-no-select formControlName="ascSort" [innerLabel]="'Orden asc.: '" (ngModelChange)="onSortDirectionChange($event)" ></app-yes-no-select>
+			</div>
+
 			<div class="btn-group col-12 col-md-3 col-lg-2" role="group">
 				<button type="button" class="btn btn-primary btn-sm" (click)="zoom(-0.5)" [disabled]="colExport < 2">
 					<fa-icon icon="search-minus" />
@@ -90,7 +98,7 @@
 					</span>	
 
 					<div class="img-container d-flex justify-content-center align-items-center">
-						<img [src]="item.image_base64" onerror="this.onerror=null;this.src='assets/card-back.png';" [style.height]="cardHeight" [style.width]="cardWidth"/>
+						<img class="img-item" [src]="item.image_base64" onerror="this.onerror=null;this.src='assets/card-back.png';" [style.height]="cardHeight" [style.width]="cardWidth"/>
 						<span class="position-absolute bg-badge-multiplier-export-card badge rounded-pill">
 							{{ item.multiplier }}
 						</span>

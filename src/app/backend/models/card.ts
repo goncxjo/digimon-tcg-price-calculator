@@ -22,6 +22,8 @@ export class Card {
 	releaseDate: Date | null = null;
 	infoReduced: boolean = true;
 	image_base64: Blob | null = null;
+	category: string = '';
+	digimonLevel: string = '';
 
 	constructor() {
 		this.prices.set("custom", new CardPrice());
@@ -49,6 +51,8 @@ export class Card {
 		this.image_url = imageEndpoint.replace('{quality}', '100').replace('{id}', cardId);
 		this.tcg_player_url = `${productUrl}`.replace('{id}', cardId);
 		this.releaseDate = new Date(res.customAttributes.releaseDate);
+		this.category = res.customAttributes.cardType[0];
+		this.digimonLevel = res.customAttributes.levelLv ?? "0";
 	}
 
 
