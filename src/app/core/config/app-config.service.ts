@@ -33,12 +33,12 @@ export class AppConfigService {
 
     // TODO: esto está por el AuthModule, ya que el método load no llega a traerle la data.
     // ver si es posible evitar esto.
-    getPromise() {
-        return this.httpClient.get(this.jsonFile);
+    getPromise(): Observable<AppConfig> {
+        return this.httpClient.get<AppConfig>(this.jsonFile || "{}");
     }
 
     get() {
-        return this.config;
+        return this.config || {};
     }
 
     InitAppConfig(): AppConfig {

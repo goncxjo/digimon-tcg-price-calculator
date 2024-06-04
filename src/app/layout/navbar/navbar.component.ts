@@ -1,14 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbOffcanvas, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { AppConfigModule } from '../../core';
+import { NgbOffcanvas, NgbOffcanvasModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, FontAwesomeModule, AppConfigModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive, FontAwesomeModule, NgbOffcanvasModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })

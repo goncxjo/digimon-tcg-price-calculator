@@ -1,7 +1,18 @@
-import { APP_INITIALIZER, EnvironmentProviders, NgModule, makeEnvironmentProviders } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { APP_INITIALIZER, EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
 import { AppConfigService } from './app-config.service';
 
+export function AppConfigFactory(config: AppConfigService) {
+  return () => config.load();
+}
+function EnvironmentNameFactory(config: AppConfigService) {
+  return config.get().ENVIRONMENT_NAME;;
+}
+function AppVersionFactory(config: AppConfigService) {
+  return config.get().appVersion;
+}
+function CryptoSecretKeyFactory(config: AppConfigService) {
+  return config.get().CRYPTO_SECRET_KEY;;
+}
 
 export function initializeApplicationConfig(): EnvironmentProviders {
   return makeEnvironmentProviders([
@@ -26,28 +37,3 @@ export function initializeApplicationConfig(): EnvironmentProviders {
     }
   ]);
 }
-
-export function AppConfigFactory(config: AppConfigService) {
-  return () => config.load();
-}
-function EnvironmentNameFactory(config: AppConfigService) {
-  return () => config.get().ENVIRONMENT_NAME;
-}
-function AppVersionFactory(config: AppConfigService) {
-  return () => config.get().appVersion
-}
-function CryptoSecretKeyFactory(config: AppConfigService) {
-  return () => config.get().CRYPTO_SECRET_KEY;
-}
-
-@NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ],
-  providers: [
-    AppConfigService,
-
-  ]
-})
-export class AppConfigModule { }
