@@ -1,10 +1,12 @@
 import { AfterViewInit, Component, DoCheck, forwardRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { ListItem } from 'src/app/backend/models/list-item';
+import { ListItem } from '../../backend/models/list-item';
 
 @Component({
   selector: 'app-category-select',
+  standalone: true,
+  imports: [],
   templateUrl: './category-select.component.html',
   styleUrls: ['./category-select.component.scss'],
   providers: [

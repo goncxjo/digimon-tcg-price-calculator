@@ -17,22 +17,22 @@
 	<div class="modal-body bg-modal-content">
 		<form [formGroup]="form" class="row g-3 screenshot-hide mb-3">
 			<div class="col-12 col-md-3 col-lg-2">
-				<app-yes-no-select formControlName="showCurrency" [innerLabel]="'Mostrar precios: '" (ngModelChange)="onShowCurrencyChange($event)"></app-yes-no-select>
+				<app-yes-no-select formControlName="showCurrency" (ngModelChange)="onShowCurrencyChange($event)"></app-yes-no-select>
 			</div>
 
 			<div class="col-12 col-md-3 col-lg-2">
-				<app-currency-select formControlName="currency" [innerLabel]="'Moneda: '" (ngModelChange)="onCurrencyChange($event)" *ngIf="mostrarPrecios"></app-currency-select>
+				<app-currency-select formControlName="currency" (ngModelChange)="onCurrencyChange($event)" *ngIf="mostrarPrecios"></app-currency-select>
 			</div>
 
 			<div class="btn-group col-12 col-md-3 col-lg-2" role="group">
 				<button type="button" class="btn btn-primary btn-sm" (click)="zoom(-0.5)" [disabled]="colExport < 2">
-					<fa-icon icon="search-minus" />
+					<!-- <fa-icon icon="search-minus" /> -->
 				</button>
 				<button type="button" class="btn btn-primary btn-sm active" disabled >
 					Zoom
 				</button>
 				<button type="button" class="btn btn-primary btn-sm" (click)="zoom(0.5)" [disabled]="colExport > 5">
-					<fa-icon icon="search-plus" />
+					<!-- <fa-icon icon="search-plus" /> -->
 				</button>
 			</div>
 		</form>
@@ -41,18 +41,22 @@
 			<div class="btn-group col-12 col-md-6 col-lg-4" role="group">
 				<button type="button" class="btn btn-primary btn-sm" (click)="download()">
 					<span *ngIf="!descargandoFoto">
-						<fa-icon icon="download" class="me-1"/>Descargar 
+						<!-- <fa-icon icon="download" class="me-1"/> -->
+						Descargar 
 					</span>
 					<span *ngIf="descargandoFoto">
-						<fa-icon icon="sync" [spin]="true" class="me-1"/>Descargando...
+						<!-- <fa-icon icon="sync" [spin]="true" class="me-1"/> -->
+						Descargando...
 					  </span>
 				</button>
 				<button type="button" class="btn btn-success btn-sm" (click)="screenshot()">
 					<span *ngIf="!capturarFoto">
-						<fa-icon icon="copy" class="me-1"/>Copiar
+						<!-- <fa-icon icon="copy" class="me-1"/> -->
+						Copiar
 					</span>
 					<span *ngIf="capturarFoto">
-						<fa-icon icon="sync" [spin]="true" class="me-1"/>Copiando...
+						<!-- <fa-icon icon="sync" [spin]="true" class="me-1"/> -->
+						Copiando...
 					  </span>
 				</button>
 			</div>

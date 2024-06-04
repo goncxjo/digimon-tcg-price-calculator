@@ -1,19 +1,26 @@
-import {Location} from '@angular/common';
+import {CommonModule, CurrencyPipe, Location} from '@angular/common';
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { take } from 'rxjs';
 import * as _ from 'lodash';
-import { Card, Dolar } from '../backend/models';
-import { CryptoService, DolarService, TcgPlayerService } from '../backend/services';
+import { Card, Dolar } from '../../backend/models';
+import { CryptoService, DolarService, TcgPlayerService } from '../../backend/services';
 import { style, transition, trigger, animate } from '@angular/animations';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ExportImgComponent } from '../cards/modals/export-img/export-img.component';
 import { ToastrService } from 'ngx-toastr';
-import { LoaderService } from '../backend/services/loader.service';
+import { LoaderService } from '../../core/services/loader.service';
+import { QrCodeComponent } from '../../shared/qr-code/qr-code.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CardInfoComponent } from '../cards/card-info/card-info.component';
+import { CardSearcherComponent } from '../cards/card-searcher/card-searcher.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule, FormsModule, QrCodeComponent, FontAwesomeModule, NgbTooltip, CurrencyPipe, CardInfoComponent, CardSearcherComponent, ExportImgComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   animations: [

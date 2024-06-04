@@ -1,11 +1,12 @@
 import { AfterViewInit, Component, DoCheck, forwardRef, Injector, Input, OnInit, ViewChild, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _ from 'lodash';
-import { TcgPlayerService } from 'src/app/backend';
-import { ExpansionTcgPlayer } from 'src/app/backend/models/tcg-player';
+import { ExpansionTcgPlayer, TcgPlayerService } from '../../backend';
 
 @Component({
   selector: 'app-expansion-select',
+  standalone: true,
+  imports: [],
   templateUrl: './expansion-select.component.html',
   styleUrls: ['./expansion-select.component.scss'],
   providers: [

@@ -5,6 +5,8 @@ import { ListItem } from 'src/app/backend/models/list-item';
 
 @Component({
   selector: 'app-rarity-multiselect',
+  standalone: true,
+  imports: [],
   templateUrl: './rarity-multiselect.component.html',
   styleUrls: ['./rarity-multiselect.component.scss'],
   providers: [

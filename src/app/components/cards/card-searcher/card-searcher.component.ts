@@ -1,14 +1,16 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import * as _ from 'lodash';
 import { Observable, OperatorFunction, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
-import { Card, FiltersTcgPlayerQuery } from 'src/app/backend';
-import { TcgPlayerService } from 'src/app/backend/services/tcg-player.service';
+import { Card, FiltersTcgPlayerQuery, TcgPlayerService } from '../../../backend';
+import { NgbHighlight, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-card-searcher',
+  standalone: true,
+  imports: [FormsModule, NgbTypeahead, NgbHighlight],
   templateUrl: './card-searcher.component.html',
   styleUrls: ['./card-searcher.component.scss'],
   animations: [

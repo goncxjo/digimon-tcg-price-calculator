@@ -1,12 +1,18 @@
 import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Card, Dolar } from 'src/app/backend';
-import * as download from 'downloadjs';
+import download from 'downloadjs';
 import html2canvas from 'html2canvas';
+import { Card, Dolar } from '../../../../backend';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CurrencySelectComponent } from '../../../../shared/currency-select/currency-select.component';
+import { YesNoSelectComponent } from '../../../../shared/yes-no-select/yes-no-select.component';
 
 @Component({
   selector: 'app-export-img',
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, CurrencyPipe, DatePipe, FontAwesomeModule, CurrencySelectComponent, YesNoSelectComponent],
   templateUrl: './export-img.component.html',
   styleUrls: ['./export-img.component.scss']
 })
@@ -98,11 +104,11 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
     this.cardWidth = `calc(64px * ${this.colExport})`;
   }
 
-  onCurrencyChange(event: string) {
+  onCurrencyChange(event: any) {
     this.selectedCurrency = event;
   }
 
-  onShowCurrencyChange(event: boolean) {
+  onShowCurrencyChange(event: any) {
     this.mostrarPrecios = event;
   }
 

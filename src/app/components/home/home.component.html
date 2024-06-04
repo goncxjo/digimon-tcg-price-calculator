@@ -1,11 +1,12 @@
 <div class="alert alert-success text-center mt-3" *ngIf="!editDolarMode">
 	<span *ngIf="!dolar">
-		<fa-icon id="loading-logo" icon="spinner" animation="spin" class="me-2"/>Obteniendo cotización
+		<!-- <fa-icon id="loading-logo" icon="spinner" animation="spin" class="me-2"/> -->
+		Obteniendo cotización
 	</span>
 	<span *ngIf="dolar">
 		Dolar hoy: ARS {{ dolar.venta | currency }}
 		<button type="button" class="btn btn-outline-success btn-sm" (click)="toggleEditDolarMode()">
-			<fa-icon icon="pen" />
+			<!-- <fa-icon icon="pen" /> -->
 		</button>
 	</span>
 </div>
@@ -20,7 +21,7 @@
 				</div>
 			</div>
 			<button type="button" class="btn btn-outline-danger btn-sm" (click)="toggleEditDolarMode()">
-				<fa-icon icon="ban" />
+				<!-- <fa-icon icon="ban" /> -->
 			</button>
 		</form>
 	</span>
@@ -32,7 +33,7 @@
 	<div @myInsertRemoveTrigger class="col-lg-4 mx-auto mt-2 info-ayuda" *ngIf="mostrarAyuda && cards.length === 0">
 		<div class="alert alert-info d-flex flex-row align-items-center">
 			<span>
-				<fa-icon icon="circle-info" class="me-3"/>
+				<!-- <fa-icon icon="circle-info" class="me-3"/> -->
 			</span>
 			<span>
 				Para agregar cartas, escribí en el panel de búsqueda y seleccioná alguno de los resultados.
@@ -46,17 +47,18 @@
 
 	<div class="btn-group" role="group">
 		<button type="button" class="btn btn-primary btn-sm" (click)="ordenar('precio', 'desc')">
-			<fa-icon icon="arrow-up-9-1" />
+			<!-- <fa-icon icon="arrow-up-9-1" /> -->
 		</button>
 		<button type="button" class="btn btn-primary btn-sm active" disabled >
 			Ordenar
 		</button>
 		<button type="button" class="btn btn-primary btn-sm" (click)="ordenar('precio', 'asc')">
-			<fa-icon icon="arrow-down-1-9" />
+			<!-- <fa-icon icon="arrow-down-1-9" /> -->
 		</button>
 	</div>
 	<button class="btn btn-success btn-sm ms-2" (click)="openExportImg()">
-		<fa-icon icon="image" class="me-1" />Foto
+		<!-- <fa-icon icon="image" class="me-1" /> -->
+		Foto
 	</button>
 </div>
 
@@ -66,18 +68,18 @@
 
 			<span *ngIf="item.infoReduced">
 				<button class="border-0 position-absolute top-0 start-100 translate-middle-sm-multiplier badge rounded-close-btn bg-danger" (click)="removeCard(item)">
-					<fa-icon icon="times"/>
+					<!-- <fa-icon icon="times"/> -->
 					<span class="visually-hidden">cantidad cartas</span>
 				</button>
 				<div class="btn-group-vertical position-absolute top-50 start-100 translate-middle-sm-multiplier-buttons" role="group">
 					<button type="button" class="btn btn-sm btn-secondary" (click)="changeMultiplier(item, 1)">
-						<fa-icon icon="plus"/>
+						<!-- <fa-icon icon="plus"/> -->
 					</button>
 					<button type="button" class="btn btn-sm btn-secondary px-0 active">
 						x{{ item.multiplier }}
 					</button>
 					<button type="button" class="btn btn-sm btn-secondary" (click)="changeMultiplier(item, -1)">
-						<fa-icon icon="minus"/>
+						<!-- <fa-icon icon="minus"/> -->
 					</button>
 				</div>
 			</span>
@@ -104,10 +106,12 @@
 
 <div *ngIf="!noData">
 	<button type="button" class="btn btn btn-primary btn-sm ms-2" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
-		Copiar URL <fa-icon icon="copy"/>
+		Copiar URL
+		<!-- <fa-icon icon="copy"/> -->
 	</button>
 	<button type="button" class="btn btn btn-success btn-sm ms-2" (click)="generateQR()">
-		Generar QR <fa-icon icon="qrcode"/>
+		Generar QR
+		<!-- <fa-icon icon="qrcode"/> -->
 	</button>
 </div>
 

@@ -1,11 +1,15 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { TcgPlayerService } from 'src/app/backend';
-import { Card, CardPrice, Dolar } from 'src/app/backend/models';
 import { style, transition, trigger, animate } from '@angular/animations';
+import { Card, CardPrice, Dolar, TcgPlayerService } from '../../../backend';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-card-info',
+  standalone: true,
+  imports: [CommonModule, FormsModule, FontAwesomeModule],
   templateUrl: './card-info.component.html',
   styleUrls: ['./card-info.component.scss'],
   animations: [

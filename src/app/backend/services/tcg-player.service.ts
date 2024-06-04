@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
-import { AppConfigService } from 'src/app/core';
 import { Card, CardPrice } from '../models';
 import { CardPriceTcgPlayer, ExpansionTcgPlayer, ProductPriceTcgPlayer, SearchTcgPlayer } from '../models/tcg-player';
 import * as _ from 'lodash';
 import { FiltersTcgPlayerQuery, createTcgPlayerQuery } from './tcg-player-search-query';
 import { CardService } from './card.service';
+import { AppConfigService } from '../../core';
 
 @Injectable({
     providedIn: 'root'

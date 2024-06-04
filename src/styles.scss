@@ -10,6 +10,16 @@ body {
 	min-height: 100vh;
 }
 
+$phi: 1.6180339887498948482;
+$app-navbar-height-default: 3.64rem;
+$btn-home-height: 125px;
+
+app-root {
+	@extend .d-flex;
+	@extend .flex-column;
+	@extend .min-vh-100;
+}
+
 @font-face {
 	font-family: pixel-digivolve;
 	src: url('assets/fonts/Pixel\ Digivolve.otf') format("truetype");
@@ -22,13 +32,14 @@ body {
 
 $border-width: 0;
 
-$font-family-base: "Montserrat",-apple-system,sans-serif !important;
+$font-family-base: "Montserrat", -apple-system, sans-serif !important;
 $app-navbar-height-default: 3.5rem;
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 // regular style toast
 @import 'ngx-toastr/toastr';
+@import 'ngx-toastr/toastr-bs5-alert';
 
 body {
 	background-color: $gray-200;
@@ -38,19 +49,14 @@ hr {
 	border-width: 1px;
 }
 
-.app-container {
-	display: flex;
-	flex-direction: column;
-	min-height: calc(100vh - $app-navbar-height-default*2);
-}
-
 #ngb-typeahead-0 {
 	width: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: 50vh;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	max-height: 50vh;
 
-	.dropdown-item.active, .dropdown-item:active {
+	.dropdown-item.active,
+	.dropdown-item:active {
 		background-color: $gray-100;
 		color: black;
 	}
@@ -58,6 +64,7 @@ hr {
 
 .cursor-loader {
 	cursor: wait;
+
 	* {
 		cursor: wait !important;
 	}
@@ -74,20 +81,20 @@ hr {
 	justify-content: center;
 	align-items: center;
 	z-index: 1000;
-  }
-  
-  /* card-info */
-  .list-group-item.list-group-item-action .bg-list-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 10px; 
-    height: 100%;
-    background-color: $gray-200;
+}
+
+/* card-info */
+.list-group-item.list-group-item-action .bg-list-item {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 10px;
+	height: 100%;
+	background-color: $gray-200;
 }
 
 .list-group-item.list-group-item-action.card-price-active .bg-list-item {
-    background-color: $primary;
+	background-color: $primary;
 }
 
 .no-radius {
@@ -102,11 +109,11 @@ hr {
 	height: calc($app-navbar-height-default - $hr-margin-y);
 	padding-top: $navbar-padding-y;
 	padding-bottom: 0;
-	
-    display: flex;
-    flex-wrap: inherit;
-    align-items: center;
-    justify-content: space-between;
+
+	display: flex;
+	flex-wrap: inherit;
+	align-items: center;
+	justify-content: space-between;
 	font-size: $navbar-toggler-font-size;
 }
 
@@ -125,21 +132,21 @@ hr {
 
 
 .translate-middle-sm-multiplier {
-    @extend .translate-middle;
+	@extend .translate-middle;
 }
 
 .translate-middle-sm-multiplier-buttons {
-    @extend .translate-middle;
+	@extend .translate-middle;
 }
 
 @include media-breakpoint-down(sm) {
 	.translate-middle-sm-multiplier {
 		transform: translate(-75%, -25%) !important;
 	}
-	
+
 	.translate-middle-sm-multiplier-buttons {
 		transform: translate(-75%, -50%) !important;
-	}	
+	}
 }
 
 $bg-wsp: #25d366;
