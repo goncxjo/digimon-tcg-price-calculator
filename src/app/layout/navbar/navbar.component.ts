@@ -1,39 +1,58 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { NgbOffcanvas, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconDefinition, faCircleHalfStroke, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { AppThemeService } from '../../core/services/app-theme.service';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-navbar',
+  standalone: true,
+  imports: [CommonModule, RouterLink, FontAwesomeModule, CurrencyPipe],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  public isMenuCollapsed = true;
-  public appVersion: string = '';
   public isLoading: boolean = false;
-  public closeResult: string = '';
+  readonly defaultTheme = {
+    name: 'light',
+    icon: faSun
+  };
+  theme = this.defaultTheme;
 
-  constructor(
-    @Inject('APP_VERSION') appVersion: string,
-    private offcanvasService: NgbOffcanvas
-  ) {
-    this.appVersion = appVersion;
+  availableThemes = {
+    light: this.defaultTheme,
+    dark: { name: 'dark', icon: faMoon}
   }
+
+  // dolar = {
+  //   compra: 1200,
+  //   venta: 1200
+  // }
+
+  appThemeService: AppThemeService = inject(AppThemeService);
 
   ngOnInit(): void {
+    this.theme = this.getTheme();
   }
 
-  getVersionText() {
-    return `v${this.appVersion}`
+  toggleTheme() {
+    if (this.isDarkTheme(this.theme)) {
+      this.theme = this.availableThemes.light;
+      }
+      else {
+      this.theme = this.availableThemes.dark;
+    }
+    this.appThemeService.update(this.theme.name)
   }
 
-	open(content: any) {
-    this.isMenuCollapsed = !this.isMenuCollapsed;
-		this.offcanvasService.open(content, { position: 'end', panelClass: 'bg-primary text-bg-dark' }).result.then(
-			(result) => {
-        this.isMenuCollapsed = !this.isMenuCollapsed;
-			},
-			(reason) => {
-			},
-		);
-	}
+  getTheme() {
+    const theme = _.find(this.availableThemes, ['name', this.appThemeService.theme()]);
+    return theme ?? this.defaultTheme;
+  }
+
+  isDarkTheme(theme: any) {
+    return this.availableThemes.dark == theme;
+  }
 }

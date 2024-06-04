@@ -1,8 +1,10 @@
 import { AfterViewInit, Component, DoCheck, forwardRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-currency-select',
+  standalone: true,
+  imports: [FormsModule],
   templateUrl: './currency-select.component.html',
   styleUrls: ['./currency-select.component.scss'],
   providers: [
