@@ -21,8 +21,8 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, FormsModule, QrCodeComponent, FontAwesomeModule, NgbTooltip, CurrencyPipe, CardInfoComponent, CardSearcherComponent, ExportImgComponent],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  templateUrl: './home_old.component.html',
+  styleUrls: ['./home_old.component.scss'],
   animations: [
     trigger('myInsertRemoveTrigger', [
       transition(':enter', [
@@ -35,7 +35,7 @@ import { FormsModule } from '@angular/forms';
     ]),
   ]
 })
-export class HomeComponent implements OnInit {
+export class OldHomeComponent implements OnInit {
 
   @ViewChild('qr') qrModal!: ElementRef;
 

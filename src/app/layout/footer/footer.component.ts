@@ -1,27 +1,33 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCalculator, faGear, faHeart, faHome, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [],
+  imports: [FontAwesomeModule, RouterLink],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent implements OnInit {
-  // actualYear: number = (new Date()).getFullYear();
-  environmentName: string = '';
-  
+export class FooterComponent {
+  homeIcon = faHome;
+  calcIcon = faCalculator;
+  searchIcon = faSearch;
+  favIcon = faHeart;
+  settingsIcon = faGear;
+
   constructor(
-    @Inject('ENVIRONMENT_NAME') environmentName: string,
+    private router: Router,
   ) {
-    this.environmentName = environmentName;
+    
   }
 
-  ngOnInit(): void {
-  }
-
-  getFooterText() {
-    return `Desarrollado por: @goncxjo`
-  }
-
+  items: any[] = [
+    { icon: this.homeIcon, command: () => { this.router.navigate(['/'])} },
+    { icon: this.calcIcon, command: () => { this.router.navigate(['/old'])} },
+    { icon: this.searchIcon, command: () => {} },
+    { icon: this.favIcon, command: () => {} },
+    { icon: this.settingsIcon, command: () => {} },
+  ]
 }
