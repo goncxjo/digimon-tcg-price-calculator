@@ -1,0 +1,95 @@
+<div class="modal-header pb-0">
+    <div class="row flex-grow-1">
+        <div class="col-12 mb-3">
+            <div class="card">
+                <div class="card-body p-2">
+                    <form class="d-flex flex-grow-1 align-items-center">
+                        <input
+                            type="text" class="form-control form-control-lg pe-0 border-0 shadow-none" placeholder="Buscar carta..." 
+                            [formControl]="cardSearchTextInput"
+                            (input)="doCardSearch()"
+                        >
+                        <button type="button" class="btn border-none" (click)="toggleBusquedaAvanzada()">
+                            <fa-icon [icon]="filetersIcon" size="2x" style="fill-opacity: .5;"></fa-icon>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @if (mostrarBusquedaAvanzada) {
+            <div class="col-12 mb-3">
+                <div @myInsertRemoveTrigger class="card text-bg-secondary">
+                    <div class="card-body">
+                        <div class="alert alert-info d-flex flex-row align-items-center py-2">
+                            <span>
+                                <fa-icon [icon]="infoIcon" class="me-3"/>
+                            </span>
+                            <small>
+                                Primero filtrás y luego escribís
+                            </small>
+                        </div>
+                
+                        <form [formGroup]="form" class="row g-3">
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="isPreRelease" formControlName="isPreRelease" (change)="onIsPreReleaseChanged($event)">
+                                    <label class="form-check-label" for="isPreRelease">Pre-Release</label>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-6">
+                                <label for="category" class="form-label">Expansión</label>
+                                <app-expansion-select formControlName="expansion" [mostrarOpcionTodos]="true" [esPreRelease]="esPreRelease"></app-expansion-select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="category" class="form-label">Categoría</label>
+                                <app-category-select formControlName="category" [mostrarOpcionTodos]="true"></app-category-select>
+                            </div> 
+                            <div class="col-6">
+                                <label for="color" class="form-label">Color</label>
+                                <app-color-multiselect formControlName="colors"></app-color-multiselect>
+                            </div>
+                            <div class="col-6">
+                                <label for="rarity" class="form-label">Rareza</label>
+                                <app-rarity-multiselect formControlName="rarities"></app-rarity-multiselect>
+                            </div> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="modal-body pt-0">
+    @if (cards$ | async; as cards) {
+        <div class="list-group">
+            @for (card of cards; track $index) {
+                <button type="button" class="list-group-item list-group-item-action">
+                    <div class="d-flex flex-row align-items-center">
+                        <img class="col-2 me-3" [src]="card['image_url']" style="width: 3rem" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
+                        <div class="col d-flex flex-column text-truncate">
+                            <ngb-highlight [result]="card.name" [term]="term" class="text-truncate"></ngb-highlight>
+                            <small class="text-muted text-truncate">{{card['expansion_name']}}</small>
+                            <small class="text-muted text-truncate">{{card.code.default}}</small>
+                        </div>
+                    </div>
+                </button>
+            }
+            @empty {
+                    @if(term && !searching) {
+                        <div class="alert alert-warning d-flex flex-row align-items-center justify-content-center m-0">
+                            <fa-icon [icon]="warningIcon" class="me-3"/>
+                            <span>
+                                No se han encontrado resultados
+                            </span>
+                        </div>
+                    }
+            }
+        </div>
+    }
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.close('cancel')">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="activeModal.close('add')">Ver cartas</button>
+</div>
+
+
