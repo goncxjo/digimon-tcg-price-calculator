@@ -30,6 +30,9 @@ export class CardSearchModalComponent implements OnInit {
   get term() {
     return this.cardSearchTextInput.value;
   }
+  get noCards() {
+    return this.selectedCards.length === 0;
+  }
   
   selectedCards: Card[] = [];
 
@@ -91,8 +94,9 @@ export class CardSearchModalComponent implements OnInit {
     }
   }
 
-  toggleSelection(card: Card) {
+  toggleSelection(card: Card) {    
     this.isSelectedCard(card) ?  _.pull(this.selectedCards, card) : this.selectedCards.push(card);
+    console.log(card, this.selectedCards);
   }
 
   isSelectedCard(card: Card): boolean {

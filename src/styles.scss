@@ -79,8 +79,29 @@ app-root {
             border-radius: 0;
             & > * {
                 height: 100%;
+				& .modal-header {
+					padding: 0;
+					& > div > div > div {
+						border-radius: 0;
+					}
+				}
+				
+				& .modal-body {
+					padding-top: 0;
+					padding-right: 0;
+					padding-left: 0;
+
+					& > .list-group {
+						border-radius: 0;
+					}
+				}
             }
         }
+    }
+
+    .modal-filter {
+        border-radius: 0;
+		border-top: 0;
     }
 }
 
