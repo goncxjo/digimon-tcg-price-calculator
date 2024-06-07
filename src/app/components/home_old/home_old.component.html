@@ -5,8 +5,8 @@
 	</span>
 	<span *ngIf="dolar">
 		Dolar hoy: ARS {{ dolar.venta | currency }}
-		<button type="button" class="btn btn-outline-success btn-sm" (click)="toggleEditDolarMode()">
-			<!-- <fa-icon icon="pen" /> -->
+		<button type="button" class="btn btn-outline-success btn-sm border-0" (click)="toggleEditDolarMode()">
+			<fa-icon [icon]="editIcon" />
 		</button>
 	</span>
 </div>
@@ -20,44 +20,28 @@
 					<input type="number" [min]="0" [(ngModel)]="dolar.venta" class="form-control form-control-sm" name="dolarVenta" >
 				</div>
 			</div>
-			<button type="button" class="btn btn-outline-danger btn-sm" (click)="toggleEditDolarMode()">
-				<!-- <fa-icon icon="ban" /> -->
+			<button type="button" class="btn btn-outline-danger btn-sm border-0" (click)="toggleEditDolarMode()">
+				<fa-icon [icon]="banIcon" ></fa-icon>
 			</button>
 		</form>
 	</span>
 </div>
 
-<div class="row" *ngIf="dolar">
-	<app-card-searcher *ngIf="!id" (card)="onCardAdded($event)"></app-card-searcher>
-	
-	<div @myInsertRemoveTrigger class="col-lg-4 mx-auto mt-2 info-ayuda" *ngIf="mostrarAyuda && cards.length === 0">
-		<div class="alert alert-info d-flex flex-row align-items-center">
-			<span>
-				<!-- <fa-icon icon="circle-info" class="me-3"/> -->
-			</span>
-			<span>
-				Para agregar cartas, escribí en el panel de búsqueda y seleccioná alguno de los resultados.
-			</span>
-		</div>
-	</div>
-</div>
-
-
 <div *ngIf="cards.length > 0" >
 
 	<div class="btn-group" role="group">
 		<button type="button" class="btn btn-primary btn-sm" (click)="ordenar('precio', 'desc')">
-			<!-- <fa-icon icon="arrow-up-9-1" /> -->
+			<fa-icon [icon]="sortDownIcon" />
 		</button>
 		<button type="button" class="btn btn-primary btn-sm active" disabled >
 			Ordenar
 		</button>
 		<button type="button" class="btn btn-primary btn-sm" (click)="ordenar('precio', 'asc')">
-			<!-- <fa-icon icon="arrow-down-1-9" /> -->
+			<fa-icon [icon]="sortUpIcon" />
 		</button>
 	</div>
 	<button class="btn btn-success btn-sm ms-2" (click)="openExportImg()">
-		<!-- <fa-icon icon="image" class="me-1" /> -->
+		<fa-icon [icon]="imageIcon" class="me-1" />
 		Foto
 	</button>
 </div>
@@ -68,18 +52,18 @@
 
 			<span *ngIf="item.infoReduced">
 				<button class="border-0 position-absolute top-0 start-100 translate-middle-sm-multiplier badge rounded-close-btn bg-danger" (click)="removeCard(item)">
-					<!-- <fa-icon icon="times"/> -->
+					<fa-icon [icon]="closeIcon"/>
 					<span class="visually-hidden">cantidad cartas</span>
 				</button>
 				<div class="btn-group-vertical position-absolute top-50 start-100 translate-middle-sm-multiplier-buttons" role="group">
 					<button type="button" class="btn btn-sm btn-secondary" (click)="changeMultiplier(item, 1)">
-						<!-- <fa-icon icon="plus"/> -->
+						<fa-icon [icon]="plusIcon"/>
 					</button>
-					<button type="button" class="btn btn-sm btn-secondary px-0 active">
+					<button type="button" class="btn btn-sm btn-secondary px-0 active border-start border-end">
 						x{{ item.multiplier }}
 					</button>
 					<button type="button" class="btn btn-sm btn-secondary" (click)="changeMultiplier(item, -1)">
-						<!-- <fa-icon icon="minus"/> -->
+						<fa-icon [icon]="minusIcon"/>
 					</button>
 				</div>
 			</span>

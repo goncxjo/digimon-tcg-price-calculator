@@ -40,5 +40,11 @@ export class FooterComponent {
       scrollable: true,
       modalDialogClass: 'card-search-modal-height' 
     });
+
+    modalRef.result.then(result => {
+      if (result == "add") {
+        this.router.navigate(['/old']);
+      }
+    })
   }
 }

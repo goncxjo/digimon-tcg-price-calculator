@@ -27,13 +27,13 @@
     @if (cards$ | async; as cards) {
         <div class="list-group">
             @for (card of cards; track $index) {
-                <button type="button" class="list-group-item list-group-item-action">
+                <button type="button" class="list-group-item list-group-item-action" [class.active]="isSelectedCard(card)" (click)="toggleSelection(card)">
                     <div class="d-flex flex-row align-items-center">
                         <img class="col-2 me-3" [src]="card['image_url']" style="width: 3rem" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
                         <div class="col d-flex flex-column text-truncate">
                             <ngb-highlight [result]="card.name" [term]="term" class="text-truncate"></ngb-highlight>
-                            <small class="text-muted text-truncate">{{card['expansion_name']}}</small>
-                            <small class="text-muted text-truncate">{{card.code.default}}</small>
+                            <small class="text-truncate">{{card['expansion_name']}}</small>
+                            <small class="text-truncate">{{card.code.default}}</small>
                         </div>
                     </div>
                 </button>
@@ -53,7 +53,8 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="activeModal.close('cancel')">Cancelar</button>
-    <button type="button" class="btn btn-primary" (click)="activeModal.close('add')">Ver cartas</button>
+    <button type="button" class="btn btn-dark" (click)="showSelected()">Seleccionado ({{ this.selectedCards.length }})</button>
+    <button type="button" class="btn btn-primary" (click)="sendData()">Ver precios</button>
 </div>
 
 

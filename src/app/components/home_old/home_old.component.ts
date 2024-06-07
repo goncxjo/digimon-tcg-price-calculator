@@ -16,6 +16,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CardInfoComponent } from '../cards/card-info/card-info.component';
 import { CardSearcherComponent } from '../cards/card-searcher/card-searcher.component';
 import { FormsModule } from '@angular/forms';
+import { faArrowDown91, faArrowUp19, faBan, faImage, faM, faMinus, faPen, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { DataService } from '../../core/services/data.service';
 
 @Component({
   selector: 'app-home',
@@ -36,6 +38,14 @@ import { FormsModule } from '@angular/forms';
   ]
 })
 export class OldHomeComponent implements OnInit {
+  editIcon = faPen;
+  banIcon = faBan;
+  sortUpIcon = faArrowUp19;
+  sortDownIcon = faArrowDown91;
+  imageIcon = faImage;
+  closeIcon = faTimes;
+  plusIcon = faPlus;
+  minusIcon = faMinus;
 
   @ViewChild('qr') qrModal!: ElementRef;
 
@@ -61,7 +71,8 @@ export class OldHomeComponent implements OnInit {
     private clipboard: Clipboard,
     private modalService: NgbModal,
     private toastr: ToastrService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private dataService: DataService
   ) {
     this.route.params.pipe(
       take(1),
@@ -84,6 +95,10 @@ export class OldHomeComponent implements OnInit {
     setTimeout(() => {
       this.mostrarAyuda = true;
     }, 5000);
+
+    this.dataService.currentData.subscribe((data: Card[]) => {
+      data.forEach(c => this.addCard(c));
+    });
 
     // if (this.id) {
     //   this.tcgPlayerService.getDigimonCardById(parseInt(this.id))

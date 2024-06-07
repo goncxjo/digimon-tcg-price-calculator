@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSearch, faSliders, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { NgbActiveModal, NgbHighlight } from '@ng-bootstrap/ng-bootstrap';
@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable, catchError, debounceTime, distinctUntilCha
 import _ from 'lodash';
 import { AsyncPipe } from '@angular/common';
 import { CardSearchFiltersComponent } from '../card-search-filters/card-search-filters.component';
+import { DataService } from '../../../core/services/data.service';
 
 @Component({
   selector: 'app-card-search-modal',
@@ -16,7 +17,7 @@ import { CardSearchFiltersComponent } from '../card-search-filters/card-search-f
   templateUrl: './card-search-modal.component.html',
   styleUrl: './card-search-modal.component.scss',
 })
-export class CardSearchModalComponent {
+export class CardSearchModalComponent implements OnInit {
   searchIcon = faSearch;
   warningIcon = faTriangleExclamation;
   filetersIcon = faSliders;
@@ -38,7 +39,14 @@ export class CardSearchModalComponent {
   constructor(
     private tcgPlayerService: TcgPlayerService,
     private formBuilder: FormBuilder,
+    private dataService: DataService
   ) { }
+
+  ngOnInit() {
+    this.dataService.currentData.subscribe((data: Card[]) => {
+      this.selectedCards = data;
+    })
+  }
 
   doCardSearch() {
     this.searchCard$.next(this.cardSearchTextInput.value)
@@ -83,5 +91,21 @@ export class CardSearchModalComponent {
     }
   }
 
+  toggleSelection(card: Card) {
+    this.isSelectedCard(card) ?  _.pull(this.selectedCards, card) : this.selectedCards.push(card);
+  }
+
+  isSelectedCard(card: Card): boolean {
+    return _.some(this.selectedCards, ['tcg_player_id', card.tcg_player_id]);
+  }
+
+  showSelected() {
+    console.log(this.selectedCards);
+  }
+
+  sendData() {
+    this.dataService.changeData(this.selectedCards);
+    this.activeModal.close('add');
+  }
 }
 
