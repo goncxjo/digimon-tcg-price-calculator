@@ -1,10 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, effect, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSearch, faSliders, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { NgbActiveModal, NgbHighlight } from '@ng-bootstrap/ng-bootstrap';
 import { Card, FiltersTcgPlayerQuery, TcgPlayerService } from '../../../backend';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { BehaviorSubject, Observable, catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
 import _ from 'lodash';
 import { AsyncPipe } from '@angular/common';
 import { CardSearchFiltersComponent } from '../card-search-filters/card-search-filters.component';
@@ -17,7 +17,7 @@ import { DataService } from '../../../core/services/data.service';
   templateUrl: './card-search-modal.component.html',
   styleUrl: './card-search-modal.component.scss',
 })
-export class CardSearchModalComponent implements OnInit {
+export class CardSearchModalComponent {
   searchIcon = faSearch;
   warningIcon = faTriangleExclamation;
   filetersIcon = faSliders;
@@ -27,6 +27,7 @@ export class CardSearchModalComponent implements OnInit {
   searchCard$ = new BehaviorSubject<string>('');
   cardSearchTextInput = new FormControl();
   searching = false;
+
   get term() {
     return this.cardSearchTextInput.value;
   }
@@ -43,12 +44,8 @@ export class CardSearchModalComponent implements OnInit {
     private tcgPlayerService: TcgPlayerService,
     private formBuilder: FormBuilder,
     private dataService: DataService
-  ) { }
-
-  ngOnInit() {
-    this.dataService.currentData.subscribe((data: Card[]) => {
-      this.selectedCards = data;
-    })
+  ) {
+    this.selectedCards = _.clone(this.dataService.cards())
   }
 
   doCardSearch() {
@@ -94,9 +91,8 @@ export class CardSearchModalComponent implements OnInit {
     }
   }
 
-  toggleSelection(card: Card) {    
-    this.isSelectedCard(card) ?  _.pull(this.selectedCards, card) : this.selectedCards.push(card);
-    console.log(card, this.selectedCards);
+  toggleSelection(card: Card) {
+    this.isSelectedCard(card) ? _.remove(this.selectedCards, (c) => c.tcg_player_id == card.tcg_player_id) : this.selectedCards.push(card);
   }
 
   isSelectedCard(card: Card): boolean {
@@ -108,7 +104,7 @@ export class CardSearchModalComponent implements OnInit {
   }
 
   sendData() {
-    this.dataService.changeData(this.selectedCards);
+    this.dataService.update(this.selectedCards);
     this.activeModal.close('add');
   }
 }

@@ -1,17 +1,13 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { Card } from '../../backend';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  readonly cards = signal<Card[]>([]);
 
-  private data = new BehaviorSubject<any>([]);
-  currentData = this.data.asObservable();
-
-  constructor() { }
-
-  changeData(data: any) {
-    this.data.next(data)
+  update(cards: Card[]) {
+    this.cards.set(cards);
   }
 }

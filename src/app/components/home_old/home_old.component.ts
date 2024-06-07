@@ -1,8 +1,8 @@
 import {CommonModule, CurrencyPipe, Location} from '@angular/common';
-import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild, effect } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import * as _ from 'lodash';
 import { Card, Dolar } from '../../backend/models';
 import { CryptoService, DolarService, TcgPlayerService } from '../../backend/services';
@@ -83,6 +83,14 @@ export class OldHomeComponent implements OnInit {
     this.route.queryParamMap.subscribe((params) => {
       this.importData = params.get('importData') || '';
     });
+
+    effect(() => {
+      const cards = this.dataService.cards();
+      const diff = _.differenceBy(this.cards, cards, 'tcg_player_id');
+
+      cards.forEach((c: Card) => this.addCard(c));
+      diff.forEach((c: Card) => this.removeCardWitoutUpdate(c))
+    })
   }
 
   get noData() {
@@ -96,9 +104,6 @@ export class OldHomeComponent implements OnInit {
       this.mostrarAyuda = true;
     }, 5000);
 
-    this.dataService.currentData.subscribe((data: Card[]) => {
-      data.forEach(c => this.addCard(c));
-    });
 
     // if (this.id) {
     //   this.tcgPlayerService.getDigimonCardById(parseInt(this.id))
@@ -171,10 +176,16 @@ export class OldHomeComponent implements OnInit {
     return `${card.fullName} # ${card.rarity_code}`
   }
 
-  removeCard(card: Card) {
+  removeCardWitoutUpdate(card: Card) {
     _.remove(this.cards, (c) => {
       return c.tcg_player_id == card.tcg_player_id;
     });
+    this.calcularPrecioTotal();
+  }
+
+  removeCard(card: Card) {
+    this.removeCardWitoutUpdate(card);
+    this.dataService.update(this.cards);
     this.calcularPrecioTotal();
   }
 
