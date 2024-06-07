@@ -36,22 +36,23 @@
                                     <label class="form-check-label" for="isPreRelease">Pre-Release</label>
                                 </div>
                             </div>
-                            <!-- <div class="col-md-6">
+                            <div class="col-md-6">
                                 <label for="category" class="form-label">Expansión</label>
-                                <app-expansion-select formControlName="expansion" [mostrarOpcionTodos]="true" [esPreRelease]="esPreRelease"></app-expansion-select>
+                                <app-expansion-select [name]="'expansion'" [showOptionAll]="true" [esPreRelease]="esPreRelease"></app-expansion-select>
                             </div>
+                           
                             <div class="col-md-6">
                                 <label for="category" class="form-label">Categoría</label>
-                                <app-category-select formControlName="category" [mostrarOpcionTodos]="true"></app-category-select>
+                                <app-category-select [name]="'category'" [showOptionAll]="true"></app-category-select>
                             </div> 
                             <div class="col-6">
                                 <label for="color" class="form-label">Color</label>
-                                <app-color-multiselect formControlName="colors"></app-color-multiselect>
-                            </div>
+                                <app-color-multiselect [name]="'colors'"></app-color-multiselect>
+                            </div> 
                             <div class="col-6">
                                 <label for="rarity" class="form-label">Rareza</label>
-                                <app-rarity-multiselect formControlName="rarities"></app-rarity-multiselect>
-                            </div> -->
+                                <app-rarity-multiselect [name]="'rarities'"></app-rarity-multiselect>
+                            </div>
                         </form>
                     </div>
                 </div>

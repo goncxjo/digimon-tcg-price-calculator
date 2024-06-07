@@ -8,11 +8,15 @@ import { BehaviorSubject, Observable, catchError, debounceTime, distinctUntilCha
 import _ from 'lodash';
 import { AsyncPipe } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { RarityMultiSelectComponent } from '../../../shared/rarity-multiselect/rarity-multiselect.component';
+import { ColorMultiSelectComponent } from '../../../shared/color-multiselect/color-multiselect.component';
+import { ExpansionSelectComponent } from '../../../shared/expansion-select/expansion-select.component';
+import { CategorySelectComponent } from '../../../shared/category-select/category-select.component';
 
 @Component({
   selector: 'app-card-search-modal',
   standalone: true,
-  imports: [ReactiveFormsModule, FontAwesomeModule, NgbHighlight, AsyncPipe],
+  imports: [ReactiveFormsModule, FontAwesomeModule, NgbHighlight, AsyncPipe, RarityMultiSelectComponent, ColorMultiSelectComponent, CategorySelectComponent, ExpansionSelectComponent],
   templateUrl: './card-search-modal.component.html',
   styleUrl: './card-search-modal.component.scss',
   animations: [
@@ -77,10 +81,6 @@ export class CardSearchModalComponent {
   
   private buildForm(): FormGroup {
     return this.formBuilder.group({
-      expansion: [''],
-      category: [''],
-      colors: [''],
-      rarities: [''],
       isPreRelease: [''],
     });
   }
@@ -88,10 +88,10 @@ export class CardSearchModalComponent {
   mapFilters(): FiltersTcgPlayerQuery {
     var values = this.form.getRawValue();
     return {
-      expansions: values?.expansion?.urlName ? [values?.expansion?.urlName] : [],
-      categories: values?.category?.id ? [values?.category?.id] : [],
-      colors: _.map(values?.colors, 'id'),
-      rarities: _.map(values?.rarities, 'id'),
+      expansions: values?.expansion ? [values?.expansion] : [],
+      categories: values?.category ? [values?.category] : [],
+      colors: values?.colors,
+      rarities: values?.rarities,
       isPreRelease: this.esPreRelease
     }
   }
@@ -102,6 +102,7 @@ export class CardSearchModalComponent {
     if(!this.mostrarBusquedaAvanzada) {
       this.form.reset();
       this.esPreRelease = false;
+      this.form.controls['isPreRelease'].setValue(this.esPreRelease)
     }
   }
 
