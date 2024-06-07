@@ -68,8 +68,24 @@ app-root {
     line-height: 1.42857;
 }
 
-.card-search-modal-height .modal-content {
-    max-height: 80vh;
+@include media-breakpoint-down(md) {
+    .card-search-modal-height {
+        height: 100%;
+        max-width: none;
+        width: 100vw;
+        margin: 0;     
+        & .modal-content  {
+            height: 100%;
+            border-radius: 0;
+            & > * {
+                height: 100%;
+            }
+        }
+    }
+}
+
+.modal-dialog-scrollable .modal-body {
+    scrollbar-width: none;
 }
 
 // body {
