@@ -15,7 +15,7 @@ import { ReactiveFormsModule, ControlContainer, FormGroupDirective, FormControl 
   ]
 })
 export class YesNoSelectComponent implements AfterContentInit {
-  chlidForm: any;
+  childForm: any;
 
   @Input() isDisabled: boolean = false;
   @Input() showOptionAll: boolean = false;
@@ -26,7 +26,7 @@ export class YesNoSelectComponent implements AfterContentInit {
   ) { }
 
   ngAfterContentInit(): void {
-    this.chlidForm = this.parentForm.form;
-    this.chlidForm.addControl(this.name, new FormControl({value: '', disabled: this.isDisabled}));
+    this.childForm = this.parentForm.form;
+    this.childForm.addControl(this.name, new FormControl({value: '', disabled: this.isDisabled}));
   }
 }
