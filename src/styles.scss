@@ -88,13 +88,13 @@ app-root {
     scrollbar-width: none;
 }
 
-// body {
-// 	background-color: $gray-200;
-// }
+body {
+	background-color: $gray-200;
+}
 
-// hr {
-// 	border-width: 1px;
-// }
+hr {
+	border-width: 1px;
+}
 
 // #ngb-typeahead-0 {
 // 	width: 100%;
@@ -109,120 +109,120 @@ app-root {
 // 	}
 // }
 
-// .cursor-loader {
-// 	cursor: wait;
+.cursor-loader {
+	cursor: wait;
 
-// 	* {
-// 		cursor: wait !important;
-// 	}
-// }
+	* {
+		cursor: wait !important;
+	}
+}
 
-// .loading-screen {
-// 	position: fixed;
-// 	top: 0;
-// 	left: 0;
-// 	width: 100%;
-// 	height: 100%;
-// 	background-color: rgba(255, 255, 255, 0.6);
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// 	z-index: 1000;
-// }
+.loading-screen {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.6);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
 
-// /* card-info */
-// .list-group-item.list-group-item-action .bg-list-item {
-// 	position: absolute;
-// 	top: 0;
-// 	left: 0;
-// 	width: 10px;
-// 	height: 100%;
-// 	background-color: $gray-200;
-// }
+/* card-info */
+.list-group-item.list-group-item-action .bg-list-item {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 10px;
+	height: 100%;
+	background-color: $gray-200;
+}
 
-// .list-group-item.list-group-item-action.card-price-active .bg-list-item {
-// 	background-color: $primary;
-// }
+.list-group-item.list-group-item-action.card-price-active .bg-list-item {
+	background-color: $primary;
+}
 
-// .no-radius {
-// 	border-radius: 0;
-// }
+.no-radius {
+	border-radius: 0;
+}
 
-// .nav-default-height {
-// 	height: $app-navbar-height-default;
-// }
+.nav-default-height {
+	height: $app-navbar-height-default;
+}
 
-// .app-offcanvas {
-// 	height: calc($app-navbar-height-default - $hr-margin-y);
-// 	padding-top: $navbar-padding-y;
-// 	padding-bottom: 0;
+.app-offcanvas {
+	height: calc($app-navbar-height-default - $hr-margin-y);
+	padding-top: $navbar-padding-y;
+	padding-bottom: 0;
 
-// 	display: flex;
-// 	flex-wrap: inherit;
-// 	align-items: center;
-// 	justify-content: space-between;
-// 	font-size: $navbar-toggler-font-size;
-// }
+	display: flex;
+	flex-wrap: inherit;
+	align-items: center;
+	justify-content: space-between;
+	font-size: $navbar-toggler-font-size;
+}
 
-// .offcanvas-footer {
-// 	padding-top: $navbar-padding-y;
-// 	height: $app-navbar-height-default;
-// }
+.offcanvas-footer {
+	padding-top: $navbar-padding-y;
+	height: $app-navbar-height-default;
+}
 
-// .card-reduced-height {
-// 	height: 12rem;
-// }
+.card-reduced-height {
+	height: 12rem;
+}
 
-// .card-reduced-img-container-height {
-// 	height: 10rem;
-// }
+.card-reduced-img-container-height {
+	height: 10rem;
+}
 
 
-// .translate-middle-sm-multiplier {
-// 	@extend .translate-middle;
-// }
+.translate-middle-sm-multiplier {
+	@extend .translate-middle;
+}
 
-// .translate-middle-sm-multiplier-buttons {
-// 	@extend .translate-middle;
-// }
+.translate-middle-sm-multiplier-buttons {
+	@extend .translate-middle;
+}
 
-// @include media-breakpoint-down(sm) {
-// 	.translate-middle-sm-multiplier {
-// 		transform: translate(-75%, -25%) !important;
-// 	}
+@include media-breakpoint-down(sm) {
+	.translate-middle-sm-multiplier {
+		transform: translate(-75%, -25%) !important;
+	}
 
-// 	.translate-middle-sm-multiplier-buttons {
-// 		transform: translate(-75%, -50%) !important;
-// 	}
-// }
+	.translate-middle-sm-multiplier-buttons {
+		transform: translate(-75%, -50%) !important;
+	}
+}
 
-// $bg-wsp: #25d366;
-// $bg-fb: #1877f2;
+$bg-wsp: #25d366;
+$bg-fb: #1877f2;
 
-// .btn-whatsapp {
-// 	--bs-btn-font-weight: 600;
-// 	--bs-btn-color: var(--bs-white);
-// 	--bs-btn-bg: var($bg-wsp);
-// 	--bs-btn-border-color: var($bg-wsp);
-// 	--bs-btn-hover-color: var(--bs-white);
-// 	--bs-btn-hover-bg: #{shade-color($bg-wsp, 10%)};
-// 	--bs-btn-hover-border-color: #{shade-color($bg-wsp, 10%)};
-// 	--bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-// 	--bs-btn-active-color: var(--bs-btn-hover-color);
-// 	--bs-btn-active-bg: #{shade-color($bg-wsp, 20%)};
-// 	--bs-btn-active-border-color: #{shade-color($bg-wsp, 20%)};
-// }
+.btn-whatsapp {
+	--bs-btn-font-weight: 600;
+	--bs-btn-color: var(--bs-white);
+	--bs-btn-bg: var($bg-wsp);
+	--bs-btn-border-color: var($bg-wsp);
+	--bs-btn-hover-color: var(--bs-white);
+	--bs-btn-hover-bg: #{shade-color($bg-wsp, 10%)};
+	--bs-btn-hover-border-color: #{shade-color($bg-wsp, 10%)};
+	--bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+	--bs-btn-active-color: var(--bs-btn-hover-color);
+	--bs-btn-active-bg: #{shade-color($bg-wsp, 20%)};
+	--bs-btn-active-border-color: #{shade-color($bg-wsp, 20%)};
+}
 
-// .btn-facebook {
-// 	--bs-btn-font-weight: 600;
-// 	--bs-btn-color: var(--bs-white);
-// 	--bs-btn-bg: var($bg-fb);
-// 	--bs-btn-border-color: var($bg-fb);
-// 	--bs-btn-hover-color: var(--bs-white);
-// 	--bs-btn-hover-bg: #{shade-color($bg-fb, 10%)};
-// 	--bs-btn-hover-border-color: #{shade-color($bg-fb, 10%)};
-// 	--bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-// 	--bs-btn-active-color: var(--bs-btn-hover-color);
-// 	--bs-btn-active-bg: #{shade-color($bg-fb, 20%)};
-// 	--bs-btn-active-border-color: #{shade-color($bg-fb, 20%)};
-// }
+.btn-facebook {
+	--bs-btn-font-weight: 600;
+	--bs-btn-color: var(--bs-white);
+	--bs-btn-bg: var($bg-fb);
+	--bs-btn-border-color: var($bg-fb);
+	--bs-btn-hover-color: var(--bs-white);
+	--bs-btn-hover-bg: #{shade-color($bg-fb, 10%)};
+	--bs-btn-hover-border-color: #{shade-color($bg-fb, 10%)};
+	--bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+	--bs-btn-active-color: var(--bs-btn-hover-color);
+	--bs-btn-active-bg: #{shade-color($bg-fb, 20%)};
+	--bs-btn-active-border-color: #{shade-color($bg-fb, 20%)};
+}
