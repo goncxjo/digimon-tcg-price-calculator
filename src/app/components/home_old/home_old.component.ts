@@ -18,6 +18,7 @@ import { CardSearcherComponent } from '../cards/card-searcher/card-searcher.comp
 import { FormsModule } from '@angular/forms';
 import { faArrowDown91, faArrowUp19, faBan, faImage, faM, faMinus, faPen, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { DataService } from '../../core/services/data.service';
+import { DolarDataService } from '../../core/services/dolar.data.service';
 
 @Component({
   selector: 'app-home',
@@ -38,8 +39,6 @@ import { DataService } from '../../core/services/data.service';
   ]
 })
 export class OldHomeComponent implements OnInit {
-  editIcon = faPen;
-  banIcon = faBan;
   sortUpIcon = faArrowUp19;
   sortDownIcon = faArrowDown91;
   imageIcon = faImage;
@@ -53,7 +52,7 @@ export class OldHomeComponent implements OnInit {
   importData: string = '';
   cards: Card[] = [];
   selectedCard?: Card;
-  dolar!: Dolar;
+  dolar!: Dolar | null;
   activeIds: any[] = [];
   precioTotal: number = 0;
   priceSelected: any;
@@ -66,7 +65,7 @@ export class OldHomeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private tcgPlayerService: TcgPlayerService,
-    private dolarService: DolarService,
+    private dolarService: DolarDataService,
     private cryptoService: CryptoService,
     private clipboard: Clipboard,
     private modalService: NgbModal,
@@ -85,6 +84,7 @@ export class OldHomeComponent implements OnInit {
     });
 
     effect(() => {
+      console.log('asdf')
       const cards = this.dataService.cards();
       const diff = _.differenceBy(this.cards, cards, 'tcg_player_id');
 
@@ -98,8 +98,6 @@ export class OldHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getDolar();
-
     setTimeout(() => {
       this.mostrarAyuda = true;
     }, 5000);
@@ -130,13 +128,6 @@ export class OldHomeComponent implements OnInit {
       this.router.navigate([], { queryParams: {} });
     }
 
-  }
-  getDolar() {
-    this.dolarService.getDolarBlue()
-    .pipe(take(1))
-    .subscribe(res => {
-      this.dolar = res;
-    });
   }
   
   onCardAdded($event: any) {
@@ -199,7 +190,7 @@ export class OldHomeComponent implements OnInit {
   }
 
   getPrecioTotalUSD() {
-    return Math.round(this.precioTotal / this.dolar.venta * 100) / 100;
+    return Math.round(this.precioTotal / (this.dolar?.venta ?? 1) * 100) / 100;
   }
 
   changeMultiplier(card: Card, i: number) {
@@ -248,15 +239,11 @@ export class OldHomeComponent implements OnInit {
   }
 
   getFechaActualizacionDolar() {
-    return (new Date(this.dolar.fechaActualizacion)).toLocaleString('es-AR')
-  }
-
-  toggleEditDolarMode() {
-    this.editDolarMode = !this.editDolarMode;
-
-    if (!this.editDolarMode) {
-      this.getDolar();
+    const fechaActualizacion = this.dolarService.dolar()?.fechaActualizacion;
+    if (fechaActualizacion) {
+      return (new Date()).toLocaleString('es-AR')
     }
+    return null;
   }
 
 	openExportImg() {

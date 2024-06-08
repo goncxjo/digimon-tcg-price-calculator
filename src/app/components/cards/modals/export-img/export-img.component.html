@@ -65,7 +65,7 @@
 		<div class="row row-cols-1 mb-3 d-none screenshot-show" *ngIf="mostrarPrecios">
 			<div class="col">
 				<small class="text-secondary-emphasis">
-					<strong>Dólar: </strong>${{ dolar.venta | currency }}
+					<strong>Dólar: </strong>${{ dolar?.venta | currency }}
 				</small>
 			</div>
 			<div class="col">
@@ -86,7 +86,7 @@
 
 					<span class="bg-badge-unit-price-export-card bg-secondary badge d-block export-font" *ngIf="mostrarPrecios">
 						<span *ngIf="item.multiplier > 1">
-							$ {{ getPrecio(item) | currency}}
+							{{ getPrecio(item) | currency}}
 						</span>
 						<span *ngIf="item.multiplier == 1">
 							&nbsp;
@@ -101,7 +101,7 @@
 					</div>
 
 					<span class="bg-badge-total-export-card bg-primary badge d-block export-font" *ngIf="mostrarPrecios">
-						${{ getPrecio(item) * item.multiplier | currency }}
+						{{ getPrecio(item) * item.multiplier | currency }}
 					</span>
 
 				</div>

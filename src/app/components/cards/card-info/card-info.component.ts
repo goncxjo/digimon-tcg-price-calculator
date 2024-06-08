@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, effect } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { style, transition, trigger, animate } from '@angular/animations';
 import { Card, CardPrice, Dolar, TcgPlayerService } from '../../../backend';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DolarDataService } from '../../../core/services/dolar.data.service';
 
 @Component({
   selector: 'app-card-info',
@@ -23,17 +24,21 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class CardInfoComponent implements OnInit, OnDestroy, OnChanges {
   @Input() data!: Card;
-  @Input() dolar!: Dolar;
-  @Input() dolarChanged: any;
   @Output() priceChangeEvent = new EventEmitter<boolean>();
   @Output() cardRemovedEvent = new EventEmitter<number>();
-
+  
+  dolar!: Dolar | null;
   priceSelected: string = "custom";
   custom_price: number = 0;
 
   constructor(
-    private tcgPlayerService: TcgPlayerService
-  ) { }
+    private tcgPlayerService: TcgPlayerService,
+    private dolarService: DolarDataService
+  ) {
+    effect(() => {
+      this.dolar = this.dolarService.dolar();
+    })
+  }
 
   ngOnInit(): void {
   }
@@ -73,7 +78,7 @@ export class CardInfoComponent implements OnInit, OnDestroy, OnChanges {
   getPrecioCarta() {
     const price = this.data.prices.get(this.priceSelected);
     if (price?.currency_symbol == 'USD') {
-      return Math.round(price.currency_value * this.dolar.venta * 100) / 100;
+      return Math.round(price.currency_value * (this.dolar?.venta ?? 1) * 100) / 100;
     }
     return price?.currency_value || 0;
   }
@@ -92,7 +97,7 @@ export class CardInfoComponent implements OnInit, OnDestroy, OnChanges {
   }
   
   getPrecioCartaUSD() {
-    return Math.round(this.getPrecioCarta() / this.dolar.venta * 100) / 100;
+    return Math.round(this.getPrecioCarta() / (this.dolar?.venta ?? 1) * 100) / 100;
   }
   
   getPrecioCartaTotalUSD() {

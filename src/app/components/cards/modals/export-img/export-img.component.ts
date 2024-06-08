@@ -8,6 +8,7 @@ import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CurrencySelectComponent } from '../../../../shared/currency-select/currency-select.component';
 import { YesNoSelectComponent } from '../../../../shared/yes-no-select/yes-no-select.component';
+import { DolarDataService } from '../../../../core/services/dolar.data.service';
 
 @Component({
   selector: 'app-export-img',
@@ -23,7 +24,7 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   form = this.buildForm();
 
   cards: Card[] = [];
-  dolar!: Dolar;
+  dolar!: Dolar | null;
   actualDate: Date = new Date();
 
   precioTotal: number = 0;
@@ -43,7 +44,10 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
     private modalService: NgbActiveModal,
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
-  ) { }
+    private dolarService: DolarDataService
+  ) {
+    this.dolar = this.dolarService.dolar();
+  }
   
   ngOnInit(): void {
     this.cards.forEach(card => {
@@ -95,7 +99,7 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   }
 
   getPrecioUSD(price: number) {
-    return Math.round(price / this.dolar.venta * 100) / 100;
+    return Math.round(price / (this.dolar?.venta ?? 1) * 100) / 100;
   }
 
   zoom(i: number){
