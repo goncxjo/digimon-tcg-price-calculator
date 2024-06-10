@@ -1,11 +1,11 @@
-import {CommonModule, CurrencyPipe, Location} from '@angular/common';
-import { Component, ElementRef, OnInit, TemplateRef, ViewChild, effect } from '@angular/core';
+import {CommonModule, CurrencyPipe} from '@angular/common';
+import { Component, ElementRef, OnInit, ViewChild, computed } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Subscription, take } from 'rxjs';
+import { take } from 'rxjs';
 import * as _ from 'lodash';
 import { Card, Dolar } from '../../backend/models';
-import { CryptoService, DolarService, TcgPlayerService } from '../../backend/services';
+import { CryptoService } from '../../backend/services';
 import { style, transition, trigger, animate } from '@angular/animations';
 import { NgbModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ExportImgComponent } from '../cards/modals/export-img/export-img.component';
@@ -16,14 +16,15 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CardInfoComponent } from '../cards/card-info/card-info.component';
 import { CardSearcherComponent } from '../cards/card-searcher/card-searcher.component';
 import { FormsModule } from '@angular/forms';
-import { faArrowDown91, faArrowUp19, faBan, faImage, faM, faMinus, faPen, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown91, faArrowUp19, faImage, faMinus, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { DataService } from '../../core/services/data.service';
 import { DolarDataService } from '../../core/services/dolar.data.service';
+import { TotalComponent } from '../cards/total/total.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, QrCodeComponent, FontAwesomeModule, NgbTooltip, CurrencyPipe, CardInfoComponent, CardSearcherComponent, ExportImgComponent],
+  imports: [CommonModule, FormsModule, QrCodeComponent, FontAwesomeModule, NgbTooltip, CurrencyPipe, CardInfoComponent, CardSearcherComponent, ExportImgComponent, TotalComponent],
   templateUrl: './home_old.component.html',
   styleUrls: ['./home_old.component.scss'],
   animations: [
@@ -50,7 +51,7 @@ export class OldHomeComponent implements OnInit {
 
   id: string = '0';
   importData: string = '';
-  cards: Card[] = [];
+  cards = computed(() => this.dataService.cards());
   selectedCard?: Card;
   dolar!: Dolar | null;
   activeIds: any[] = [];
@@ -64,7 +65,6 @@ export class OldHomeComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private tcgPlayerService: TcgPlayerService,
     private dolarService: DolarDataService,
     private cryptoService: CryptoService,
     private clipboard: Clipboard,
@@ -82,19 +82,10 @@ export class OldHomeComponent implements OnInit {
     this.route.queryParamMap.subscribe((params) => {
       this.importData = params.get('importData') || '';
     });
-
-    effect(() => {
-      console.log('asdf')
-      const cards = this.dataService.cards();
-      const diff = _.differenceBy(this.cards, cards, 'tcg_player_id');
-
-      cards.forEach((c: Card) => this.addCard(c));
-      diff.forEach((c: Card) => this.removeCardWitoutUpdate(c))
-    })
   }
 
   get noData() {
-    return this.cards.length == 0;
+    return this.cards().length == 0;
   }
 
   ngOnInit(): void {
@@ -102,104 +93,34 @@ export class OldHomeComponent implements OnInit {
       this.mostrarAyuda = true;
     }, 5000);
 
-
-    // if (this.id) {
-    //   this.tcgPlayerService.getDigimonCardById(parseInt(this.id))
-    //   .pipe(take(1))
-    //   .subscribe(res => {
-    //     if (res['id']) {
-    //       this.selectedCard = res;
-    //     }
-    //     else {
-    //       this.router.navigate(['/'])
-    //     }
+    // if (this.importData) {
+    //   let res = this.cryptoService.decryptJsonUriFriendly(this.importData);
+    //   res.forEach((c: string) => {
+    //     setTimeout(() => {
+    //       const card = new Card();
+    //       card.mapExportToEntity(c);
+    //       this.addCard(card);
+    //     }, 10);
     //   });
+    //   this.router.navigate([], { queryParams: {} });
     // }
-
-    if (this.importData) {
-      let res = this.cryptoService.decryptJsonUriFriendly(this.importData);
-      res.forEach((c: string) => {
-        setTimeout(() => {
-          const card = new Card();
-          card.mapExportToEntity(c);
-          this.addCard(card);
-        }, 10);
-      });
-      this.router.navigate([], { queryParams: {} });
-    }
-
   }
   
-  onCardAdded($event: any) {
-    let card = $event;
-    this.addCard(card);
-    this.mostrarAyuda = false;
-  }
-
-  addCard(card: Card) {
-    let foundCard =_.find(this.cards, (c) => {
-      return c.tcg_player_id == card.tcg_player_id;
-    });
-    if(!foundCard) {
-      setTimeout(() => {
-        try {
-          this.getById(card);
-        } catch (error) {
-          console.log(`error al importar #${card.tcg_player_id}`)
-        }
-      }, 0);
-    }
-  }
-  
-  getById(card: Card) {
-    this.tcgPlayerService.getDigimonCardById(card.tcg_player_id || 0)
-    .pipe(take(1))
-    .subscribe(res => {
-      res.multiplier = card.multiplier;
-      res.prices.set('custom', card.prices.get('custom') || null);
-
-      this.cards.push(res);
-      this.calcularPrecioTotal();
-    });
-  }
 
   getCardMiniInfo(card: Card) {
     return `${card.fullName} # ${card.rarity_code}`
   }
 
-  removeCardWitoutUpdate(card: Card) {
-    _.remove(this.cards, (c) => {
-      return c.tcg_player_id == card.tcg_player_id;
-    });
-    this.calcularPrecioTotal();
-  }
-
   removeCard(card: Card) {
-    this.removeCardWitoutUpdate(card);
-    this.dataService.update(this.cards);
-    this.calcularPrecioTotal();
-  }
-
-  calcularPrecioTotal() {
-    setTimeout(() => {
-      this.precioTotal = _.sumBy(this.cards, (c) => {
-        return c.price.currency_value * c.multiplier;
-      });
-      
-    }, 10);
-  }
-
-  getPrecioTotalUSD() {
-    return Math.round(this.precioTotal / (this.dolar?.venta ?? 1) * 100) / 100;
+    this.dataService.remove(card);
   }
 
   changeMultiplier(card: Card, i: number) {
-    card.changeMultiplier(i);
-    this.calcularPrecioTotal();
+    this.dataService.updateCardMultiplier(card, i);
   }
 
   generateUrl() {
-    const result = this.cards.map(c => c.exportString());
+    const result = this.cards().map(c => c.exportString());
     var data = this.cryptoService.encryptJsonUriFriendly(result);
     const baseUrl = window.document.baseURI;
     return `${baseUrl}?importData=${data}`;
@@ -211,27 +132,19 @@ export class OldHomeComponent implements OnInit {
   }
 
   ordenar(metodo: string, valor: string) {
-    switch (metodo) {
-      case 'precio':
-        this.cards.sort((a: Card, b: Card) => {
-          if (valor == 'asc') {
-            return a.price.currency_value * a.multiplier - b.price.currency_value * b.multiplier
-          }
-          return b.price.currency_value * b.multiplier - a.price.currency_value * a.multiplier
-        });
-        break;
+    // switch (metodo) {
+    //   case 'precio':
+    //     this.cards.sort((a: Card, b: Card) => {
+    //       if (valor == 'asc') {
+    //         return a.price.currency_value * a.multiplier - b.price.currency_value * b.multiplier
+    //       }
+    //       return b.price.currency_value * b.multiplier - a.price.currency_value * a.multiplier
+    //     });
+    //     break;
     
-      default:
-        break;
-    }
-  }
-
-  onPriceChanged($event: any) {
-    this.calcularPrecioTotal();
-  }
-
-  onMultiplierChanged($event: any) {
-    this.calcularPrecioTotal();
+    //   default:
+    //     break;
+    // }
   }
 
   onCardRemoved(id: number) {
@@ -252,7 +165,7 @@ export class OldHomeComponent implements OnInit {
     modalInstance.componentInstance.cards = this.cards;
     modalInstance.componentInstance.dolar = this.dolar;
     modalInstance.componentInstance.precioTotal = this.precioTotal;
-    modalInstance.componentInstance.precioTotalUSD = this.getPrecioTotalUSD();
+    // modalInstance.componentInstance.precioTotalUSD = this.getPrecioTotalUSD();
 
     modalInstance.result.then(this.onModalSuccess, onError);
 

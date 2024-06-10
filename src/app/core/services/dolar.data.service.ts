@@ -7,6 +7,7 @@ import { take } from 'rxjs';
 })
 export class DolarDataService {
   readonly dolar = signal<Dolar | null>(null);
+  readonly userCurrency = signal<string>('ARS');
 
   constructor(
     private service: DolarService
@@ -24,5 +25,13 @@ export class DolarDataService {
 
   update(dolar: Dolar) {
     this.dolar.set(dolar);
+  }
+
+  get venta() {
+    return this.dolar()?.venta ?? 1;
+  }
+
+  setUserCurrency(currency: string) {
+    this.userCurrency.set(currency);
   }
 }

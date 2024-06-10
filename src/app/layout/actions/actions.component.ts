@@ -6,13 +6,13 @@ import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardSearchModalComponent } from '../../components/cards/card-search-modal/card-search-modal.component';
 
 @Component({
-  selector: 'app-footer',
+  selector: 'app-actions',
   standalone: true,
   imports: [FontAwesomeModule, RouterLink, NgbModalModule],
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+  templateUrl: './actions.component.html',
+  styleUrls: ['./actions.component.scss']
 })
-export class FooterComponent {
+export class ActionsComponent {
   homeIcon = faHome;
   calcIcon = faCalculator;
   searchIcon = faSearch;

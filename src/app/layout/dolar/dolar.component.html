@@ -1,5 +1,5 @@
 @if(!editDolarMode) {
-    <div class="alert alert-success text-center py-1">
+    <div class="alert alert-success text-center py-1 border rounded-0">
         @if(dataService.dolar()) {
             Dólar hoy: ARS {{ dataService.dolar()?.venta | currency }}
             <button type="button" class="btn btn-outline-success btn-sm border-0" (click)="toggleEditDolarMode()">

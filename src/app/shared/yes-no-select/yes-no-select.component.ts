@@ -20,7 +20,8 @@ export class YesNoSelectComponent implements AfterContentInit {
   @Input() isDisabled: boolean = false;
   @Input() showOptionAll: boolean = false;
   @Input() name: string = 'yes-no';
-  
+  @Input() innerLabel: string = "";
+
   constructor(
     public parentForm: FormGroupDirective
   ) { }

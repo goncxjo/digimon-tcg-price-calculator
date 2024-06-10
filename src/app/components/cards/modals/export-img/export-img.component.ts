@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AfterContentInit, Component, ElementRef, OnInit, Renderer2, ViewChild, computed, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import download from 'downloadjs';
 import html2canvas from 'html2canvas';
@@ -9,29 +9,38 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CurrencySelectComponent } from '../../../../shared/currency-select/currency-select.component';
 import { YesNoSelectComponent } from '../../../../shared/yes-no-select/yes-no-select.component';
 import { DolarDataService } from '../../../../core/services/dolar.data.service';
+import { DataService } from '../../../../core/services/data.service';
+import { faCopy, faDownload, faSearchMinus, faSearchPlus, faSync } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-export-img',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, CurrencyPipe, DatePipe, FontAwesomeModule, CurrencySelectComponent, YesNoSelectComponent],
+  imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, ReactiveFormsModule, CurrencyPipe, DatePipe, FontAwesomeModule, CurrencySelectComponent, YesNoSelectComponent],
   templateUrl: './export-img.component.html',
   styleUrls: ['./export-img.component.scss']
 })
-export class ExportImgComponent implements OnInit, AfterViewInit {
+export class ExportImgComponent implements OnInit, AfterContentInit {
+
+  searchMinusIcon = faSearchMinus;
+  searchPlusIcon = faSearchPlus;
+  downloadIcon = faDownload;
+  copyIcon = faCopy;
+  syncIcon = faSync;
 
   @ViewChild('content') content!: ElementRef;
 
   form = this.buildForm();
 
-  cards: Card[] = [];
-  dolar!: Dolar | null;
+  cards = computed(() => this.dataService.cards());
   actualDate: Date = new Date();
 
-  precioTotal: number = 0;
-  precioTotalUSD: number = 0;
+  getPrecioTotal() {
+    return this.dataService.totals()
+  }
 
-  selectedCurrency = 'ARS';
-  mostrarPrecios: boolean = true;
+  getPrecioTotalUSD() {
+    return Math.round(this.dataService.totals() / this.dolarService.venta * 100) / 100;
+  }
   
   colExport: number = 3;
   cardHeight: string = `calc(88px * ${this.colExport})`;
@@ -40,17 +49,17 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   descargandoFoto: boolean = false;
   capturarFoto: boolean = false;
 
+  dolarService = inject(DolarDataService);
+  dataService = inject(DataService);
+
   constructor(
     private modalService: NgbActiveModal,
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
-    private dolarService: DolarDataService
-  ) {
-    this.dolar = this.dolarService.dolar();
-  }
+  ) { }
   
   ngOnInit(): void {
-    this.cards.forEach(card => {
+    this.cards().forEach(card => {
       if (!card.image_base64) {
         this.getBase64ImageFromUrl(card.image_url)
         .then(result => {
@@ -61,11 +70,9 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
     }); 
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.form.get('currency')?.setValue(this.selectedCurrency);
-      this.form.get('showCurrency')?.setValue(this.mostrarPrecios);
-    }, 0);
+  ngAfterContentInit(): void {
+    this.form.get('currency')?.setValue('ARS');
+    this.form.get('showCurrency')?.setValue(true);
   }
 
   get formFields() {
@@ -99,7 +106,7 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
   }
 
   getPrecioUSD(price: number) {
-    return Math.round(price / (this.dolar?.venta ?? 1) * 100) / 100;
+    return Math.round(price / this.dolarService.venta * 100) / 100;
   }
 
   zoom(i: number){
@@ -108,12 +115,12 @@ export class ExportImgComponent implements OnInit, AfterViewInit {
     this.cardWidth = `calc(64px * ${this.colExport})`;
   }
 
-  onCurrencyChange(event: any) {
-    this.selectedCurrency = event;
+  get mostrarPrecios() {
+    return this.form.get('showCurrency')?.value;
   }
 
-  onShowCurrencyChange(event: any) {
-    this.mostrarPrecios = event;
+  get selectedCurrency() {
+    return this.form.get('currency')?.value;
   }
 
   async download() {

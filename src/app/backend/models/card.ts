@@ -89,6 +89,21 @@ export class Card {
 			console.log(`error al mapear #${value}`)
 		}
 	}
+
+	getPrecioOrDefault(priceSelected?: string) {
+		if (priceSelected) {
+			return this.prices.get(priceSelected);
+		}
+		else {
+			let precio: CardPrice | null = new CardPrice();
+			this.prices.forEach(price => {
+				if (!precio?.currency_value && price?.currency_value) {
+					precio = price;
+				}
+			});
+			return precio;
+		}
+	  }
 }
 
 export class CardPrices {

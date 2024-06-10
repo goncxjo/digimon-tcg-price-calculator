@@ -21,20 +21,18 @@ app-root {
 	@extend .min-vh-100;
 }
 
-// @font-face {
-// 	font-family: pixel-digivolve;
-// 	src: url('assets/fonts/Pixel\ Digivolve.otf') format("truetype");
-// }
+@font-face {
+	font-family: pixel-digivolve;
+	src: url('assets/fonts/Pixel\ Digivolve.otf') format("truetype");
+}
 
-// @font-face {
-// 	font-family: pixel-digivolve-italic;
-// 	src: url('assets/fonts/Pixel\ Digivolve\ Italic.otf') format("truetype");
-// }
+@font-face {
+	font-family: pixel-digivolve-italic;
+	src: url('assets/fonts/Pixel\ Digivolve\ Italic.otf') format("truetype");
+}
 
-// $border-width: 0;
-
-// $font-family-base: "Montserrat", -apple-system, sans-serif !important;
-// $app-navbar-height-default: 3.5rem;
+$font-family-base: "Montserrat", -apple-system, sans-serif !important;
+$app-navbar-height-default: 3.5rem;
 
 /* Importing Bootstrap SCSS file. */
 @import './assets/bootswatch/zephyr/variables';

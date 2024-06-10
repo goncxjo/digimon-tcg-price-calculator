@@ -1,16 +1,17 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, effect } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, computed, effect } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription, debounceTime, distinctUntilChanged, firstValueFrom, map, of, switchMap, tap } from 'rxjs';
 import { style, transition, trigger, animate } from '@angular/animations';
 import { Card, CardPrice, Dolar, TcgPlayerService } from '../../../backend';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DolarDataService } from '../../../core/services/dolar.data.service';
+import { DataService } from '../../../core/services/data.service';
 
 @Component({
   selector: 'app-card-info',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule, FontAwesomeModule],
   templateUrl: './card-info.component.html',
   styleUrls: ['./card-info.component.scss'],
   animations: [
@@ -22,70 +23,38 @@ import { DolarDataService } from '../../../core/services/dolar.data.service';
     ]),
   ]
 })
-export class CardInfoComponent implements OnInit, OnDestroy, OnChanges {
+export class CardInfoComponent implements AfterViewInit, OnDestroy {
   @Input() data!: Card;
-  @Output() priceChangeEvent = new EventEmitter<boolean>();
-  @Output() cardRemovedEvent = new EventEmitter<number>();
   
-  dolar!: Dolar | null;
-  priceSelected: string = "custom";
-  custom_price: number = 0;
+  priceSelected: string = '';
+  customPriceInput = new FormControl();
+  customPrice$!: Subscription;
 
   constructor(
-    private tcgPlayerService: TcgPlayerService,
+    private dataService: DataService,
     private dolarService: DolarDataService
-  ) {
-    effect(() => {
-      this.dolar = this.dolarService.dolar();
-    })
-  }
+  ) {}
 
-  ngOnInit(): void {
-  }
-
-  async loadTcgPlayerPrices() {
-    if (this.data.tcg_player_id) {
-      const tcgPlayerPrice$ = this.tcgPlayerService.getCardPrice(this.data.tcg_player_id);
-      const tcg_player_prices = await firstValueFrom(tcgPlayerPrice$);
-
-      if (tcg_player_prices.tcg_player_foil) {
-        this.priceSelected = 'tcg_player_foil';
-        this.data.prices.set('tcg_player_foil', tcg_player_prices.tcg_player_foil);
-      }
-      if (tcg_player_prices.tcg_player_normal) {
-        this.priceSelected = 'tcg_player_normal';
-        this.data.prices.set('tcg_player_normal', tcg_player_prices.tcg_player_normal);
-      }      
-    }
-  }
-
-  async loadCustomPrice() {
-      const customPrice = this.data.prices.get('custom');
-      if (customPrice) {
-        this.custom_price = customPrice.currency_value;
-        if (customPrice.currency_value) {
-          this.priceSelected = 'custom';
-        }
-      }
-  }
-
-  async ngAfterViewInit() {
-    await this.loadTcgPlayerPrices();
-    await this.loadCustomPrice();
+  ngAfterViewInit() {
     this.setPrecioCarta();
+
+    this.customPrice$ = this.customPriceInput.valueChanges
+    .pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    )
+    .subscribe(price => {
+      this.data.prices.set('custom', new CardPrice('ARS', price));
+      this.setPrecioCarta();
+    });
   }
 
   getPrecioCarta() {
-    const price = this.data.prices.get(this.priceSelected);
-    if (price?.currency_symbol == 'USD') {
-      return Math.round(price.currency_value * (this.dolar?.venta ?? 1) * 100) / 100;
-    }
-    return price?.currency_value || 0;
+    return this.dataService.getPrecio(this.data, this.priceSelected)
   }
-
+  
   setPrecioCarta() {
-    this.data.price.currency_value = this.getPrecioCarta();
-    this.priceChangeEvent.emit(true);
+    this.dataService.setPrecio(this.data, this.priceSelected);
   }
 
   esUnidad() {
@@ -97,38 +66,27 @@ export class CardInfoComponent implements OnInit, OnDestroy, OnChanges {
   }
   
   getPrecioCartaUSD() {
-    return Math.round(this.getPrecioCarta() / (this.dolar?.venta ?? 1) * 100) / 100;
+    return Math.round(this.getPrecioCarta() / this.dolarService.venta * 100) / 100;
   }
   
   getPrecioCartaTotalUSD() {
     return this.getPrecioCartaUSD() * this.data.multiplier;
   }
 
-
   onPriceSelected(priceSelected: string) {
     this.priceSelected = priceSelected;
     this.setPrecioCarta();
   }
-  
-  onCustomPriceChange($event: any) {
-    this.data.prices.set('custom', new CardPrice('ARS', this.custom_price));
-    this.setPrecioCarta();
-  }
 
   ngOnDestroy(): void {
+    this.customPrice$?.unsubscribe();
   }
 
-  remove(item: Card) {
-    if (item.tcg_player_id) {
-      this.cardRemovedEvent.emit(item.tcg_player_id);
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    for (const propName in changes) {
-      if (propName == 'dolarChanged') {
-        this.setPrecioCarta();
-      }
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   for (const propName in changes) {
+  //     if (propName == 'dolarChanged') {
+  //       this.setPrecioCarta();
+  //     }
+  //   }
+  // }
 }

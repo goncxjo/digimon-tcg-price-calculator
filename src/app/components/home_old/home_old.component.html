@@ -1,5 +1,4 @@
-<div *ngIf="cards.length > 0" >
-
+@if (cards().length > 0) {
 	<div class="btn-group" role="group">
 		<button type="button" class="btn btn-primary btn-sm" (click)="ordenar('precio', 'desc')">
 			<fa-icon [icon]="sortDownIcon" />
@@ -15,10 +14,10 @@
 		<fa-icon [icon]="imageIcon" class="me-1" />
 		Foto
 	</button>
-</div>
+}
 
 <div class="row">
-	<div @myInsertRemoveTrigger *ngFor="let item of cards; let index = index" [ngClass]="{'col-12': !item.infoReduced, 'col-md-6 col-lg-4': item.infoReduced}">
+	<div @myInsertRemoveTrigger *ngFor="let item of cards(); let index = index" [ngClass]="{'col-12': !item.infoReduced, 'col-md-6 col-lg-4': item.infoReduced}">
 		<div class="card my-3">
 
 			<span *ngIf="item.infoReduced">
@@ -40,33 +39,27 @@
 			</span>
 
 			<div class="card-body p-3">
-				<app-card-info
-					[data]="item"
-					(priceChangeEvent)="onPriceChanged($event)"
-					(cardRemovedEvent)="onCardRemoved($event)"
-				></app-card-info>
+				<app-card-info [data]="item"></app-card-info>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div *ngIf="!noData" class="alert alert-primary mt-3 text-end fw-bolder">
-	<span>Total:
-		<strong>ARS {{ precioTotal | currency}}</strong>
-		(<strong>USD {{ getPrecioTotalUSD() | currency}}</strong>)
-	</span>
-</div>
+@if (!noData) {
+	<app-total></app-total>
 
-<div *ngIf="!noData">
-	<button type="button" class="btn btn btn-primary btn-sm ms-2" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
-		Copiar URL
-		<!-- <fa-icon icon="copy"/> -->
-	</button>
-	<button type="button" class="btn btn btn-success btn-sm ms-2" (click)="generateQR()">
-		Generar QR
-		<!-- <fa-icon icon="qrcode"/> -->
-	</button>
-</div>
+	<div *ngIf="!noData">
+		<button type="button" class="btn btn btn-primary btn-sm ms-2" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
+			Copiar URL
+			<!-- <fa-icon icon="copy"/> -->
+		</button>
+		<button type="button" class="btn btn btn-success btn-sm ms-2" (click)="generateQR()">
+			Generar QR
+			<!-- <fa-icon icon="qrcode"/> -->
+		</button>
+	</div>
+	
+}
 
 <ng-template #qr let-modal>
 	<div class="modal-header">
