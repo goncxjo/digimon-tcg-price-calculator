@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Dolar, DolarService } from '../../backend';
+import { CardPrice, Dolar, DolarService } from '../../backend';
 import { take } from 'rxjs';
 
 @Injectable({
@@ -33,5 +33,12 @@ export class DolarDataService {
 
   setUserCurrency(currency: string) {
     this.userCurrency.set(currency);
+  }
+
+  convertToDolars(price: CardPrice | null | undefined) {
+    if (this.userCurrency() == 'ARS' && price?.currency_symbol == 'USD') {
+      return Math.round(price.currency_value * this.venta * 100) / 100;
+    }
+    return price?.currency_value || 0;
   }
 }

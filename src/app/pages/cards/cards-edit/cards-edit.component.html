@@ -1,6 +1,8 @@
 <div class="card">
 	<div class="card-header">
-		Card header
+		<form class="d-flex flex-grow-1 align-items-center">
+			<input type="text" class="form-control form-control p-0 border-0 shadow-none bg-transparent" placeholder="Escriba el nombre de la lista">
+		</form>
 	</div>
 	<div class="card-body p-0">
 		<div class="card-grid">
@@ -16,29 +18,29 @@
 						<small class="text-muted">{{ card.expansion_name }}</small>
 						<small class="text-muted">{{ card.code.default + ' # ' + card.rarity_name }}</small>
 
-						<small class="text-dark">
-							Precio: <span class="text-primary ms-2">$ {{ card | cardPriceCurrency:dolarService }}</span>
+						<small class="fw-bold mt-2">
+							Precio: <span class="text-primary ms-2">{{ getPrice(card) | currency }}</span>
 						</small>
 						@if (card.multiplier > 1) {
-							<small class="text-dark">
-								Total: <span class="text-primary ms-2">$ {{ card | cardPriceCurrency:dolarService:true }}</span>
+							<small class="fw-bold mt-1">
+								Total (x{{card.multiplier}}):  <span class="text-primary ms-2">{{ getPrice(card) * card.multiplier | currency }}</span>
 							</small>
 						}
 						<div class="row g-0 mt-auto">
 							<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 								<div class="btn-group card-item-actions me-2" role="group">
-									<button type="button" class="btn btn-sm bg-danger" (click)="removeCard(card)">
+									<button type="button" class="btn btn-sm bg-danger text-white" (click)="removeCard(card)">
 										<fa-icon [icon]="closeIcon"/>
 									</button>
 								</div>
 								<div class="btn-group card-item-actions me-2" role="group">
-									<button type="button" class="btn btn-sm btn-secondary" (click)="changeMultiplier(card, -1)">
+									<button type="button" class="btn btn-sm btn-dark" (click)="changeMultiplier(card, -1)">
 										<fa-icon [icon]="minusIcon"/>
 									</button>
-									<button type="button" class="btn btn-sm btn-secondary btn-disabled">
+									<button type="button" class="btn btn-sm btn-dark" disabled>
 										{{ card.multiplier }}
 									</button>
-									<button type="button" class="btn btn-sm btn-secondary" (click)="changeMultiplier(card, 1)">
+									<button type="button" class="btn btn-sm btn-dark" (click)="changeMultiplier(card, 1)">
 										<fa-icon [icon]="plusIcon"/>
 									</button>
 								</div>
@@ -57,6 +59,8 @@
 		</div>
 	</div>
 	<div class="card-footer">
-		Card footer
+		<p class="card-text fw-bold text-end">
+			TOTAL:  <span class="ms-2">{{ total() | currency }}</span>
+		</p>
 	</div>
 </div>

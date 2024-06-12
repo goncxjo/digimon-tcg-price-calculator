@@ -6,13 +6,12 @@ import { ToastrService } from 'ngx-toastr';
 import { DolarDataService } from '../../../core/services/dolar.data.service';
 import { DataService } from '../../../core/services/data.service';
 import { Card } from '../../../backend';
-import {  } from '@angular/common';
-import { CardPriceCurrencyPipe } from '../../../shared';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-cards-edit',
   standalone: true,
-  imports: [FontAwesomeModule, CardPriceCurrencyPipe],
+  imports: [FontAwesomeModule, CurrencyPipe],
   templateUrl: './cards-edit.component.html',
   styleUrl: './cards-edit.component.scss'
 })
@@ -23,6 +22,7 @@ export class CardsEditComponent {
   viewIcon = faEye;
 
   cards = computed(() => this.dataService.cards());
+  total = computed(() => this.dataService.totals());
   editDolarMode: boolean = false;
 
   dolarService = inject(DolarDataService);
@@ -40,6 +40,10 @@ export class CardsEditComponent {
 
   ngOnInit(): void {
   }
+
+  getPrice(card: Card) {
+    return this.dataService.getPrice(card);
+  }
   
   removeCard(card: Card) {
     this.dataService.remove(card);
@@ -47,10 +51,5 @@ export class CardsEditComponent {
 
   changeMultiplier(card: Card, i: number) {
     this.dataService.updateCardMultiplier(card, i);
-  }
-
-
-  onCardRemoved(id: number) {
-    this.removeCard({ tcg_player_id: id } as Card)
   }
 }

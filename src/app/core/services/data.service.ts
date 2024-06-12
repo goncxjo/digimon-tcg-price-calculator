@@ -13,7 +13,7 @@ export class DataService {
   readonly cards = computed(this.#cards);
   readonly totals = computed(() => {
     return _.sumBy(this.cards(), (c) => {
-      return c.price.currency_value * c.multiplier;
+      return this.getPrice(c) * c.multiplier;
     });
   });
 
@@ -70,19 +70,21 @@ export class DataService {
     });
   }
 
-  getPrecio(card: Card) {
+  getPrice(card: Card) {
     const price = card.getPrecioOrDefault();
-    if (price?.currency_symbol == 'USD') {
-      return Math.round(price.currency_value * this.dolarService.venta * 100) / 100;
-    }
-    return price?.currency_value || 0;
+    return this.dolarService.convertToDolars(price);
   }
 
-  setPrecio(card: Card, priceSelected?: string) {
+  setPrice(card: Card) {
     this.#cards.update((cards) => {
       return _.map(cards, (c) => {
         if (c.tcg_player_id == card.tcg_player_id) {
-          c.price.currency_value = this.getPrecio(card);
+          c.selectedPrice = card.selectedPrice;
+          const customPrice = card.prices.get('custom');
+          if (customPrice) {
+            card.prices.delete('custom');
+            card.prices.set('custom', customPrice);
+          }
         }
         return c;
       });
