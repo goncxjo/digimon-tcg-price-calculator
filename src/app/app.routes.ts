@@ -16,6 +16,15 @@ export const routes: Routes = [
         title: 'Inicio',
       },
       component: OldHomeComponent,
-    }
+    },
+    {
+      path: 'cards', 
+      loadChildren: () => import('./pages/cards/cards.routes').then((m) => m.CARDS_ROUTES),
+    },
+    {
+      path: '**',
+      redirectTo: '',
+      pathMatch: 'full'
+    },
 ];
   

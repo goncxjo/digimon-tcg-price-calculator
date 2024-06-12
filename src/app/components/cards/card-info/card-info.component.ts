@@ -50,7 +50,7 @@ export class CardInfoComponent implements AfterViewInit, OnDestroy {
   }
 
   getPrecioCarta() {
-    return this.dataService.getPrecio(this.data, this.priceSelected)
+    return this.dataService.getPrecio(this.data)
   }
   
   setPrecioCarta() {

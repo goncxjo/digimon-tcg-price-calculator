@@ -21,7 +21,7 @@ export class ActionsComponent {
 
   items: any[] = [
     { icon: this.homeIcon, command: () => { this.router.navigate(['/'])} },
-    { icon: this.calcIcon, command: () => { this.router.navigate(['/old'])} },
+    { icon: this.calcIcon, command: () => { this.router.navigate(['/cards/list'])} },
     { icon: this.searchIcon, command: () => { this.openCardSearchModal() } },
     { icon: this.favIcon, command: () => {} },
     { icon: this.settingsIcon, command: () => {} },
@@ -43,7 +43,7 @@ export class ActionsComponent {
 
     modalRef.result.then(result => {
       if (result == "add") {
-        this.router.navigate(['/old']);
+        this.router.navigate(['/cards/create']);
       }
     })
   }

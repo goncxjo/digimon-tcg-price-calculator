@@ -36,16 +36,17 @@ export class DataService {
           const priceResult = result[1];
 
           cardResult.multiplier = card.multiplier;
-
+          
+          cardResult.selectedPrice = 'custom'; 
+          cardResult.prices.set('custom', card.prices.get('custom') || null);
           if (priceResult.tcg_player_foil) {
+            cardResult.selectedPrice = 'tcg_player_foil'; 
             cardResult.prices.set('tcg_player_foil', priceResult.tcg_player_foil);
           }
           if (priceResult.tcg_player_normal) {
+            cardResult.selectedPrice = 'tcg_player_foil'; 
             cardResult.prices.set('tcg_player_normal', priceResult.tcg_player_normal);
           }
-          cardResult.prices.set('custom', card.prices.get('custom') || null);
-
-          cardResult.price.currency_value = this.getPrecio(cardResult);
 
           this.#cards.update(cards => [...cards, cardResult]);
         }
@@ -69,8 +70,8 @@ export class DataService {
     });
   }
 
-  getPrecio(card: Card, priceSelected?: string) {
-    const price = card.getPrecioOrDefault(priceSelected);
+  getPrecio(card: Card) {
+    const price = card.getPrecioOrDefault();
     if (price?.currency_symbol == 'USD') {
       return Math.round(price.currency_value * this.dolarService.venta * 100) / 100;
     }
@@ -81,7 +82,7 @@ export class DataService {
     this.#cards.update((cards) => {
       return _.map(cards, (c) => {
         if (c.tcg_player_id == card.tcg_player_id) {
-          c.price.currency_value = this.getPrecio(card, priceSelected);
+          c.price.currency_value = this.getPrecio(card);
         }
         return c;
       });
