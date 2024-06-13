@@ -1,21 +1,26 @@
 import { Component, computed, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faEye, faMinus, faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown91, faArrowUp19, faEye, faImage, faMinus, faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { LoaderService } from '../../../core';
 import { ToastrService } from 'ngx-toastr';
 import { DolarDataService } from '../../../core/services/dolar.data.service';
 import { DataService } from '../../../core/services/data.service';
-import { Card } from '../../../backend';
-import { CurrencyPipe } from '@angular/common';
+import { Card, Post } from '../../../backend';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, map, take } from 'rxjs';
 
 @Component({
-  selector: 'app-cards-edit',
+  selector: 'app-posts-edit',
   standalone: true,
-  imports: [FontAwesomeModule, CurrencyPipe],
-  templateUrl: './cards-edit.component.html',
-  styleUrl: './cards-edit.component.scss'
+  imports: [FontAwesomeModule, CurrencyPipe, AsyncPipe],
+  templateUrl: './posts-edit.component.html',
+  styleUrl: './posts-edit.component.scss'
 })
-export class CardsEditComponent {
+export class PostsEditComponent {
+  sortUpIcon = faArrowUp19;
+  sortDownIcon = faArrowDown91;
+  imageIcon = faImage;
   closeIcon = faTimes;
   trashIcon = faTrash;
   plusIcon = faPlus;
@@ -29,10 +34,12 @@ export class CardsEditComponent {
 
   dolarService = inject(DolarDataService);
   dataService = inject(DataService);
+  post$!: Observable<Post>;
   
   constructor(
     private toastr: ToastrService,
     private loaderService: LoaderService,
+    private activatedRoute: ActivatedRoute
   ) {
   }
 
@@ -41,6 +48,16 @@ export class CardsEditComponent {
   }
 
   ngOnInit(): void {
+    this.post$ = this.activatedRoute.data
+      .pipe(
+        map(data => {
+          const post = data['entity'];
+          if (post.cards) {
+            this.dataService.update(post.cards);
+          }
+          return post;
+        })
+      );
   }
 
   getPrice(card: Card) {

@@ -18,8 +18,8 @@ export const routes: Routes = [
       component: OldHomeComponent,
     },
     {
-      path: 'cards', 
-      loadChildren: () => import('./pages/cards/cards.routes').then((m) => m.CARDS_ROUTES),
+      path: 'posts', 
+      loadChildren: () => import('./pages/posts/posts.routes').then((m) => m.POSTS_ROUTES),
     },
     {
       path: '**',

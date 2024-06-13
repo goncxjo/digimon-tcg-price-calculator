@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCalculator, faGear, faHeart, faHome, faList, faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -26,14 +26,13 @@ export class ActionsComponent {
 
   items: any[] = [
     { icon: this.homeIcon, command: () => { this.router.navigate(['/'])} },
-    { icon: this.listIcon, command: () => { this.router.navigate(['/cards/list'])} },
+    { icon: this.listIcon, command: () => { this.router.navigate(['/posts'])} },
     { icon: this.searchIcon, command: () => { this.openCardSearchModal() } },
     { icon: this.favIcon, command: () => {} },
     { icon: this.settingsIcon, command: () => { this.openSettingsOffcanvas() } },
   ];
   
   constructor(
-    @Inject('APP_VERSION') appVersion: string,
     private offcanvasService: NgbOffcanvas,
     private router: Router,
     private modalService: NgbModal,
@@ -50,7 +49,7 @@ export class ActionsComponent {
 
     modalRef.result.then(result => {
       if (result == "add") {
-        this.router.navigate(['/cards/create']);
+        this.router.navigate(['/posts/create']);
       }
     })
   }

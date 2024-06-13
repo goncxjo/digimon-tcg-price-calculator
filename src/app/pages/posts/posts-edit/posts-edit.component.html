@@ -1,11 +1,34 @@
+<div class="card mb-3">
+	<div class="card-header fw-bold">
+		Publicación
+	</div>
+	<div class="card-body">
+		<div class="mb-3">
+			<label for="name" class="form-label">Nombre de la publicación</label>
+			<input type="text" class="form-control" id="name" placeholder="Escriba el nombre de la lista">
+		  </div>
+	</div>
+</div>
+
 <div class="card">
-	<div class="card-header">
-		<form class="d-flex flex-grow-1 align-items-center">
-			<input type="text" class="form-control form-control p-0 border-0 shadow-none bg-transparent" placeholder="Escriba el nombre de la lista">
-		</form>
+	<div class="card-header fw-bold d-flex align-items-center">
+		<span>Cartas</span>
+		<div class="btn-toolbar justify-content-end flex-grow-1" role="toolbar">
+			<div class="btn-group card-item-actions border me-2" role="group">
+				<button type="button" class="btn btn-sm btn-primary" >
+					<fa-icon [icon]="sortUpIcon"/>
+				</button>
+				<button type="button" class="btn btn-sm btn-primary">
+					<fa-icon [icon]="sortDownIcon"/>
+				</button>
+			</div>
+			<button type="button" class="btn btn-sm btn-success" >
+				<fa-icon [icon]="imageIcon"/>
+			</button>
+		</div>
 	</div>
 	<div class="card-body p-0">
-		@if (!noData) {
+		@if (post$ | async; as post) {
 			<div class="card-grid">
 				@for(card of cards(); track card) {
 				<div class="card-item-container col-12 col-md-6 col-xl-4">
@@ -55,7 +78,7 @@
 				}
 			</div>
 		}
-		@else {
+		@if(noData) {
 			<div class="no-cards text-center text-muted">
 				<p class="card-text">
 					No has agregado ninguna carta.

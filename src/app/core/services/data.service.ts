@@ -24,6 +24,11 @@ export class DataService {
     cards.forEach(card => this.add(card));
   }
 
+  set(cards: Card[]) {
+    this.#cards.set([]);
+    this.update(cards);
+  }
+
   add(card: Card): void {
     const tcg_player_id = card.tcg_player_id || 0;
     const alreadyExists = _.some(this.#cards(), (c) => c.tcg_player_id === card.tcg_player_id);
@@ -35,10 +40,10 @@ export class DataService {
         const cardResult = result[0];
         const priceResult = result[1];
 
-        cardResult.multiplier = card.multiplier;
+        cardResult.multiplier = 1;
         
         cardResult.selectedPrice = 'custom'; 
-        cardResult.prices.set('custom', card.prices.get('custom') || null);
+        cardResult.prices.set('custom', cardResult.prices.get('custom') || null);
         if (priceResult.tcg_player_foil) {
           cardResult.selectedPrice = 'tcg_player_foil'; 
           cardResult.prices.set('tcg_player_foil', priceResult.tcg_player_foil);

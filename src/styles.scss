@@ -43,6 +43,11 @@ $app-navbar-height-default: 3.5rem;
 @import 'ngx-toastr/toastr';
 @import 'ngx-toastr/toastr-bs5-alert';
 
+/* Core Grid CSS */
+@import 'ag-grid-community/styles/ag-grid.css';
+/* Quartz Theme Specific CSS */
+@import 'ag-grid-community/styles/ag-theme-quartz.css';
+
 .btn-circle.btn-xl {
     width: 70px;
     height: 70px;
