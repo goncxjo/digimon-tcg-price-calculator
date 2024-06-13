@@ -4,14 +4,14 @@ import { ColDef } from 'ag-grid-community'; // Column Definition Type Interface
 import { PostList, PostService } from '../../../backend';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-posts-list',
   standalone: true,
-  imports: [FontAwesomeModule, AgGridAngular, AsyncPipe],
+  imports: [FontAwesomeModule, AgGridAngular, AsyncPipe, RouterLink],
   templateUrl: './posts-list.component.html',
   styleUrl: './posts-list.component.scss'
 })
