@@ -1,14 +1,18 @@
 @if(!editDolarMode) {
-    <div class="alert alert-success text-center py-1 border rounded-0">
+    <div class="bg-success text-center py-0 border-0 rounded-0 mb-3">
         @if(dataService.dolar()) {
-            Dólar hoy: ARS {{ dataService.dolar()?.venta | currency }}
-            <button type="button" class="btn btn-outline-success btn-sm border-0" (click)="toggleEditDolarMode()">
+            <small class="text-white fw-bold">
+                Dólar hoy: {{ dataService.dolar()?.venta | currency }}
+            </small>
+            <!-- <button type="button" class="btn btn-outline-success btn-sm border-0" (click)="toggleEditDolarMode()">
                 <fa-icon [icon]="editIcon" />
-            </button>
+            </button> -->
         }
         @else {
-            <fa-icon id="loading-logo" [icon]="loadingIcon" animation="spin" class="me-2"/>
-            Obteniendo cotización
+            <small class="text-white fw-bold">
+                <fa-icon id="loading-logo" [icon]="loadingIcon" animation="spin" class="me-2"/>
+                Obteniendo cotización
+            </small>
         }
     </div>
 } @else {

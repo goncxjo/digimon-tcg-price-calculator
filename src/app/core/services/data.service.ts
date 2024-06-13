@@ -26,31 +26,31 @@ export class DataService {
 
   add(card: Card): void {
     const tcg_player_id = card.tcg_player_id || 0;
+    const alreadyExists = _.some(this.#cards(), (c) => c.tcg_player_id === card.tcg_player_id);
+    if (!alreadyExists) {      
+      const info = this.tcgPlayerService.getDigimonCardById(tcg_player_id);
+      const price = this.tcgPlayerService.getCardPrice(tcg_player_id);
 
-    const info = this.tcgPlayerService.getDigimonCardById(tcg_player_id);
-    const price = this.tcgPlayerService.getCardPrice(tcg_player_id);
+      forkJoin([info, price]).subscribe(result => {
+        const cardResult = result[0];
+        const priceResult = result[1];
 
-    forkJoin([info, price])
-      .subscribe(result => {
-          const cardResult = result[0];
-          const priceResult = result[1];
-
-          cardResult.multiplier = card.multiplier;
-          
-          cardResult.selectedPrice = 'custom'; 
-          cardResult.prices.set('custom', card.prices.get('custom') || null);
-          if (priceResult.tcg_player_foil) {
-            cardResult.selectedPrice = 'tcg_player_foil'; 
-            cardResult.prices.set('tcg_player_foil', priceResult.tcg_player_foil);
-          }
-          if (priceResult.tcg_player_normal) {
-            cardResult.selectedPrice = 'tcg_player_foil'; 
-            cardResult.prices.set('tcg_player_normal', priceResult.tcg_player_normal);
-          }
-
-          this.#cards.update(cards => [...cards, cardResult]);
+        cardResult.multiplier = card.multiplier;
+        
+        cardResult.selectedPrice = 'custom'; 
+        cardResult.prices.set('custom', card.prices.get('custom') || null);
+        if (priceResult.tcg_player_foil) {
+          cardResult.selectedPrice = 'tcg_player_foil'; 
+          cardResult.prices.set('tcg_player_foil', priceResult.tcg_player_foil);
         }
-      )
+        if (priceResult.tcg_player_normal) {
+          cardResult.selectedPrice = 'tcg_player_normal'; 
+          cardResult.prices.set('tcg_player_normal', priceResult.tcg_player_normal);
+        }
+
+        this.#cards.update(cards => [...cards, cardResult]);
+      });
+    }
   }
 
   remove(card: Card) {

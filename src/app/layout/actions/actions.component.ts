@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCalculator, faGear, faHeart, faHome, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { faCalculator, faGear, faHeart, faHome, faList, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal, NgbModalModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { CardSearchModalComponent } from '../../components/cards/card-search-modal/card-search-modal.component';
+import { SettingsComponent } from '../settings/settings.component';
 
 @Component({
   selector: 'app-actions',
@@ -15,21 +16,27 @@ import { CardSearchModalComponent } from '../../components/cards/card-search-mod
 export class ActionsComponent {
   homeIcon = faHome;
   calcIcon = faCalculator;
+  listIcon = faList;
   searchIcon = faSearch;
   favIcon = faHeart;
   settingsIcon = faGear;
 
+  public isMenuCollapsed = true;
+  public appVersion: string = '';
+
   items: any[] = [
     { icon: this.homeIcon, command: () => { this.router.navigate(['/'])} },
-    { icon: this.calcIcon, command: () => { this.router.navigate(['/cards/list'])} },
+    { icon: this.listIcon, command: () => { this.router.navigate(['/cards/list'])} },
     { icon: this.searchIcon, command: () => { this.openCardSearchModal() } },
     { icon: this.favIcon, command: () => {} },
-    { icon: this.settingsIcon, command: () => {} },
+    { icon: this.settingsIcon, command: () => { this.openSettingsOffcanvas() } },
   ];
   
   constructor(
+    @Inject('APP_VERSION') appVersion: string,
+    private offcanvasService: NgbOffcanvas,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) { }
 
 
@@ -47,4 +54,15 @@ export class ActionsComponent {
       }
     })
   }
+
+	openSettingsOffcanvas() {
+    this.isMenuCollapsed = !this.isMenuCollapsed;
+		this.offcanvasService.open(SettingsComponent, { position: 'end', panelClass: 'bg-primary text-bg-dark' }).result.then(
+			(result) => {
+        this.isMenuCollapsed = !this.isMenuCollapsed;
+			},
+			(reason) => {
+			},
+		);
+	}
 }

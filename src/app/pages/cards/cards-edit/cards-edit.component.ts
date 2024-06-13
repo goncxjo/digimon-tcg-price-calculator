@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faEye, faMinus, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faMinus, faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { LoaderService } from '../../../core';
 import { ToastrService } from 'ngx-toastr';
 import { DolarDataService } from '../../../core/services/dolar.data.service';
@@ -17,12 +17,14 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class CardsEditComponent {
   closeIcon = faTimes;
+  trashIcon = faTrash;
   plusIcon = faPlus;
   minusIcon = faMinus;
   viewIcon = faEye;
 
   cards = computed(() => this.dataService.cards());
   total = computed(() => this.dataService.totals());
+
   editDolarMode: boolean = false;
 
   dolarService = inject(DolarDataService);

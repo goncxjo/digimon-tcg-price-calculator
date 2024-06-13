@@ -258,5 +258,22 @@ $bg-fb: #1877f2;
 			@extend .rounded;
 			outline: solid 1px var(--bs-border-color);
 		}
+		.card-item-details {
+			@extend .d-flex;
+			@extend .flex-column;
+			@extend .lh-sm;
+			@extend .ps-3;
+			overflow: hidden;
+			.card-item-details-expansion {
+				white-space: nowrap;
+			}
+		}
 	}
+}
+
+.no-cards {
+    height: 10em;
+    align-content: center;
+	@extend .text-muted;
+	@extend .text-center;
 }
