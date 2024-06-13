@@ -48,7 +48,7 @@ export class ActionsComponent {
     });
 
     modalRef.result.then(result => {
-      if (result == "add") {
+      if (result == "create") {
         this.router.navigate(['/posts/create']);
       }
     })

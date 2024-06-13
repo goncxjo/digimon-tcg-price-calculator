@@ -9,6 +9,7 @@ import { Card, Post } from '../../../backend';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, map, take } from 'rxjs';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-posts-edit',
@@ -52,8 +53,10 @@ export class PostsEditComponent {
       .pipe(
         map(data => {
           const post = data['entity'];
-          if (post.cards) {
-            this.dataService.update(post.cards);
+          if (post.id) {
+            this.dataService.set(post.cards);
+          } else {
+            post.cards = _.clone(this.cards());
           }
           return post;
         })

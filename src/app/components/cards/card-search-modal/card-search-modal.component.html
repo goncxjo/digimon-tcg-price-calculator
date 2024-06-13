@@ -53,8 +53,8 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="activeModal.close('cancel')">Cancelar</button>
-    <button type="button" class="btn btn-dark" (click)="showSelected()" [disabled]="noCards">Cartas ({{ this.selectedCards.length }})</button>
-    <button type="button" class="btn btn-primary" (click)="sendData()" [disabled]="noCards">Calcular</button>
+    <button type="button" class="btn btn-dark" (click)="create()" [disabled]="noCards">Nuevo ({{ this.selectedCards.length }})</button>
+    <button type="button" class="btn btn-primary" (click)="add()" [disabled]="noCards">Agregar</button>
 </div>
 
 

@@ -99,12 +99,16 @@ export class CardSearchModalComponent {
     return _.some(this.selectedCards, ['tcg_player_id', card.tcg_player_id]);
   }
 
-  showSelected() {
-    console.log(this.selectedCards);
-  }
-
   sendData() {
     this.dataService.update(this.selectedCards);
+  }
+
+  create() {
+    this.sendData();
+    this.activeModal.close('create');  }
+
+  add() {
+    this.sendData();
     this.activeModal.close('add');
   }
 }

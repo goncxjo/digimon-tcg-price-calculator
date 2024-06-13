@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Post, PostList } from '../models';
 
 @Injectable({
@@ -27,4 +27,13 @@ export class PostService {
       return this.httpClient.get<Post>(url, { headers: headers });
   }
 
+  new(): Observable<Post> {
+    return of<Post>({
+      id: '',
+      name: '',
+      createdAt: '',
+      modifiedAt: '',
+      cards: []
+    });
+  }
 }

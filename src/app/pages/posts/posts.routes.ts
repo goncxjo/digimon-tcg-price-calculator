@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
 import { PostsListComponent } from './posts-list/posts-list.component';
 import { PostsEditComponent } from './posts-edit/posts-edit.component';
-import { getById as GetPostByIdResolver }  from './get-by-id.resolver';
+import { getByIdResolver }  from './get-by-id.resolver';
+import { createResolver } from './create.resolver';
 
 export const POSTS_ROUTES: Routes = [
     {
@@ -16,6 +17,9 @@ export const POSTS_ROUTES: Routes = [
       data: {
         title: 'Crear',
       },
+      resolve: {
+        entity: createResolver
+      },
       component: PostsEditComponent,
     },
     {
@@ -24,7 +28,7 @@ export const POSTS_ROUTES: Routes = [
         title: 'Visualizar',
       },
       resolve: {
-        entity: GetPostByIdResolver
+        entity: getByIdResolver
       },
       component: PostsEditComponent,
     },
@@ -34,7 +38,7 @@ export const POSTS_ROUTES: Routes = [
         title: 'Editar',
       },
       resolve: {
-        entity: GetPostByIdResolver
+        entity: getByIdResolver
       },
       component: PostsEditComponent,
     },
