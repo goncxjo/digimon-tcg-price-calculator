@@ -34,6 +34,10 @@ export class CardSearchModalComponent {
   get noCards() {
     return this.selectedCards.length === 0;
   }
+
+  get isUpdateMode() {
+    return this.dataService.updateMode;
+  }
   
   selectedCards: Card[] = [];
 
