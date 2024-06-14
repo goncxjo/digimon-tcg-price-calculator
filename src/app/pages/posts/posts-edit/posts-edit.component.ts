@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, OnDestroy, computed, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowDown91, faArrowUp19, faEye, faFloppyDisk, faImage, faMinus, faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { LoaderService } from '../../../core';
@@ -8,7 +8,7 @@ import { DataService } from '../../../core/services/data.service';
 import { Card, Post } from '../../../backend';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, map, take } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import _ from 'lodash';
 
 @Component({
@@ -18,7 +18,7 @@ import _ from 'lodash';
   templateUrl: './posts-edit.component.html',
   styleUrl: './posts-edit.component.scss'
 })
-export class PostsEditComponent {
+export class PostsEditComponent implements OnDestroy {
   sortUpIcon = faArrowUp19;
   sortDownIcon = faArrowDown91;
   imageIcon = faImage;
@@ -33,7 +33,10 @@ export class PostsEditComponent {
   total = computed(() => this.dataService.totals());
 
   readonly: boolean = false;
+  editMode: boolean = false;
   enableCreateMode: boolean = false;
+  title: string = '';
+  id: string = '';
 
   dolarService = inject(DolarDataService);
   dataService = inject(DataService);
@@ -55,8 +58,13 @@ export class PostsEditComponent {
       .pipe(
         map(data => {
           const post = data['entity'];
+          this.readonly = data['readonly'];
+          this.editMode = data['editMode'];
+          this.title = data['title'];
           if (post.id) {
             this.dataService.set(post.cards);
+            this.dataService.updateMode = true;
+            this.id = post.id;
           } else {
             post.cards = _.clone(this.cards());
           }
@@ -79,5 +87,10 @@ export class PostsEditComponent {
 
   save() {
     console.log('pending save')
+  }
+
+  ngOnDestroy(): void {
+    this.dataService.updateMode = false;
+    this.dataService.clear();
   }
 }

@@ -70,10 +70,9 @@
 		</div>
 		}
 		@if(noData) {
-		<div class="no-cards text-center text-muted">
-			<p class="card-text">
-				No has agregado ninguna carta.
-			</p>
+		<div class="d-flex flex-column no-cards text-center text-muted justify-content-center px-4">
+			<p class="card-text">No has agregado ninguna carta.</p>
+			<p class="card-text">¡Agregá cartas usando el buscador!</p>
 		</div>
 		}
 	</div>
@@ -85,44 +84,45 @@
 </div>
 
 @defer {
-@if (!readonly && !enableCreateMode) {
+	@if (!enableCreateMode && !readonly && !id && !noData) {
 	<div class="d-grid gap-3 d-sm-flex justify-content-md-center">
 		<button class="btn btn-success" type="button" (click)="enableCreateMode = !enableCreateMode">
 			<fa-icon [icon]="plusIcon"></fa-icon> Crear publicación
 		</button>
 	</div>
-}
-@else {
-<div class="card mb-3">
-	<div class="card-header fw-bold">
-		Crear publicación
-	</div>
-	<div class="card-body">
-		<form class="row g-3 mb-3">
-			<div class="col-md-6">
-				<label for="name" class="form-label">Nombre</label>
-				<input type="text" class="form-control" id="name" placeholder="Escriba el nombre de la publicación">
-			</div>
-			<div class="col-md-6">
-				<label for="customDolar" class="form-label">Fijar dolar</label>
-				<input type="number" class="form-control" id="customDolar" min="0">
-			</div>
-			<div class="col-12">
-				<label for="description" class="form-label">Descripción</label>
-				<input type="textarea" class="form-control" id="description"
-					placeholder="Describa brevemente su publicación">
-			</div>
-		</form>
-		<div class="d-grid gap-3 d-sm-flex justify-content-md-end">
-			<button class="btn btn-primary" type="button" (click)="save()">
-				<fa-icon [icon]="saveIcon"></fa-icon> Guardar
-			</button>
-			<button class="btn btn-secondary" type="button" (click)="enableCreateMode = !enableCreateMode">
-				<fa-icon [icon]="closeIcon"></fa-icon> Cancelar
-			</button>
+	}
+	@else if(!noData) {
+	<div class="card mb-3">
+		<div class="card-header fw-bold">
+			{{ title }} publicación
 		</div>
-
+		<div class="card-body">
+			<form class="row g-3 mb-3">
+				<div class="col-md-6">
+					<label for="name" class="form-label">Nombre</label>
+					<input type="text" class="form-control" id="name" placeholder="Escriba el nombre de la publicación">
+				</div>
+				<div class="col-md-6">
+					<label for="customDolar" class="form-label">Fijar dolar</label>
+					<input type="number" class="form-control" id="customDolar" min="0">
+				</div>
+				<div class="col-12">
+					<label for="description" class="form-label">Descripción</label>
+					<input type="textarea" class="form-control" id="description"
+						placeholder="Describa brevemente su publicación">
+				</div>
+			</form>
+			@if (editMode) {
+				<div class="d-grid gap-3 d-sm-flex justify-content-md-end">
+					<button class="btn btn-primary" type="button" (click)="save()">
+						<fa-icon [icon]="saveIcon"></fa-icon> Guardar
+					</button>
+					<button class="btn btn-secondary" type="button" (click)="enableCreateMode = !enableCreateMode">
+						<fa-icon [icon]="closeIcon"></fa-icon> Cancelar
+					</button>
+				</div>	
+			}
+		</div>
 	</div>
-</div>
-}
+	}
 }
