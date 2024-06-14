@@ -1,4 +1,13 @@
 <div class="brand">
+  @if ((loaderService.isLoading | async) != 0) {
+    <img id="brand-logo" src="assets/logo_loading.svg" alt="loading">
+    @if (showTitle) {
+      <span id="app-title" class="d-flex flex-column text-start loading-title">
+        <span>Cargando</span>
+      </span>
+    }
+  }
+  @else {
     <img id="brand-logo" src="assets/logo.svg" alt="digi-calc">
     @if (showTitle) {
       <span id="app-title" class="d-flex flex-column text-start">
@@ -6,4 +15,5 @@
         <span>Price Calculator</span>
       </span>
     }
-  </div>
+  }
+</div>

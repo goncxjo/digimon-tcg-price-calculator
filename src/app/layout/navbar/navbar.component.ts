@@ -8,11 +8,13 @@ import { SettingsComponent } from '../settings/settings.component';
 import { LogoComponent } from '../logo/logo.component';
 import { CommonModule } from '@angular/common';
 import { AppThemeService } from '../../core/services/app-theme.service';
+import { LoadingScreenComponent } from '../loading-screen/loading-screen.component';
+import { LoaderService } from '../../core';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [LogoComponent, CommonModule, FontAwesomeModule, RouterLink, RouterLinkActive, NgbModalModule],
+  imports: [LogoComponent, LoadingScreenComponent, CommonModule, FontAwesomeModule, RouterLink, RouterLinkActive, NgbModalModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
@@ -37,6 +39,7 @@ export class NavbarComponent {
   ];
 
   appThemeService: AppThemeService = inject(AppThemeService);
+  loaderService: LoaderService = inject(LoaderService);
 
   constructor(
     private offcanvasService: NgbOffcanvas,

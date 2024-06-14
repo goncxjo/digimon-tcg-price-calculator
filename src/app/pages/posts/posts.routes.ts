@@ -8,7 +8,7 @@ export const POSTS_ROUTES: Routes = [
     {
       path: '',
       data: {
-        title: 'Mis listas',
+        title: 'Publicaciones',
       },
       component: PostsListComponent,
     },
@@ -16,6 +16,7 @@ export const POSTS_ROUTES: Routes = [
       path: 'create',
       data: {
         title: 'Crear',
+        editMode: true,
       },
       resolve: {
         entity: createResolver
@@ -25,7 +26,8 @@ export const POSTS_ROUTES: Routes = [
     {
       path: ':id',
       data: {
-        title: 'Visualizar',
+        title: 'Ver',
+        readonly: true,
       },
       resolve: {
         entity: getByIdResolver
@@ -36,6 +38,7 @@ export const POSTS_ROUTES: Routes = [
       path: ':id/edit',
       data: {
         title: 'Editar',
+        editMode: true,
       },
       resolve: {
         entity: getByIdResolver

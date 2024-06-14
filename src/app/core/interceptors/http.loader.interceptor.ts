@@ -6,12 +6,7 @@ import { LoaderService } from '../services';
 export const httpLoaderInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const loaderService = inject(LoaderService);
 
-  if (req.url.includes('bluelytics')) {
-    loaderService.hide();
-  }
-  else {
-    loaderService.show();
-  }
+  loaderService.show();
 
   return next(req).pipe(finalize(() => loaderService.hide()));
 };

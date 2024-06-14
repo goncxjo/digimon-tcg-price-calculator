@@ -37,3 +37,7 @@
     <input type="text" class="search-bar form-control bg-light border-light" placeholder="Buscar carta...">
   </div>
 </ng-template>
+
+@if ((loaderService.isLoading | async) != 0) {
+  <app-loading-screen></app-loading-screen>
+}
