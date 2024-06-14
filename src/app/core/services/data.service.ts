@@ -17,16 +17,22 @@ export class DataService {
     });
   });
 
-  tcgPlayerService = inject(TcgPlayerService);
-  dolarService = inject(DolarDataService);
+  updateMode: boolean = false;
+
+  private tcgPlayerService = inject(TcgPlayerService);
+  private dolarService = inject(DolarDataService);
 
   update(cards: Card[]) {
     cards.forEach(card => this.add(card));
   }
 
   set(cards: Card[]) {
-    this.#cards.set([]);
+    this.clear();
     this.update(cards);
+  }
+
+  clear() {
+    this.#cards.set([]);
   }
 
   add(card: Card): void {

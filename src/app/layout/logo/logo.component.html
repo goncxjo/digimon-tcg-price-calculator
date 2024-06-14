@@ -1,5 +1,5 @@
-<div class="brand">
-  @if ((loaderService.isLoading | async) != 0) {
+<div class="brand" (click)="goHome()">
+  @if (loaderService.httpProgress() | async) {
     <img id="brand-logo" src="assets/logo_loading.svg" alt="loading">
     @if (showTitle) {
       <span id="app-title" class="d-flex flex-column text-start loading-title">

@@ -10,11 +10,12 @@ import { CommonModule } from '@angular/common';
 import { AppThemeService } from '../../core/services/app-theme.service';
 import { LoadingScreenComponent } from '../loading-screen/loading-screen.component';
 import { LoaderService } from '../../core';
+import { DolarComponent } from '../dolar/dolar.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [LogoComponent, LoadingScreenComponent, CommonModule, FontAwesomeModule, RouterLink, RouterLinkActive, NgbModalModule],
+  imports: [LogoComponent, LoadingScreenComponent, DolarComponent, CommonModule, FontAwesomeModule, RouterLink, RouterLinkActive, NgbModalModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })

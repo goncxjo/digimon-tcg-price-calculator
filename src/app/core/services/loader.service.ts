@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoaderService {
-  public concurrentReq = 0;
-  private _isLoading = new BehaviorSubject<number>(0);
+  count = 0;
 
-  isLoading = this._isLoading.asObservable();
+  private httpLoading$ = new ReplaySubject<boolean>(1);
 
-  show() {
-      this._isLoading.next(++this.concurrentReq);
+  httpProgress(): Observable<boolean> {
+    return this.httpLoading$.asObservable();
   }
 
-  hide() {
-      this._isLoading.next(--this.concurrentReq);
+  setHttpProgressStatus(inprogess: boolean) {
+    this.httpLoading$.next(inprogess);
   }
 }
