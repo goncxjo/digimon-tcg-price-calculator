@@ -1,22 +1,39 @@
-<nav class="nav-default-height navbar sticky-top navbar-dark bg-primary py-2">
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark">
   <div class="container">
-
-    <a class="navbar-brand py-0" [routerLink]="['/']">
-      @if (!isLoading) {
-        <app-logo></app-logo>
-      }
-      @else {
-        <div class="brand">
-          <img id="brand-logo" src="assets/logo_loading.svg" alt="loading">
-          <span id="app-title" class="d-flex flex-column text-start loading-title">
-            <span>Cargando</span>
-          </span>  
-        </div>
-      }
-    </a>
+    <div class="collapse navbar-collapse">
+      <app-logo></app-logo>
+      <ul class="navbar-nav me-auto ms-3 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/posts']" [routerLinkActive]="['active']">Publicaciones</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href='https://cafecito.app/goncxjo' rel='noopener' target='_blank'>Quiero donar</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <span *ngIf="false; else searchBar"></span>
+      </form>
+    </div>
+    <div class="flex-grow-1 d-flex d-lg-none">
+      <app-logo [showTitle]="false" class="align-content-center me-3"></app-logo>
+      <form class="search-bar-container flex-grow-1" role="search" (click)="openCardSearchModal()">
+        <span *ngIf="false; else searchBar"></span>
+      </form>
+      <button class="navbar-toggler border-0 text-white ms-2" type="button" (click)="openSettingsOffcanvas()">
+        <fa-icon [icon]="menuIcon"></fa-icon>
+      </button>
+    </div>
   </div>
 </nav>
 
-<div class="d-flex flex-column loading-screen" [class.d-none]="!isLoading"></div>
-
-<app-actions class="mt-auto"></app-actions>
+<ng-template #searchBar>
+  <div class="input-group">
+    <span class="input-group-text bg-light border-light">
+      <fa-icon [icon]="searchIcon" />
+    </span>
+    <input type="text" class="search-bar form-control bg-light border-light" placeholder="Buscar carta...">
+  </div>
+</ng-template>

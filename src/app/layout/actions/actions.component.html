@@ -1,7 +1,0 @@
-<footer class="d-flex flex-row bg-dark justify-content-around align-items-center fixed-bottom">
-  @for (item of items; track $index) {
-    <button type="button" class="btn btn-lg btn-dark btn-circle rounded-circle" (click)="item.command()">
-      <fa-icon [icon]="item.icon"></fa-icon>
-    </button>
-  }
-</footer>

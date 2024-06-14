@@ -173,7 +173,7 @@ export class OldHomeComponent implements OnInit {
   }
 
   onModalSuccess = (reason: string) => {
-    this.loaderService.setHttpProgressStatus(true);
+    // this.loaderService.setHttpProgressStatus(true);
     setTimeout(() => {
       switch(reason) {
         case 'download':
@@ -183,16 +183,16 @@ export class OldHomeComponent implements OnInit {
           this.toastr.success('Se ha copiado la imagen con éxito. Revisa tu portapapeles.', 'Capturar 📸');
           break;
       }
-    this.loaderService.setHttpProgressStatus(false);
+    // this.loaderService.setHttpProgressStatus(false);
     }, 2000);
   }
 
 	generateQR() {
-    this.loaderService.setHttpProgressStatus(true);
+    // this.loaderService.setHttpProgressStatus(true);
     setTimeout(() => {
       this.importData = this.generateUrl();
       this.modalService.open(this.qrModal);
-    this.loaderService.setHttpProgressStatus(false);
+    // this.loaderService.setHttpProgressStatus(false);
     }, 2000);
   }
 }

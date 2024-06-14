@@ -4,7 +4,7 @@ import { OldHomeComponent } from './components/home_old/home_old.component';
 
 export const routes: Routes = [
     {
-      path: '',
+      path: 'home',
       data: {
         title: 'Inicio',
       },
@@ -23,7 +23,7 @@ export const routes: Routes = [
     },
     {
       path: '**',
-      redirectTo: '',
+      redirectTo: 'home',
       pathMatch: 'full'
     },
 ];

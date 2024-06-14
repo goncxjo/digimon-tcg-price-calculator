@@ -7,12 +7,11 @@ import _ from 'lodash';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ActionsComponent } from '../actions/actions.component';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, FontAwesomeModule, NgbOffcanvasModule, ActionsComponent, LogoComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, FontAwesomeModule, NgbOffcanvasModule, LogoComponent],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })

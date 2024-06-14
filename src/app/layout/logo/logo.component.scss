@@ -4,6 +4,7 @@ $nav-brand-padding: 0.7em;
   padding-left: $nav-brand-padding;
   font-family: pixel-digivolve;
   font-size:small;
+  color: white;
 }
 
 .brand {
@@ -19,4 +20,9 @@ $nav-brand-padding: 0.7em;
   height: 2em;
   padding-right: 0.25em;
   padding-left: 0.5em;
+  align-content: center;
+
+  &.lg {
+    height: 3em;
+  }
 }

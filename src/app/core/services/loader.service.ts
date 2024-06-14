@@ -1,20 +1,20 @@
-// Source: https://imdurgeshpal.medium.com/show-loader-spinner-on-http-request-in-angular-using-interceptor-68f57a9557a4
-
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoaderService {
-  private httpLoading$ = new ReplaySubject<boolean>(1);
-  constructor() { }
+  public concurrentReq = 0;
+  private _isLoading = new BehaviorSubject<number>(0);
 
-  httpProgress(): Observable<boolean> {
-    return this.httpLoading$.asObservable();
+  isLoading = this._isLoading.asObservable();
+
+  show() {
+      this._isLoading.next(++this.concurrentReq);
   }
 
-  setHttpProgressStatus(inprogess: boolean) {
-    this.httpLoading$.next(inprogess);
+  hide() {
+      this._isLoading.next(--this.concurrentReq);
   }
 }
