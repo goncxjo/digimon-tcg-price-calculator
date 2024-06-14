@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowDown91, faArrowUp19, faEye, faImage, faMinus, faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown91, faArrowUp19, faEye, faFloppyDisk, faImage, faMinus, faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { LoaderService } from '../../../core';
 import { ToastrService } from 'ngx-toastr';
 import { DolarDataService } from '../../../core/services/dolar.data.service';
@@ -27,11 +27,13 @@ export class PostsEditComponent {
   plusIcon = faPlus;
   minusIcon = faMinus;
   viewIcon = faEye;
+  saveIcon = faFloppyDisk;
 
   cards = computed(() => this.dataService.cards());
   total = computed(() => this.dataService.totals());
 
-  editDolarMode: boolean = false;
+  readonly: boolean = false;
+  enableCreateMode: boolean = false;
 
   dolarService = inject(DolarDataService);
   dataService = inject(DataService);
@@ -73,5 +75,9 @@ export class PostsEditComponent {
 
   changeMultiplier(card: Card, i: number) {
     this.dataService.updateCardMultiplier(card, i);
+  }
+
+  save() {
+    console.log('pending save')
   }
 }
