@@ -13,7 +13,7 @@
           <a class="nav-link" href='https://cafecito.app/goncxjo' rel='noopener' target='_blank'>Quiero donar</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
+      <form class="d-flex search-bar-container" role="search" (click)="openCardSearchModal()">
         <span *ngIf="false; else searchBar"></span>
       </form>
     </div>
