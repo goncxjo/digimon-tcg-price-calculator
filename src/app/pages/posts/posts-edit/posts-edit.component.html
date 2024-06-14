@@ -3,14 +3,14 @@
 		<span>Cartas</span>
 		<div class="btn-toolbar justify-content-end flex-grow-1" role="toolbar">
 			<div class="btn-group card-item-actions border me-2" role="group">
-				<button type="button" class="btn btn-sm btn-primary">
+				<button type="button" class="btn btn-sm btn-primary" (click)="sort('precio', 'desc')">
 					<fa-icon [icon]="sortUpIcon" />
 				</button>
-				<button type="button" class="btn btn-sm btn-primary">
+				<button type="button" class="btn btn-sm btn-primary" (click)="sort('precio', 'asc')">
 					<fa-icon [icon]="sortDownIcon" />
 				</button>
 			</div>
-			<button type="button" class="btn btn-sm btn-success">
+			<button type="button" class="btn btn-sm btn-success" (click)="openExportImg()">
 				<fa-icon [icon]="imageIcon" />
 			</button>
 		</div>

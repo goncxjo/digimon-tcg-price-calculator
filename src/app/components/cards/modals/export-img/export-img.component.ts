@@ -11,11 +11,12 @@ import { YesNoSelectComponent } from '../../../../shared/yes-no-select/yes-no-se
 import { DolarDataService } from '../../../../core/services/dolar.data.service';
 import { DataService } from '../../../../core/services/data.service';
 import { faCopy, faDownload, faSearchMinus, faSearchPlus, faSync } from '@fortawesome/free-solid-svg-icons';
+import { LogoComponent } from '../../../../layout/logo/logo.component';
 
 @Component({
   selector: 'app-export-img',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, ReactiveFormsModule, CurrencyPipe, DatePipe, FontAwesomeModule, CurrencySelectComponent, YesNoSelectComponent],
+  imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, ReactiveFormsModule, CurrencyPipe, DatePipe, FontAwesomeModule, CurrencySelectComponent, YesNoSelectComponent, LogoComponent],
   templateUrl: './export-img.component.html',
   styleUrls: ['./export-img.component.scss']
 })
@@ -36,10 +37,6 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
 
   getPrecioTotal() {
     return this.dataService.totals()
-  }
-
-  getPrecioTotalUSD() {
-    return Math.round(this.dataService.totals() / this.dolarService.venta * 100) / 100;
   }
   
   colExport: number = 3;
@@ -86,7 +83,6 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
     });
   }
 
-
   dismiss(reason?: string) {
     this.modalService.dismiss(reason)
   }
@@ -98,11 +94,7 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
   }
 
   getPrecio(c: Card) {
-    var price = c.price.currency_value;
-    if (this.selectedCurrency == 'ARS') {
-      return price;
-    }
-    return this.getPrecioUSD(price);
+    return this.dataService.getPrice(c);
   }
 
   getPrecioUSD(price: number) {

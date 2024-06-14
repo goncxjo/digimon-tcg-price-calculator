@@ -10,6 +10,8 @@ import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import _ from 'lodash';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ExportImgComponent } from '../../../components/cards/modals/export-img/export-img.component';
 
 @Component({
   selector: 'app-posts-edit',
@@ -45,7 +47,8 @@ export class PostsEditComponent implements OnDestroy {
   constructor(
     private toastr: ToastrService,
     private loaderService: LoaderService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: NgbModal,
   ) {
   }
 
@@ -83,6 +86,52 @@ export class PostsEditComponent implements OnDestroy {
 
   changeMultiplier(card: Card, i: number) {
     this.dataService.updateCardMultiplier(card, i);
+  }
+
+
+  sort(metodo: string, valor: string) {
+    switch (metodo) {
+      case 'precio':
+        this.cards().sort((a: Card, b: Card) => {
+          if (valor == 'asc') {
+            return this.getPrice(a) * a.multiplier - this.getPrice(b) * b.multiplier;
+          }
+          return this.getPrice(b) * b.multiplier - this.getPrice(a) * a.multiplier;
+        });
+        break;
+    
+      default:
+        break;
+    }
+  }
+
+	openExportImg() {
+		const modalInstance = this.modalService.open(ExportImgComponent, { fullscreen: true });
+
+    modalInstance.componentInstance.cards = this.cards;
+
+    modalInstance.result.then(this.onModalSuccess, onError);
+
+    function onError() { }
+  }
+
+  onModalSuccess = (reason: string) => {
+    this.loaderService.setHttpProgressStatus(true);
+    switch(reason) {
+      case 'download':
+        this.toastr.success('Se ha exportado la imagen con éxito!', 'Exportar 💾');
+        break;
+      case 'screenshot':
+        this.toastr.success('Se ha copiado la imagen con éxito. Revisa tu portapapeles.', 'Capturar 📸');
+        break;
+      default:
+        this.loaderService.setHttpProgressStatus(false);
+        break;
+    }
+
+    setTimeout(() => {
+      this.loaderService.setHttpProgressStatus(false);
+    }, 2000);
   }
 
   save() {
