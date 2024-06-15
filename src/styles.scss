@@ -1,9 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200..900&display=swap');
 
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	font-family: "Source Sans 3", sans-serif;
+
     // box-shadow: none !important;
 }
 
@@ -29,6 +32,11 @@ app-root {
 @font-face {
 	font-family: pixel-digivolve-italic;
 	src: url('assets/fonts/Pixel\ Digivolve\ Italic.otf') format("truetype");
+}
+
+@font-face {
+	font-family: pixel-digivolve;
+	src: url('assets/fonts/Pixel\ Digivolve.otf') format("truetype");
 }
 
 $font-family-base: "Montserrat", -apple-system, sans-serif !important;
@@ -176,6 +184,14 @@ hr {
 	height: $app-navbar-height-default;
 }
 
+nav {
+	.input-group-sm > .form-control, .input-group-sm > .form-select, .input-group-sm > .input-group-text, .input-group-sm > .btn {
+		padding: 0.19rem 0.5rem;
+		font-size: 0.875rem;
+		border-radius: var(--bs-border-radius-sm);
+	}
+}
+
 .app-offcanvas {
 	height: calc($app-navbar-height-default - $hr-margin-y);
 	padding-top: $navbar-padding-y;
@@ -186,6 +202,10 @@ hr {
 	align-items: center;
 	justify-content: space-between;
 	font-size: $navbar-toggler-font-size;
+}
+
+.offcanvas.offcanvas-end {
+    width: 300px;
 }
 
 .offcanvas-footer {

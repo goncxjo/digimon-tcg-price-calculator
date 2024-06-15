@@ -2,7 +2,7 @@ import { Component, Inject, inject } from '@angular/core';
 import { LogoComponent } from '../logo/logo.component';
 import { NgbActiveOffcanvas, NgbOffcanvas, NgbOffcanvasModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppThemeService } from '../../core/services/app-theme.service';
-import { faBars, faMoon, faSun, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faCircleUser, faMoon, faSun, faTimes } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -18,6 +18,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 export class SettingsComponent {
   closeIcon = faTimes;
   menuIcon = faBars;
+  userIcon = faCircleUser;
 
   public appVersion: string = '';
 
