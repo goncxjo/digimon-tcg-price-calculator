@@ -10,7 +10,10 @@
 					<fa-icon [icon]="sortDownIcon" />
 				</button>
 			</div>
-			<button type="button" class="btn btn-sm btn-success" (click)="openExportImg()">
+			<button type="button" class="btn btn-sm btn-success me-2" (click)="toggleDolar()">
+				{{ dolarService.userCurrency() }}
+			</button>
+			<button type="button" class="btn btn-sm btn-info" (click)="openExportImg()">
 				<fa-icon [icon]="imageIcon" />
 			</button>
 		</div>
@@ -71,7 +74,7 @@
 		}
 		@if(noData) {
 		<div class="d-flex flex-column no-cards text-center text-muted justify-content-center px-4">
-			<p class="card-text">No has agregado ninguna carta.</p>
+			<p class="card-text">No agregaste ninguna carta.</p>
 			<p class="card-text">¡Agregá cartas usando el buscador!</p>
 		</div>
 		}
@@ -112,8 +115,8 @@
 				</div>
 			</form>
 			@if (editMode) {
-				<div class="d-grid gap-3 d-sm-flex justify-content-md-end">
-					<button class="btn btn-primary" type="button" (click)="save()">
+				<div class="d-grid gap-3 d-sm-flex justify-content-sm-end">
+					<button class="btn btn-primary" type="button" (click)="save()" disabled>
 						<fa-icon [icon]="saveIcon"></fa-icon> Guardar
 					</button>
 					<button class="btn btn-secondary" type="button" (click)="enableCreateMode = !enableCreateMode">

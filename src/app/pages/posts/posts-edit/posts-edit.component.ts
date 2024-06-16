@@ -1,6 +1,6 @@
 import { Component, OnDestroy, computed, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowDown91, faArrowUp19, faEye, faFloppyDisk, faImage, faMinus, faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown91, faArrowUp19, faCommentDollar, faEye, faFloppyDisk, faImage, faMinus, faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { LoaderService } from '../../../core';
 import { ToastrService } from 'ngx-toastr';
 import { DolarDataService } from '../../../core/services/dolar.data.service';
@@ -31,6 +31,7 @@ export class PostsEditComponent implements OnDestroy {
   minusIcon = faMinus;
   viewIcon = faEye;
   saveIcon = faFloppyDisk;
+  dolarIcon = faCommentDollar;
 
   cards = computed(() => this.dataService.cards());
   total = computed(() => this.dataService.totals());
@@ -144,6 +145,12 @@ export class PostsEditComponent implements OnDestroy {
       name: '',
       description: '',
     })
+  }
+
+  toggleDolar() {
+    this.dolarService.setUserCurrency(
+      this.dolarService.userCurrency() == 'ARS' ? 'USD' : 'ARS'
+    );
   }
 
   save() {
