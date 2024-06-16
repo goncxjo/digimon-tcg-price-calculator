@@ -103,6 +103,10 @@ export class CardSearchModalComponent {
     return _.some(this.selectedCards, ['tcg_player_id', card.tcg_player_id]);
   }
 
+  getBackgroundImage(card: Card) {
+    return `linear-gradient(to left, transparent, var(--bs-list-group-bg) 90%), url('${card['image_url']}')`
+  }
+  
   sendData() {
     this.dataService.update(this.selectedCards);
   }

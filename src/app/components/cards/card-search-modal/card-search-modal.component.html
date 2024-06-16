@@ -27,9 +27,8 @@
     @if (cards$ | async; as cards) {
         <div class="list-group">
             @for (card of cards; track $index) {
-                <button type="button" class="list-group-item list-group-item-action" [class.active]="isSelectedCard(card)" (click)="toggleSelection(card)">
+                <button type="button" class="list-group-item list-group-item-action" [class.active]="isSelectedCard(card)" (click)="toggleSelection(card)" [style.background-image]="getBackgroundImage(card)">
                     <div class="d-flex flex-row align-items-center">
-                        <img class="col-2 me-3" [src]="card['image_url']" style="width: 3rem" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
                         <div class="col d-flex flex-column text-truncate">
                             <ngb-highlight [result]="card.name" [term]="term" class="text-truncate"></ngb-highlight>
                             <small class="text-truncate">{{card['expansion_name']}}</small>
@@ -51,7 +50,7 @@
         </div>
     }
 </div>
-<div class="modal-footer bg-body justify-content-center">
+<div class="modal-footer bg-body justify-content-center border-top">
     <p>Cartas seleccionadas: {{ this.selectedCards.length }}</p>
 </div>
 <div class="modal-footer">
