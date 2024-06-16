@@ -5,7 +5,7 @@ import { PostList, PostService } from '../../../backend';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faWarning } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
@@ -17,6 +17,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class PostsListComponent implements OnInit {
   plusIcon = faPlus;
+  warningIcon = faWarning;
 
   rowData$!: Observable<PostList[]>;
   colDefs: ColDef[] = [
