@@ -3,10 +3,10 @@
 		<span>Cartas</span>
 		<div class="btn-toolbar justify-content-end flex-grow-1" role="toolbar">
 			<div class="btn-group card-item-actions border me-2" role="group">
-				<button type="button" class="btn btn-sm btn-primary" (click)="sort('precio', 'desc')">
+				<button type="button" class="btn btn-sm btn-primary" (click)="sort('precio', 'asc')">
 					<fa-icon [icon]="sortUpIcon" />
 				</button>
-				<button type="button" class="btn btn-sm btn-primary" (click)="sort('precio', 'asc')">
+				<button type="button" class="btn btn-sm btn-primary" (click)="sort('precio', 'desc')">
 					<fa-icon [icon]="sortDownIcon" />
 				</button>
 			</div>
@@ -97,19 +97,18 @@
 			{{ title }} publicación
 		</div>
 		<div class="card-body">
-			<form class="row g-3 mb-3">
+			<form class="row g-3 mb-3" [formGroup]="form">
 				<div class="col-md-6">
 					<label for="name" class="form-label">Nombre</label>
-					<input type="text" class="form-control" id="name" placeholder="Escriba el nombre de la publicación">
+					<input type="text" class="form-control" id="name" formControlName="name" placeholder="Escriba el nombre de la publicación">
 				</div>
-				<div class="col-md-6">
+				<!-- <div class="col-md-6">
 					<label for="customDolar" class="form-label">Fijar dolar</label>
 					<input type="number" class="form-control" id="customDolar" min="0">
-				</div>
+				</div> -->
 				<div class="col-12">
 					<label for="description" class="form-label">Descripción</label>
-					<input type="textarea" class="form-control" id="description"
-						placeholder="Describa brevemente su publicación">
+					<input type="textarea" class="form-control" id="description" formControlName="description" placeholder="Describa brevemente su publicación">
 				</div>
 			</form>
 			@if (editMode) {

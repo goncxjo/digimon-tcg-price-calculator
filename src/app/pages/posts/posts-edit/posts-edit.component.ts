@@ -12,11 +12,12 @@ import { Observable, map } from 'rxjs';
 import _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExportImgComponent } from '../../../components/cards/modals/export-img/export-img.component';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-posts-edit',
   standalone: true,
-  imports: [FontAwesomeModule, CurrencyPipe, AsyncPipe],
+  imports: [ReactiveFormsModule, FontAwesomeModule, CurrencyPipe, AsyncPipe],
   templateUrl: './posts-edit.component.html',
   styleUrl: './posts-edit.component.scss'
 })
@@ -34,6 +35,8 @@ export class PostsEditComponent implements OnDestroy {
   cards = computed(() => this.dataService.cards());
   total = computed(() => this.dataService.totals());
 
+  form = this.buildForm();
+
   readonly: boolean = false;
   editMode: boolean = false;
   enableCreateMode: boolean = false;
@@ -49,6 +52,7 @@ export class PostsEditComponent implements OnDestroy {
     private loaderService: LoaderService,
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
+    private formBuilder: FormBuilder
   ) {
   }
 
@@ -68,6 +72,7 @@ export class PostsEditComponent implements OnDestroy {
             this.dataService.set(post.cards);
             this.dataService.updateMode = true;
             this.id = post.id;
+            this.form.patchValue(post);
           } else {
             post.cards = _.clone(this.cards());
           }
@@ -132,6 +137,13 @@ export class PostsEditComponent implements OnDestroy {
     setTimeout(() => {
       this.loaderService.setHttpProgressStatus(false);
     }, 2000);
+  }
+
+  buildForm() {
+    return this.formBuilder.group({
+      name: '',
+      description: '',
+    })
   }
 
   save() {
