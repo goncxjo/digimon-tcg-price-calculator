@@ -10,11 +10,11 @@
 					<fa-icon [icon]="sortDownIcon" />
 				</button>
 			</div>
-			<button type="button" class="btn btn-sm btn-success me-2" (click)="toggleDolar()">
-				{{ dolarService.userCurrency() }}
-			</button>
 			<button type="button" class="btn btn-sm btn-info" (click)="openExportImg()">
 				<fa-icon [icon]="imageIcon" />
+			</button>
+			<button type="button" class="btn btn-sm btn-success me-2" (click)="toggleDolar()">
+				{{ dolarService.userCurrency() }}
 			</button>
 		</div>
 	</div>
@@ -56,7 +56,7 @@
 										<fa-icon [icon]="plusIcon" />
 									</button>
 								</div>
-								<button type="button" class="btn btn-sm btn-primary me-1">
+								<button type="button" class="btn btn-sm btn-primary me-1" disabled>
 									<fa-icon [icon]="viewIcon" />
 								</button>
 								<button type="button" class="btn btn-sm bg-danger text-white"
