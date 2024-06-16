@@ -55,7 +55,7 @@ $app-navbar-height-default: 3.5rem;
 @import 'ag-grid-community/styles/ag-grid.css';
 /* Quartz Theme Specific CSS */
 @import 'ag-grid-community/styles/ag-theme-quartz.css';
-
+  
 .btn-circle.btn-xl {
     width: 70px;
     height: 70px;
@@ -301,4 +301,13 @@ $bg-fb: #1877f2;
     align-content: center;
 	@extend .text-muted;
 	@extend .text-center;
+}
+
+@include media-breakpoint-up(md) {
+    .home-card {
+        background-image: linear-gradient(to left, transparent, var(--bs-card-bg) 90%), url('https://world.digimoncard.com/images/products/goods/official_sleeve_silver/img_pkg.png');
+        background-repeat: no-repeat;
+        background-size: 55%;
+        background-position: 111% 50%;
+    }
 }
