@@ -29,6 +29,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
                     router.navigate(['/']);
                     break;
                 default:
+                    errorMessage = 'Ocurrió un error al conectarse con el servidor. Aún puede continuar utilizando el buscador';
                     break;
             }
 
