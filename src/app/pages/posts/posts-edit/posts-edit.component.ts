@@ -1,4 +1,4 @@
-import { Component, OnDestroy, computed, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowDown91, faArrowUp19, faCommentDollar, faEye, faFloppyDisk, faImage, faMinus, faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { LoaderService } from '../../../core';
@@ -8,20 +8,20 @@ import { DataService } from '../../../core/services/data.service';
 import { Card, Post } from '../../../backend';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { Observable, Subscription, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import _ from 'lodash';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExportImgComponent } from '../../../components/cards/modals/export-img/export-img.component';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-posts-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, FontAwesomeModule, CurrencyPipe, AsyncPipe],
+  imports: [ReactiveFormsModule, FontAwesomeModule, CurrencyPipe, AsyncPipe, NgbDropdownModule],
   templateUrl: './posts-edit.component.html',
   styleUrl: './posts-edit.component.scss'
 })
-export class PostsEditComponent implements OnDestroy {
+export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
   sortUpIcon = faArrowUp19;
   sortDownIcon = faArrowDown91;
   imageIcon = faImage;
@@ -41,6 +41,11 @@ export class PostsEditComponent implements OnDestroy {
   readonly: boolean = false;
   editMode: boolean = false;
   enableCreateMode: boolean = false;
+
+  customDolarInput = new FormControl();
+  customDolar$!: Subscription;
+  showCustomDolar: boolean = false;
+
   title: string = '';
   id: string = '';
 
@@ -80,6 +85,17 @@ export class PostsEditComponent implements OnDestroy {
           return post;
         })
       );
+  }
+  
+  ngAfterViewInit(): void {
+    this.customDolar$ = this.customDolarInput.valueChanges
+    .pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    )
+    .subscribe(price => {
+      this.dolarService.updateVenta(price);
+    });
   }
 
   getPrice(card: Card) {
@@ -151,6 +167,16 @@ export class PostsEditComponent implements OnDestroy {
     this.dolarService.setUserCurrency(
       this.dolarService.userCurrency() == 'ARS' ? 'USD' : 'ARS'
     );
+  }
+
+  toggleCustomDolar() {
+    this.showCustomDolar = !this.showCustomDolar;
+    if (!this.showCustomDolar) {
+      this.dolarService.reset();
+    }
+    else {
+      this.customDolarInput.setValue(this.dolarService.venta);
+    }
   }
 
   save() {

@@ -1,3 +1,10 @@
+@if (showCustomDolar) {
+	<div class="input-group mb-3">
+		<span class="input-group-text">$</span>
+		<input type="number" [min]="0" class="form-control" id="custom" [formControl]="customDolarInput">
+		<span class="input-group-text">.00</span>
+	</div>
+}
 <div class="card mb-3">
 	<div class="card-header fw-bold d-flex align-items-center">
 		<span>Cartas</span>
@@ -10,12 +17,28 @@
 					<fa-icon [icon]="sortDownIcon" />
 				</button>
 			</div>
-			<button type="button" class="btn btn-sm btn-info" (click)="openExportImg()">
+			<button type="button" class="btn btn-sm btn-info me-2" (click)="openExportImg()">
 				<fa-icon [icon]="imageIcon" />
 			</button>
-			<button type="button" class="btn btn-sm btn-success ms-2" (click)="toggleDolar()">
-				{{ dolarService.userCurrency() }}
-			</button>
+			<div class="btn-group">
+				<button type="button" class="btn btn-sm btn-success" (click)="toggleDolar()">
+					{{ dolarService.userCurrency() }}
+				</button>
+				<div class="btn-group" ngbDropdown role="group">
+					<button type="button" class="btn btn-sm btn-success" ngbDropdownToggle></button>
+					<div class="dropdown-menu" ngbDropdownMenu>
+						<button ngbDropdownItem (click)="toggleCustomDolar()">
+							@if (!showCustomDolar) {
+								Fijar dólar custom
+							}
+							@else {
+								Quitar dólar custom
+							}
+						</button>
+					</div>
+				</div>
+			</div>
+			
 		</div>
 	</div>
 	<div class="card-body p-0">
@@ -31,8 +54,7 @@
 					<div class="card-item-details font-small d-flex-grow-1 ">
 						<small class="card-item-details-name fw-bold mb-1">{{ card.name }}</small>
 						<small class="card-item-details-expansion text-muted">{{ card.expansion_name }}</small>
-						<small class="card-item-details-code text-muted">{{ card.code.default + ' # ' + card.rarity_name
-							}}</small>
+						<small class="card-item-details-code text-muted">{{ card.code.default + ' # ' + card.rarity_name }}</small>
 
 						<small class="card-item-details-price fw-bold mt-2">
 							Precio: <span class="text-primary ms-2">{{ getPrice(card) | currency }}</span>

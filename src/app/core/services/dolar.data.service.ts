@@ -1,11 +1,13 @@
 import { Injectable, signal } from '@angular/core';
 import { CardPrice, Dolar, DolarService } from '../../backend';
 import { take } from 'rxjs';
+import _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DolarDataService {
+  private _dolar: Dolar | null = null;
   readonly dolar = signal<Dolar | null>(null);
   readonly userCurrency = signal<string>('ARS');
 
@@ -19,12 +21,24 @@ export class DolarDataService {
     this.service.getDolarBlue()
     .pipe(take(1))
     .subscribe((res: Dolar) => {
-      this.dolar.set(res);
+      this._dolar = res;
+      this.dolar.set(_.clone(this._dolar));
     });
   }
 
   update(dolar: Dolar) {
     this.dolar.set(dolar);
+  }
+
+  updateVenta(venta: number) {
+    const dolar = this.dolar() || this._dolar || {} as Dolar;
+    dolar.venta = venta;
+    console.log(dolar);
+    this.dolar.set(dolar);
+  }
+
+  reset() {
+    this.dolar.set(_.clone(this._dolar));
   }
 
   get venta() {
