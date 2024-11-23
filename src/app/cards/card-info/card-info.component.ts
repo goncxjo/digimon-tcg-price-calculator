@@ -36,17 +36,25 @@ export class CardInfoComponent implements OnInit, OnDestroy, OnChanges {
 
   async loadTcgPlayerPrices() {
     if (this.data.tcg_player_id) {
-      const tcgPlayerPrice$ = this.tcgPlayerService.getCardPrice(this.data.tcg_player_id);
+      const tcgPlayerPrice$ = this.tcgPlayerService.getCardPrices(this.data.tcg_player_id);
       const tcg_player_prices = await firstValueFrom(tcgPlayerPrice$);
 
-      if (tcg_player_prices.tcg_player_foil) {
-        this.priceSelected = 'tcg_player_foil';
-        this.data.prices.set('tcg_player_foil', tcg_player_prices.tcg_player_foil);
+      if (tcg_player_prices[1].tcg_player_foil) {
+        this.priceSelected = 'tcg_player_foil_listed_median';
+        this.data.prices.set('tcg_player_foil_listed_median', tcg_player_prices[1].tcg_player_foil);
       }
-      if (tcg_player_prices.tcg_player_normal) {
-        this.priceSelected = 'tcg_player_normal';
-        this.data.prices.set('tcg_player_normal', tcg_player_prices.tcg_player_normal);
+      if (tcg_player_prices[1].tcg_player_normal) {
+        this.priceSelected = 'tcg_player_normal_listed_median';
+        this.data.prices.set('tcg_player_normal_listed_median', tcg_player_prices[1].tcg_player_normal);
       }      
+      if (tcg_player_prices[0].tcg_player_foil) {
+        this.priceSelected = 'tcg_player_foil';
+        this.data.prices.set('tcg_player_foil', tcg_player_prices[0].tcg_player_foil);
+      }
+      if (tcg_player_prices[0].tcg_player_normal) {
+        this.priceSelected = 'tcg_player_normal';
+        this.data.prices.set('tcg_player_normal', tcg_player_prices[0].tcg_player_normal);
+      }
     }
   }
 

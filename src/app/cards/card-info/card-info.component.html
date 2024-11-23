@@ -23,7 +23,7 @@
 						(click)="onPriceSelected('tcg_player_normal')"
 					>
 						<div class="bg-list-item"></div>
-						<small for="price">TCG Player Normal (median):</small>
+						<small for="price">TCG Player Normal (Market Price):</small>
 						<div class="input-group">
 							<span class="input-group-text">USD</span>
 							<input type="text" class="form-control" id="customPrice" [value]="data.prices.get('tcg_player_normal')?.currency_value" disabled>
@@ -35,10 +35,34 @@
 						(click)="onPriceSelected('tcg_player_foil')"
 					>
 						<div class="bg-list-item"></div>
-						<small for="price">TCG Player Foil (median):</small>
+						<small for="price">TCG Player Foil (Market Price):</small>
 						<div class="input-group">
 							<span class="input-group-text">USD</span>
 							<input type="text" class="form-control" id="customPrice" [value]="data.prices.get('tcg_player_foil')?.currency_value" disabled>
+						</div>
+					</li>
+					<li *ngIf="data.prices.has('tcg_player_normal_listed_median')"
+						class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start"
+						[class.card-price-active]="priceSelected === 'tcg_player_normal_listed_median'"
+						(click)="onPriceSelected('tcg_player_normal_listed_median')"
+					>
+						<div class="bg-list-item"></div>
+						<small for="price">TCG Player Normal (Listed Median Price):</small>
+						<div class="input-group">
+							<span class="input-group-text">USD</span>
+							<input type="text" class="form-control" id="customPrice" [value]="data.prices.get('tcg_player_normal_listed_median')?.currency_value" disabled>
+						</div>
+					</li>
+					<li *ngIf="data.prices.has('tcg_player_foil_listed_median')"
+						class="list-group-item list-group-item-action d-flex flex-column justify-content-between align-items-start"
+						[class.card-price-active]="priceSelected === 'tcg_player_foil_listed_median'"
+						(click)="onPriceSelected('tcg_player_foil_listed_median')"
+					>
+						<div class="bg-list-item"></div>
+						<small for="price">TCG Player Foil (Listed Median Price):</small>
+						<div class="input-group">
+							<span class="input-group-text">USD</span>
+							<input type="text" class="form-control" id="customPrice" [value]="data.prices.get('tcg_player_foil_listed_median')?.currency_value" disabled>
 						</div>
 					</li>
 					<li
