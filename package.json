@@ -1,6 +1,6 @@
 {
   "name": "digimon-tcg-price-calculator",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
