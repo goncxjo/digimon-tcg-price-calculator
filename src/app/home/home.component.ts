@@ -240,6 +240,10 @@ export class HomeComponent implements OnInit {
   }
 
   onModalSuccess = (reason: string) => {
+    if (reason == 'close') {
+      return;
+    }
+    
     this.loaderService.setHttpProgressStatus(true);
     setTimeout(() => {
       switch(reason) {
