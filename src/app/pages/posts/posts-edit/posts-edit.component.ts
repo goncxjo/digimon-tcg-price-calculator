@@ -138,20 +138,20 @@ export class PostsEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onModalSuccess = (reason: string) => {
-    this.loaderService.setHttpProgressStatus(true);
-    switch(reason) {
-      case 'download':
-        this.toastr.success('Se ha exportado la imagen con éxito!', 'Exportar 💾');
-        break;
-      case 'screenshot':
-        this.toastr.success('Se ha copiado la imagen con éxito. Revisa tu portapapeles.', 'Capturar 📸');
-        break;
-      default:
-        this.loaderService.setHttpProgressStatus(false);
-        break;
+    if (reason == 'close') {
+      return;
     }
 
+    this.loaderService.setHttpProgressStatus(true);
     setTimeout(() => {
+      switch(reason) {
+        case 'download':
+          this.toastr.success('Se ha exportado la imagen con éxito!', 'Exportar 💾');
+          break;
+        case 'screenshot':
+          this.toastr.success('Se ha copiado la imagen con éxito. Revisa tu portapapeles.', 'Capturar 📸');
+          break;
+      }
       this.loaderService.setHttpProgressStatus(false);
     }, 2000);
   }
