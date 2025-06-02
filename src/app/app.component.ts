@@ -39,6 +39,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    location.href = 'https://tcg-toolbox.vercel.app'
+
     this.updateMetaTags();
 
     this.router.events.pipe(
